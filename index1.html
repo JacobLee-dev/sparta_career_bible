@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스파르타클럽 데이터 취업 바이블</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap');
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 320px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #fca5a5;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ef4444;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .sparta-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sparta-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(220, 38, 38, 0.1), 0 10px 10px -5px rgba(220, 38, 38, 0.04);
+            border-color: #fca5a5;
+        }
+
+        .pulse-badge {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .5;
+            }
+        }
+
+        #modal-overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #modal-content {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        /* Custom Highlight Style for Skills/Competencies (Thick, Red, Bold) */
+        .skill-highlight {
+            font-weight: 900;
+            color: #B91C1C;
+            /* Red 700 */
+            background-color: #FEF2F2;
+            /* Red 50 */
+            padding: 2px 6px;
+            border-radius: 6px;
+            border: 1px solid #FECACA;
+            /* Red 200 */
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            display: inline-block;
+            margin: 2px 0;
+        }
+
+        /* ✅ Active styles (필터/세부필터) - Tailwind 클래스 충돌 방지용 */
+        .filter-btn.active,
+        .subfilter-btn.active {
+            background-color: #111827 !important;
+            /* gray-900 */
+            color: #ffffff !important;
+            border-color: #111827 !important;
+            box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.12), 0 4px 6px -2px rgba(15, 23, 42, 0.06) !important;
+        }
+
+        .filter-btn.active:hover,
+        .subfilter-btn.active:hover {
+            background-color: #1f2937 !important;
+            /* gray-800 */
+            color: #ffffff !important;
+            border-color: #1f2937 !important;
+        }
+    </style>
+</head>
+
+<body class="antialiased flex flex-col min-h-screen selection:bg-red-200 selection:text-red-900">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+        <div class="w-full h-1.5 bg-gradient-to-r from-red-600 to-red-400"></div>
+        <div
+            class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3 w-full lg:w-auto">
+                <div class="bg-red-600 text-white px-3 py-1.5 rounded-lg font-black text-xl tracking-tighter shadow-sm">
+                    SPARTA</div>
+                <h1 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">Data Career Bible <span
+                        class="text-sm text-red-600 ml-1">2026 최신판</span></h1>
+            </div>
+            <div class="w-full lg:w-1/3 relative">
+                <input type="text" id="searchInput" placeholder="검색 (예: 데이터엔지니어, 스마트팜, Python, 추천시스템)..."
+                    class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition-all font-medium shadow-inner">
+                <span class="absolute left-4 top-3.5 text-gray-400">🔍</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <div
+            class="mb-10 bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-6 items-center">
+            <div class="flex-grow">
+                <h2 class="text-3xl font-extrabold mb-3 text-gray-900 leading-tight">🔥 세상의 모든 데이터 직무와 도메인 <span
+                        class="text-red-600">A to Z</span></h2>
+                <p class="text-gray-600 text-[17px] leading-relaxed font-medium">
+                    직무(Role)는 나의 '무기'이며, 도메인(Domain)은 내가 싸울 '전장'입니다.<br>
+                    어떤 지표(KPI)를 보고, 어떤 툴(Skill)을 써야 하는지 부트캠프 수강생을 위한 완벽한 해답을 제시합니다. 실시간 채용공고의 <strong>두꺼운
+                        하이라이트</strong>를 통해 기업이 원하는 핵심 역량을 파악하세요.
+                </p>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-wrap gap-2.5 mb-4" id="filterContainer">
+            <button
+                class="filter-btn active px-5 py-2.5 rounded-xl bg-gray-900 text-white font-bold text-sm transition-all shadow-md hover:bg-gray-800"
+                data-filter="all">전체보기 (<span data-count="all">0</span>)</button>
+
+            <button
+                class="filter-btn px-5 py-2.5 rounded-xl bg-white text-gray-700 border border-gray-200 hover:border-indigo-600 hover:text-indigo-600 font-bold text-sm transition-all shadow-sm"
+                data-filter="직무">💼 직무/역할 분석 (<span data-count="직무">0</span>)</button>
+
+            <button
+                class="filter-btn px-5 py-2.5 rounded-xl bg-white text-gray-700 border border-gray-200 hover:border-blue-600 hover:text-blue-600 font-bold text-sm transition-all shadow-sm"
+                data-filter="도메인">🏢 도메인 지식 A to Z (<span data-count="도메인">0</span>)</button>
+
+            <button
+                class="filter-btn px-5 py-2.5 rounded-xl bg-white text-gray-700 border border-gray-200 hover:border-slate-800 hover:text-slate-800 font-bold text-sm transition-all shadow-sm"
+                data-filter="AI 트렌드">🤖 최신 AI 트렌드 (<span data-count="AI 트렌드">0</span>)</button>
+
+            <button
+                class="filter-btn px-5 py-2.5 rounded-xl bg-white text-gray-700 border border-gray-200 hover:border-green-600 hover:text-green-600 font-bold text-sm transition-all shadow-sm flex items-center gap-1.5"
+                data-filter="채용공고">
+                <span class="w-2 h-2 rounded-full bg-green-500 pulse-badge"></span>
+                채용공고 실시간 (<span data-count="채용공고">0</span>)
+            </button>
+        </div>
+
+        <!-- ✅ Sub Filters (도메인 세분화 / 직무 세분화 / 채용공고 직무별) -->
+        <div id="subFilterContainer" class="flex flex-wrap gap-2.5 mb-8 hidden"></div>
+
+        <!-- Dynamic Grid -->
+        <div id="contentGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-16"></div>
+
+        <!-- Market Insights Section -->
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-6 sm:p-10 mt-12 mb-10">
+            <div class="mb-10 border-b border-gray-100 pb-6">
+                <h3 class="text-3xl font-extrabold mb-2 text-gray-900">📊 2026.03 데이터 생태계 트렌드 대시보드</h3>
+                <p class="text-gray-500 font-medium">최근 14일 800여 개 채용 공고 기반 필수 스킬/수요 분석 (Mock Data)</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="flex flex-col items-center w-full">
+                    <h4
+                        class="text-sm font-extrabold mb-4 text-gray-700 bg-gray-50 px-4 py-2 rounded-lg w-full text-center">
+                        직무별 필수 툴/언어 중요도</h4>
+                    <div class="chart-wrapper"><canvas id="skillsChart"></canvas></div>
+                </div>
+                <div class="flex flex-col items-center w-full">
+                    <h4
+                        class="text-sm font-extrabold mb-4 text-gray-700 bg-gray-50 px-4 py-2 rounded-lg w-full text-center">
+                        도메인별 분석 인력 채용 비중</h4>
+                    <div class="chart-wrapper"><canvas id="domainChart"></canvas></div>
+                </div>
+                <div class="flex flex-col items-center w-full">
+                    <h4
+                        class="text-sm font-extrabold mb-4 text-gray-700 bg-gray-50 px-4 py-2 rounded-lg w-full text-center">
+                        AI 시대 직무 수요(TO) 변화</h4>
+                    <div class="chart-wrapper"><canvas id="roleTrendChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6"
+        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div id="modal-overlay"
+            class="fixed inset-0 bg-gray-900 bg-opacity-60 backdrop-blur-sm opacity-0 cursor-pointer" aria-hidden="true"
+            onclick="closeModal()"></div>
+
+        <div id="modal-content"
+            class="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 flex flex-col">
+            <div
+                class="sticky top-0 bg-white/95 backdrop-blur-md px-6 py-4 flex justify-between items-center z-20 border-b border-gray-100">
+                <div class="flex items-center gap-3" id="modalHeaderLeft"></div>
+                <button onclick="closeModal()"
+                    class="text-gray-400 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition-colors font-bold text-xl">&times;</button>
+            </div>
+
+            <div class="px-6 py-8 flex-grow">
+                <h2 id="modalTitle" class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-6 leading-snug">Title
+                </h2>
+                <div id="modalTags" class="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-100"></div>
+
+                <div id="modalJDSection" class="hidden mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-sm">
+                        <div
+                            class="text-sm font-black text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-200 pb-2">
+                            ✅ 직무/자격 요건 (Qualifications)</div>
+                        <ul id="modalJDReq" class="list-disc pl-5 space-y-3 text-gray-700 text-[15px] leading-relaxed">
+                        </ul>
+                    </div>
+                    <div class="bg-red-50 p-6 rounded-2xl border border-red-100 shadow-sm">
+                        <div
+                            class="text-sm font-black text-red-900 mb-4 flex items-center gap-2 border-b border-red-200 pb-2">
+                            🛠️ 필수 기술 스택 (Tech Stack)</div>
+                        <div id="modalJDTech" class="flex flex-wrap gap-2"></div>
+
+                        <div
+                            class="mt-6 text-sm font-black text-red-900 mb-3 flex items-center gap-2 border-b border-red-200 pb-2">
+                            💡 합격자/실무자 리뷰</div>
+                        <div id="modalJDReview" class="text-[14px] text-red-800 leading-relaxed italic"></div>
+                    </div>
+                </div>
+
+                <div id="modalShiftSection" class="hidden mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                        <div class="text-sm font-black text-gray-400 mb-3 uppercase flex items-center gap-2">
+                            <span>⏪</span> 기존의 패러다임
+                        </div>
+                        <div id="modalPastText" class="text-gray-600 font-medium leading-relaxed"></div>
+                    </div>
+                    <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100 shadow-sm">
+                        <div class="text-sm font-black text-indigo-700 mb-3 uppercase flex items-center gap-2">
+                            <span>🚀</span> AI 도입 및 현재 트렌드
+                        </div>
+                        <div id="modalPresentText" class="text-indigo-900 font-bold leading-relaxed"></div>
+                    </div>
+                </div>
+
+                <div class="prose max-w-none text-gray-700 leading-relaxed space-y-6">
+                    <div id="modalBody" class="whitespace-pre-line text-[16px]"></div>
+                    <div id="modalExtraSection"
+                        class="hidden mt-10 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                        <h3 id="modalExtraTitle"
+                            class="text-lg font-extrabold mb-4 text-slate-900 flex items-center gap-2"></h3>
+                        <ul id="modalExtraList"
+                            class="list-disc pl-5 space-y-3 text-slate-700 font-medium marker:text-red-500 text-[15px]">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 px-6 py-5 rounded-b-3xl border-t border-gray-200 flex justify-end" id="modalFooter">
+                <button onclick="closeModal()"
+                    class="px-8 py-3 bg-gray-900 text-white rounded-xl hover:bg-black font-bold transition-colors shadow-md">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- MASSIVE DATABASE BIBLE (Auto Count) ---
+        const database = [
+
+            // ================= 1. 최신 채용공고 (JD 실시간 - 2026.02~03) =================
+            {
+                id: 'jd-toss-da', category: '채용공고', icon: '💼', title: '[토스(Toss)] 여/수신 Data Analyst', tags: ['금융', 'A/B테스트', '주니어', 'SQL'], isJD: true, deadline: '26.03.12 (D-10)',
+                summary: '토스뱅크 예적금/대출 상품의 고객 여정을 분석하고, 실험을 통해 비즈니스 임팩트를 창출할 주니어 분석가를 찾습니다.',
+                qualifications: [
+                    '관련 실무 경력 1~3년 또는 이에 준하는 **프로젝트 경험 및 비즈니스 이해도**',
+                    '복잡한 비즈니스 로직을 **SQL**로 완벽히 추출하고 가공할 수 있는 역량 (고난도 코테 진행)',
+                    '통계적 방법론을 활용한 **A/B 테스트 설계** 및 결과 해석 능력',
+                    '데이터를 바탕으로 **프로덕트 오너(PO)를 논리적으로 설득**할 수 있는 커뮤니케이션 능력'
+                ],
+                techStack: ['SQL (Window Function)', 'Python', 'Tableau', 'BigQuery', 'Amplitude'],
+                review: '"단순히 쿼리를 잘 짜는 사람을 원하지 않습니다. **왜 이 데이터를 봐야 하는가?**에 대한 집요함과 비즈니스 임팩트를 증명(%)할 수 있어야 합니다. 코딩테스트는 프로그래머스 Lv.4 수준의 **Window Function 및 복잡한 셀프 JOIN**이 주로 출제됩니다."',
+                content: `토스의 데이터 챕터는 직관이 아닌 오직 '데이터'로 은행의 미래를 설계합니다. 여/수신 파트는 은행의 핵심 매출을 책임지는 곳으로, 고객이 대출을 받는 과정의 허들을 낮추는 **퍼널(Funnel) 최적화**를 수행합니다.`
+            },
+            {
+                id: 'jd-daangn-mle', category: '채용공고', icon: '💼', title: '[당근] 추천/검색 AI/ML Engineer', tags: ['커머스', '추천시스템', 'MLOps', 'PyTorch'], isJD: true, deadline: '26.03.08 (D-6)',
+                summary: '당근마켓 홈 피드 및 검색 결과를 고도화하기 위한 AI 추천 모델을 연구하고 실제 서비스에 서빙합니다.',
+                qualifications: [
+                    'Computer Vision, NLP, **Recommendation(추천)** 시스템 관련 석사 이상 또는 이에 준하는 실무 경험',
+                    '대용량 트래픽 상황에서 모델 **Inference 속도 최적화(API Serving)** 경험',
+                    'HuggingFace, **vLLM** 등을 활용한 오픈소스 **LLM 파인튜닝** 경험 우대',
+                    '**Docker, Kubernetes** 기반의 ML 인프라 생태계 활용 경험'
+                ],
+                techStack: ['PyTorch', 'FastAPI', 'Kubernetes', 'Airflow', 'vLLM'],
+                review: '"모델을 예쁘게 만드는 연구자(Researcher)보다, 흙먼지 날리는 실제 인프라 환경에서 모델을 배포하고 **Latency(지연 시간)를 최적화**해 본 진짜 **서버 엔지니어**를 선호합니다. 포트폴리오에 AWS/GCP에서 **Docker**로 모델을 말아 배포해본 경험이 필수적입니다."',
+                content: `수천만 개의 리뷰 데이터와 거래 로그를 기반으로, 유저가 원하는 중고 물품을 0.1초 만에 띄워주는 초개인화 엔진을 만듭니다.`
+            },
+            {
+                id: 'jd-naver-de', category: '채용공고', icon: '💼', title: '[네이버웹툰] 글로벌 트래픽 Data Engineer', tags: ['미디어/콘텐츠', 'Spark', 'Kafka', '스트리밍'], isJD: true, deadline: '26.03.15 (D-13)',
+                summary: '글로벌 수억 명의 독자가 발생하는 웹툰 스크롤/클릭 로그를 실시간으로 수집하고 처리하는 파이프라인을 구축합니다.',
+                qualifications: [
+                    '**Java, Scala, Python** 중 1개 이상의 언어를 능숙하게 다루는 분',
+                    '**Hadoop, Apache Spark** 등 대용량 분산 처리 환경 생태계 구축 경험',
+                    '**Kafka, Flink**를 활용한 실시간 **스트리밍 데이터 처리(Streaming Processing)** 경험 우대',
+                    '**Apache Airflow**를 활용한 데이터 파이프라인 스케줄링 및 운영 경험'
+                ],
+                techStack: ['Apache Spark', 'Kafka', 'Hadoop', 'Airflow', 'Scala'],
+                review: '"단일 DB에서 돌아가는 쿼리 수준을 넘어, 여러 대의 컴퓨터가 쪼개서 일하는 **분산 컴퓨팅**에 대한 이해가 절대적입니다. 글로벌 트래픽이 몰리는 야간에도 파이프라인이 터지지 않게 유지보수하는 **장애 대응 아키텍처 설계 능력**을 봅니다."',
+                content: `수억 명의 실시간 반응을 딜레이 없이 데이터 웨어하우스에 적재해야 DS/DA가 추천 시스템을 돌릴 수 있습니다. 가장 견고한 인프라를 짓는 배관공을 찾습니다.`
+            },
+            {
+                id: 'jd-musinsa-ae', category: '채용공고', icon: '💼', title: '[무신사] Analytics Engineer (데이터 모델링)', tags: ['커머스', 'dbt', '데이터웨어하우스', 'SQL'], isJD: true, deadline: '상시채용',
+                summary: '전사 구성원이 데이터를 신뢰하고 사용할 수 있도록, dbt를 활용해 데이터 마트를 구축하고 모델링하는 AE를 채용합니다.',
+                qualifications: [
+                    '복잡한 원천 데이터를 최적화하고 유지보수하기 쉬운 쿼리로 변환하는 **초고급 SQL** 역량',
+                    '**dbt (Data Build Tool)** 등 데이터 모델링 및 변환 파이프라인 구축 경험',
+                    '**Git**을 활용한 형상 관리 및 **CI/CD 프로세스** 적용 경험',
+                    '데이터 리니지(Data Lineage) 추적 및 **데이터 품질 관리(Data Quality)**에 대한 높은 이해도'
+                ],
+                techStack: ['SQL', 'dbt', 'BigQuery', 'Git', 'Airflow'],
+                review: '"이커머스 업계에서 가장 빠르게 수요가 늘고 있는 포지션입니다. **SQL 쿼리 실행 시간을 N% 단축**한 경험과, **dbt를 도입하여 데이터 팀의 업무 생산성을 극대화했는지** 포트폴리오에 적극 어필하세요."',
+                content: `DA가 분석에 집중할 수 있도록, 지저분한 원본 데이터를 '분석하기 예쁜 형태(데이터 마트)'로 가공하는 소프트웨어 공학적 프로세스를 도입합니다.`
+            },
+            {
+                id: 'jd-hyundai-ds', category: '채용공고', icon: '💼', title: '[현대오토에버] 스마트팩토리 시계열 Data Scientist', tags: ['제조', '시계열', '예지보전', '이상탐지'], isJD: true, deadline: '26.03.14 (D-12)',
+                summary: '자동차 제조 공정의 센서 데이터를 분석하여 설비 고장을 사전에 예측하고, 불량률(수율)을 개선하는 모델을 개발합니다.',
+                qualifications: [
+                    '통계, 산업공학, 컴퓨터공학 등 관련 분야 학사/석사 보유자',
+                    '대규모 **시계열 데이터(Time-Series)**에 대한 노이즈 처리 및 신호 전처리 역량',
+                    'LSTM, AutoEncoder 등을 활용한 **이상 탐지(Anomaly Detection) 및 예지보전(PdM)** 모델 개발 경험',
+                    '현장 엔지니어의 도메인 지식을 데이터로 번역하여 적용하는 **원활한 커뮤니케이션 능력**'
+                ],
+                techStack: ['Python', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'SQL'],
+                review: '"제조 도메인은 데이터가 깨끗하지 않습니다. 화려한 최신 딥러닝 기법보다, 진동/온도 센서 데이터의 **결측치와 노이즈(Signal Processing)를 어떻게 견고하게 처리했는지** 등 기본기를 매우 깐깐하게 검증합니다."',
+                content: `1초에 수만 개씩 쏟아지는 공정 센서 데이터를 분석하여, 멈추면 수백억의 손실이 발생하는 공장의 심장을 안전하게 지키는 역할입니다.`
+            },
+            {
+                id: 'jd-yanolja-growth', category: '채용공고', icon: '💼', title: '[야놀자] Growth Hacker (CRM/퍼포먼스)', tags: ['마케팅', 'GA4', 'CRM', 'AARRR', 'SQL'], isJD: true, deadline: '26.03.06 (D-4)',
+                summary: '사용자 행동 데이터를 직접 추출 및 분석하여, 유저 인게이지먼트를 높이고 전환율을 극대화하는 성장을 주도합니다.',
+                qualifications: [
+                    '개발자 도움 없이 **스스로 SQL을 작성**하여 원하는 타겟 세그먼트를 추출할 수 있는 분',
+                    '**GA4, Amplitude, Mixpanel** 등 Product Analytics 툴 실무 활용 경험',
+                    '**Braze** 등 마케팅 자동화 툴을 활용한 개인화 CRM 캠페인 세팅 및 성과 분석 경험',
+                    '**A/B 테스트** 기획, 운영 및 가설 검증 1회 이상 완수 경험'
+                ],
+                techStack: ['SQL', 'GA4', 'Amplitude', 'Braze', 'Tableau'],
+                review: '"외부 매체 광고(메타/구글) 돌려본 경험만으로는 부족합니다. **우리 앱 내부의 퍼스트파티 데이터를 직접 SQL로 뽑아서 코호트(Cohort) 분석을 해보고, 특정 유저군에 푸시 알림을 쏴서 매출을 O% 올려봤다**는 그로스 사이클 경험이 합격의 열쇠입니다."',
+                content: `야놀자의 방대한 유저 데이터를 바탕으로 '어떤 쿠폰을 언제 누구에게 주어야 가장 결제를 많이 할까?'를 실험하고 증명합니다.`
+            },
+
+            // ================= 2. 직무/역할 완벽 분석 (기존 11 + 추가 6) =================
+            {
+                id: 'role-da', category: '직무', icon: '📊', title: '데이터 애널리스트 (Data Analyst, DA)', tags: ['비즈니스문제해결', 'SQL', 'A/B테스트', '기획', '부트캠프1순위'],
+                shift: { past: '팀에서 요청하는 데이터를 **SQL**과 엑셀로 뽑아주는 "데이터 추출기" 역할.', present: 'AI 툴로 쿼리 작성 시간을 단축하고, "왜 이 지표가 떨어졌을까?" 가설을 세워 프로덕트의 방향성을 결정하는 **"데이터 기획자"**로 진화.' },
+                summary: '데이터로 비즈니스 문제를 해결하는 탐정입니다. 개발자보다는 기획자, 마케터와 소통하며 회사의 방향을 결정합니다.',
+                content: `데이터 애널리스트(DA)는 회사에 쌓이는 로그 데이터를 분석해 **'실행 가능한 인사이트(Actionable Insight)'**를 도출합니다. 
+예를 들어 "장바구니 이탈률이 15% 증가했다. 결제 UI 오류 때문이며, 이를 고치면 월 O천만 원의 매출을 방어할 수 있다"고 논리적으로 설득하는 역할입니다. 부트캠프 수료생들이 가장 많이 지원하는 직무이며, 단순 코딩 스킬보다는 **비즈니스 도메인 지식과 커뮤니케이션 능력**이 압도적으로 중요합니다.`,
+                extraTitle: 'DA 필수 역량 및 테크 스택',
+                extraList: ['**SQL (초고급)**: Window Function, Subquery, CTE를 자유자재로 활용한 데이터 가공', '**통계적 지식**: **A/B 테스트** 결과를 검증하기 위한 가설 검정(p-value) 지식', '**Product Analytics**: Amplitude, GA4 등을 활용한 퍼널 및 코호트 분석', '**BI/시각화**: **Tableau**, Redash 등으로 대시보드 구축']
+            },
+            {
+                id: 'role-ds', category: '직무', icon: '🧠', title: '데이터 사이언티스트 (Data Scientist, DS)', tags: ['머신러닝', '예측모델링', '통계학', 'Python', '알고리즘'],
+                shift: { past: '데이터 수집, 전처리, 모델링, 서버 배포까지 수학/통계적 업무를 홀로 처리하는 마법사.', present: '데이터 수집(DE)과 배포(MLE)가 분리됨. 비즈니스의 복잡한 문제를 수학적으로 정의하고, 딥러닝/ML을 활용해 고도화된 예측/추천 **"알고리즘 연구"**에 집중.' },
+                summary: '과거의 데이터를 바탕으로 "미래"를 예측하는 알고리즘을 만듭니다. 통계학적 지식과 머신러닝에 대한 깊은 이해가 필요합니다.',
+                content: `데이터 사이언티스트(DS)는 DA가 발견한 비즈니스 문제를 **'머신러닝/딥러닝 알고리즘'**으로 해결합니다. 
+"어떤 유저가 다음 달에 이탈할까?(이탈 예측)", "이 유저에게 어떤 상품을 보여줘야 살까?(추천 시스템)"와 같은 질문에 답하는 예측 모델을 설계합니다. 학사보다는 석/박사 출신의 비중이 높지만, 탄탄한 포트폴리오(캐글 경쟁 경험 등)를 갖춘다면 학사/부트캠프 출신도 충분히 도전 가능합니다.`,
+                extraTitle: 'DS 필수 역량 및 테크 스택',
+                extraList: ['**Python 생태계**: Pandas, Scikit-learn, XGBoost, LightGBM', '**Deep Learning**: **PyTorch** 또는 TensorFlow (최근 PyTorch 선호도 압도적)', '**수학/통계 지식**: 선형대수학, 미적분, 확률론 등 기반 지식']
+            },
+            {
+                id: 'role-de', category: '직무', icon: '🏗️', title: '데이터 엔지니어 (Data Engineer, DE)', tags: ['파이프라인', 'Spark', 'Airflow', '인프라', '클라우드'],
+                shift: { past: '사내 서버실(On-premise)에서 Hadoop 에코시스템을 구축하고 밤새 서버 다운을 막는 인프라 관리자.', present: 'AWS, GCP 등 클라우드 환경에서 대용량 스트리밍 데이터를 실시간으로 수집/적재하는 **아키텍처(Architecture)** 설계자.' },
+                summary: '데이터 분석가와 AI 모델이 뛰어놀 수 있는 "운동장(인프라)"을 만듭니다. 데이터가 끊기지 않게 길을 뚫는 배관공입니다.',
+                content: `데이터 엔지니어(DE)가 없으면 분석가도, 인공지능도 존재할 수 없습니다. 
+하루에도 수백 기가바이트씩 쏟아지는 앱 로그, 결제 정보 등을 안전하게 수집(Extract), 가공(Transform), 적재(Load)하는 **파이프라인(ETL)**을 구축합니다. 백엔드 개발에 흥미가 있는 사람에게 적합하며, 최근 데이터 폭증으로 DS나 DA보다 채용 수요가 높고 연봉이 가파르게 상승하는 직무입니다.`,
+                extraTitle: 'DE 필수 역량 및 테크 스택',
+                extraList: ['**분산 처리 프레임워크**: **Apache Spark**, Kafka (실시간 스트리밍)', '**클라우드/DW**: AWS(S3, Redshift), GCP(BigQuery), Snowflake', '**오케스트레이션**: **Apache Airflow**를 활용한 파이프라인 스케줄링', '**프로그래밍**: Python, Java, Scala 기반 시스템 구축']
+            },
+            {
+                id: 'role-mle', category: '직무', icon: '⚙️', title: '머신러닝 엔지니어 (ML Engineer, MLE)', tags: ['모델배포', 'MLOps', 'Docker', 'API서빙', '백엔드'],
+                shift: { past: 'DS가 짠 Jupyter Notebook 연구용 코드를 실제 서비스 환경에 맞게 재개발(번역)하던 역할.', present: '모델 학습부터 배포, 서빙, 재학습까지 전 과정을 자동화하는 **MLOps 파이프라인** 구축의 핵심 서버 엔지니어.' },
+                summary: 'AI 모델을 실제 서비스에 연동(Serving)하는 소프트웨어 개발자입니다. 연구실의 AI를 현실 세계의 프로덕트로 만듭니다.',
+                content: `머신러닝 엔지니어(MLE)는 DS가 만든 정확도 99%의 추천 모델을 **실제 서비스 환경에 API 형태로 배포(Serving)**하고, 대규모 트래픽에도 서버가 다운되지 않고 0.1초 만에 응답하도록 인프라를 최적화합니다. 
+최근에는 무거운 LLM(대형 언어 모델)을 서비스에 연동하는 수요가 폭발하면서 가장 몸값이 비싼 직무로 떠올랐습니다. 데이터 직군 중 '소프트웨어 엔지니어'에 가장 가깝습니다.`,
+                extraTitle: 'MLE 필수 역량 및 테크 스택',
+                extraList: ['**Container & Server**: **Docker, Kubernetes**, Linux 기반 환경 구축', '**Backend / API**: **FastAPI**, Flask 등을 이용한 빠르고 안정적인 모델 서빙', '**MLOps/LLMOps**: MLflow, vLLM 등 모델 배포 및 모니터링 생태계 이해']
+            },
+            {
+                id: 'role-ae', category: '직무', icon: '🪄', title: '애널리틱스 엔지니어 (Analytics Engineer, AE)', tags: ['dbt', '데이터마트', 'SQL모델링', '효율화'],
+                shift: { past: '데이터 가공/마트 생성을 DE가 전담하여 병목 현상 발생. 분석가(DA)는 쿼리가 느려도 대기해야 했음.', present: '클라우드 DB의 발전으로, **초고급 SQL** 작성에 능숙한 분석가가 직접 **dbt**를 활용해 데이터 변환(Transform) 파이프라인을 전담 관리.' },
+                summary: '분석가들이 쿼리를 짜기 쉽게 "데이터 마트"를 예쁘게 정리해주는 역할입니다. dbt를 무기로 부상 중인 핫한 직무입니다.',
+                content: `기존에는 "유저별 월간 결제액 테이블 만들어주세요"라고 DE에게 요청하면 일주일이 걸렸습니다. 
+하지만 BigQuery, Snowflake 등 클라우드 DB가 워낙 강력해지면서, 프로그래밍(Python) 없이 **SQL만으로도 대용량 데이터를 가공(Transform)**할 수 있게 되었습니다. AE는 복잡한 원천 데이터를 누구나 쓰기 쉬운 형태로 모델링하며, 소프트웨어 공학의 CI/CD 개념을 SQL에 도입한 **dbt(data build tool)**를 주로 사용합니다. SQL에 자신 있는 부트캠프 수료생에게 강력 추천합니다.`,
+                extraTitle: 'AE 필수 역량 및 테크 스택',
+                extraList: ['**SQL (초초고급)**: 성능 최적화 및 복잡한 비즈니스 로직을 효율적인 쿼리로 구현', '**dbt (Data Build Tool)**: 데이터 파이프라인 테스트, 문서화 및 버전 관리', '**데이터 모델링**: Star Schema 등 데이터 웨어하우스 설계 패턴 이해']
+            },
+            {
+                id: 'role-growth', category: '직무', icon: '🚀', title: '그로스 해커 / 퍼포먼스 마케터 (Growth Hacker)', tags: ['AARRR', '퍼포먼스마케팅', 'GA4', 'CRM', '매출증대'],
+                shift: { past: '외부 광고 매체(메타, 구글) 대시보드의 ROAS, CTR에 의존하여 예산을 분배하는 퍼포먼스 마케팅.', present: '서드파티 쿠키 제한으로 효율 저하. 직접 내부 데이터를 **SQL**로 뽑아 코호트 분석을 하고, **CRM 툴**로 초개인화 타겟 마케팅을 자동화.' },
+                summary: '데이터를 무기로 서비스의 "성장(Growth)"을 해킹합니다. 마케터와 데이터 분석가의 경계에 있는 하이브리드 직무입니다.',
+                content: `그로스 해커는 AARRR(유입-활성-유지-수익-추천) 퍼널의 전 단계를 분석해 병목을 찾고, **A/B 테스트와 실험**을 미친 속도로 반복하여 핵심 지표(매출, 가입자)를 단기간에 성장시킵니다. 
+애플/구글의 개인정보 보호 정책으로 타겟 광고가 어려워지면서, 내부 데이터를 스스로 SQL로 뽑고 Braze 같은 CRM 툴로 기존 고객의 이탈을 막는 그로스 마케터의 수요가 치솟고 있습니다. 문과/비전공자가 데이터 스킬을 무기로 진입하기 매우 좋은 직무입니다.`,
+                extraTitle: '그로스 직무 필수 역량',
+                extraList: ['**Product Analytics**: **GA4, Amplitude** 마스터 및 퍼널/코호트 설계', '**기초 SQL**: 개발자에게 의존하지 않고 스스로 고객 세그먼트 데이터 추출', '**실험 기획력**: 통계적 유의성을 기반으로 한 A/B 테스트 기획 및 캠페인(CRM) 세팅']
+            },
+            {
+                id: 'role-bi', category: '직무', icon: '📈', title: 'BI 엔지니어 (Business Intelligence Engineer)', tags: ['Tableau', 'PowerBI', '대시보드', '지표자동화'],
+                shift: { past: '경영진의 요청에 따라 수동으로 엑셀(Excel)과 PPT 리포트를 복붙하여 작성하는 "보고서 공장".', present: '전사 구성원이 실시간으로 지표를 모니터링할 수 있는 자동화된 인터랙티브 **대시보드(Tableau 등)** 인프라 구축.' },
+                summary: '복잡한 데이터를 누구나 이해하기 쉬운 "시각화 대시보드"로 구현하는 데이터 스토리텔러입니다.',
+                content: `DA(데이터 애널리스트)가 원인을 찾고 실험을 분석한다면, **BI 엔지니어는 회사의 '계기판'을 만드는 사람**입니다.
+경영진이나 타 부서에서 회사의 핵심 성과 지표(KPI)를 실시간으로 확인할 수 있도록 Tableau, PowerBI, Looker 등을 활용해 전사 대시보드를 구축합니다. 데이터를 어떻게 시각화해야 직관적으로 문제를 파악할 수 있는지 고민하는 UI/UX적 감각과, 대시보드 로딩 속도를 높이기 위한 백엔드의 **SQL 쿼리 최적화 능력**이 동시에 요구됩니다.`,
+                extraTitle: 'BI 엔지니어 필수 역량',
+                extraList: ['**시각화 툴 심화**: **Tableau**, Power BI, Looker 등의 고급 기능 및 액션 필터 적용', '**SQL 튜닝**: 대시보드 로딩 시 발생하는 무거운 쿼리를 가볍게 만드는 역량', '**데이터 마트 이해도**: 시각화에 적합한 형태로 집계(Aggregation) 테이블을 설계하는 능력']
+            },
+            {
+                id: 'role-dpm', category: '직무', icon: '🧭', title: '데이터 PM (Data Product Manager)', tags: ['기획', '데이터거버넌스', '커뮤니케이션', '미니CEO'],
+                shift: { past: '일반 서비스 기획자(PM)가 "이런이런 데이터 좀 뽑아주세요"라고 분석가에게 일방적으로 티켓을 던지는 구조.', present: '데이터 자체를 하나의 "프로덕트"로 보고, 분석가/엔지니어와 비즈니스 부서 사이를 조율하며 데이터 로드맵을 설계하는 **전담 DPM** 등장.' },
+                summary: '데이터 팀의 "미니 CEO". 비즈니스 부서의 요구사항을 번역해 데이터 엔지니어/분석가가 일할 수 있는 환경을 설계합니다.',
+                content: `데이터 PM(DPM)은 직접 파이썬 코드를 짜는 비중은 적지만, 데이터 생태계(아키텍처) 전체를 완벽히 이해해야 하는 직무입니다. 
+마케팅 팀이 "고객 이탈 예측 대시보드"를 요구하면, DPM은 이것이 정말 필요한지(Why), 어떤 데이터 소스가 필요한지(What)를 정의하고, 데이터 엔지니어(DE) 및 DS와 일정을 조율해 최종 산출물(Product)을 완성합니다. 보통 데이터 분석가로 일하다가 기획 및 프로젝트 관리 능력을 살려 전향(Career Pivot)하는 경우가 많습니다.`,
+                extraTitle: 'DPM 필수 역량',
+                extraList: ['**강력한 커뮤니케이션**: 비개발 직군의 요구사항을 개발/데이터 직군의 언어로 번역하는 소통 능력', '**데이터 라이프사이클 이해**: 수집부터 적재, 모델링, 활용(AI)까지의 전체 아키텍처 지식', '**프로젝트 관리**: 애자일(Agile), 스프린트 관리 및 데이터 거버넌스(보안/권한) 수립']
+            },
+            {
+                id: 'role-prompt', category: '직무', icon: '🗣️', title: '프롬프트 엔지니어 / AI 기획자', tags: ['LLM', '프롬프트', 'RAG', 'AI서비스'],
+                shift: { past: '소프트웨어 개발자가 규칙(Rule)이나 알고리즘을 if-else 형태로 하드코딩하여 챗봇 응답을 제어.', present: '자연어(한국어/영어)로 **LLM을 조련(Prompting)**하여 환각 없이 원하는 형태와 톤앤매너의 답변을 일관되게 출력하도록 설계.' },
+                summary: 'AI(LLM)와 대화하는 전문가입니다. 하드코딩 능력보다 언어적 감각과 AI 모델의 특성을 파악하는 논리력이 중요합니다.',
+                content: `ChatGPT 등 LLM(대형 언어 모델)이 서비스에 본격 도입되면서 새롭게 탄생한 직무입니다. 
+기업들이 AI 챗봇(CS, 튜터, 번역기)을 만들 때, AI가 욕설을 하지 않고, 거짓말(Hallucination)을 줄이며, 기업의 가이드라인에 맞게 답변하도록 **'프롬프트(명령어)'를 정교하게 설계하고 시스템적으로 테스트(Evaluation)**하는 역할을 합니다. 순수 코딩 스킬보다는 인문학적 소양, 극도의 꼼꼼함, 그리고 **RAG(검색 증강 생성)** 파이프라인에 대한 높은 이해도가 필요합니다.`,
+                extraTitle: '프롬프트 엔지니어 필수 역량',
+                extraList: ['**LLM 특성 이해**: Temperature, Top-P, Tokenizer 등 LLM 하이퍼파라미터 지식', '**고급 프롬프팅**: Few-shot, Chain-of-Thought 등 고도화된 프롬프트 엔지니어링', '**평가 지표 구성**: AI의 답변 품질을 정량적/정성적으로 반복 평가(RAGAS 등)하는 체계 구축']
+            },
+            {
+                id: 'role-hr', category: '직무', icon: '👥', title: 'HR 애널리스트 (People Analytics)', tags: ['인사데이터', 'HR', '이탈예측', '조직문화'],
+                shift: { past: '인사팀 직원의 감이나 연 1회 실시하는 단순 만족도 설문조사에 의존한 인사 평가 및 복지 제도 기획.', present: '직원들의 협업툴(슬랙) 대화량, 출퇴근 시간, 성과 지표 등을 데이터로 엮어 **"퇴사 위험군"**을 예측하고 최적의 조직 문화를 설계.' },
+                summary: '데이터로 사람(우리 회사 직원)을 분석합니다. 기업 내 핵심 에이스의 이탈을 막고 성과를 극대화하는 인사 부서의 분석가입니다.',
+                content: `구글, 카카오 등 빅테크를 중심으로 확산 중인 'People Analytics' 포지션입니다. 
+고객이 아닌 **'우리 회사 내부 직원'**의 데이터를 분석합니다. 어떤 특성(학력, 출퇴근시간, MBTI 등)을 가진 직원이 성과가 좋은지, 특정 팀의 퇴사율이 갑자기 높아진 진짜 이유는 무엇인지(매니저의 문제인지, 야근량의 문제인지)를 데이터를 통해 객관적으로 증명합니다. 인사(HR) 도메인 지식과 심리학적 접근이 필수적입니다.`,
+                extraTitle: 'HR 애널리스트 필수 역량',
+                extraList: ['**기본 분석 역량**: **SQL, Python(Pandas)** 및 시각화(Tableau) 기본기', '**통계/심리 지식**: 설문조사 문항 설계, 신뢰도 검증, 인과관계 추론(Causal Inference)', '**높은 윤리 의식**: 직원의 민감한 연봉/인사/근태 데이터를 다루므로 철저한 보안/윤리 의식 필수']
+            },
+            {
+                id: 'role-quant', category: '직무', icon: '💹', title: '퀀트 애널리스트 (Quantitative Analyst)', tags: ['금융공학', '알고리즘트레이딩', '시계열', '투자'],
+                shift: { past: '펀드 매니저의 직관과 거시 경제(매크로) 흐름 판단, 기업 탐방에 의존한 주관적 가치 투자(Discretionary Trading).', present: '수십 년간의 금융 데이터, 뉴스 기사 텍스트, 소셜 미디어 감성 분석을 결합한 **수학적 모델 기반 자동 매매(Algorithmic Trading)** 개발.' },
+                summary: '수학과 컴퓨터 프로그램으로 금융 시장(주식, 코인)을 이기려는 사람들입니다. "여의도의 데이터 사이언티스트"라 불립니다.',
+                content: `전통적인 증권사, 자산운용사, 헤지펀드, 가상화폐 거래소 등에서 활약하는 딥(Deep)한 직무입니다. 
+인간의 감정과 공포를 배제하고, 오로지 수학적 모델과 통계적 알고리즘을 기반으로 **투자 전략(매수/매도 타이밍)을 개발하고 과거 데이터로 백테스트(Back-testing)**합니다. 최근에는 단순 가격 데이터를 넘어, 뉴스 기사의 뉘앙스를 자연어 처리(NLP)로 분석하거나, 위성 사진으로 대형 마트 주차장의 차량 수를 세어 기업 분기 매출을 예측하는 등 대안 데이터(Alternative Data) 분석이 매우 활발합니다.`,
+                extraTitle: '퀀트 애널리스트 필수 역량',
+                extraList: ['**고급 수학/통계**: 확률미적분학, 최적화 이론, **시계열 분석 모델**(ARIMA, GARCH 등)', '**프로그래밍**: **Python**, R, **C++**(마이크로초를 다투는 초고속 트레이딩 시스템용)', '**금융 공학 지식**: 파생상품 가격 결정 모델, 리스크 관리(VaR) 개념에 대한 깊은 이해']
+            },
+
+            // ================= ✅ 추가 직무/역할 (6) =================
+            {
+                id: 'role-arch', category: '직무', icon: '🧱', title: '데이터 아키텍트 (Data Architect)', tags: ['데이터모델링', 'DWH/Lakehouse', '표준화', '거버넌스'],
+                shift: {
+                    past: 'DE/DBA가 서비스 일정에 맞춰 테이블을 그때그때 만들고, "숫자 왜 달라요?"가 반복되는 구조.',
+                    present: '전사 데이터의 **청사진(Architecture)**을 설계하고, 도메인별 **KPI 정의/표준 모델/권한/개인정보 처리**까지 포함해 데이터가 흔들리지 않게 통제.'
+                },
+                summary: '회사 데이터 생태계의 “설계도”를 그립니다. 조직이 커질수록 반드시 필요해지는 상위 레벨 포지션입니다.',
+                content: `데이터 아키텍트는 "데이터가 어디서 생성되고, 어떤 규칙으로 쌓이며, 어떻게 소비되어야 하는가"를 설계합니다.
+단순히 테이블을 만드는 수준이 아니라, 도메인별로 **지표 정의가 충돌하지 않도록 표준화**하고, 분석/AI가 쓰기 좋은 **데이터 모델(Star Schema, Lakehouse)**을 설계합니다.`,
+                extraTitle: 'Data Architect 핵심 역량',
+                extraList: [
+                    '**데이터 모델링**: Star Schema, 정규화/비정규화 트레이드오프, 이벤트 모델링',
+                    '**메트릭 정의 표준화**: "매출/활성유저" 같은 KPI의 단일 정의(Single Source of Truth)',
+                    '**보안/권한/PII**: 개인정보 마스킹, 접근 통제(RBAC) 설계',
+                    '**아키텍처 리뷰**: 신규 파이프라인/마트 설계 리뷰 및 표준 적용'
+                ]
+            },
+            {
+                id: 'role-platform', category: '직무', icon: '🏛️', title: '데이터 플랫폼 엔지니어 (Data Platform Engineer)', tags: ['플랫폼', 'IaC', 'Kubernetes', 'Observability'],
+                shift: {
+                    past: '팀별로 파이프라인이 제각각 운영되고, 신규 분석 요구가 들어오면 매번 사람이 붙어서 수동 대응.',
+                    present: '분석가/DS가 스스로(Self-serve) 데이터 작업을 할 수 있도록 **데이터 플랫폼(표준/템플릿/권한/모니터링)**을 구축하는 “데이터 DevOps”.'
+                },
+                summary: '데이터 조직의 생산성을 끌어올리는 “플랫폼 엔지니어링” 역할입니다.',
+                content: `Data Platform Engineer는 개별 ETL을 만드는 것보다, ETL이 잘 돌아가게 만드는 **플랫폼과 표준**을 만듭니다.
+예) 파이프라인 템플릿, 배포/롤백, 권한/카탈로그, 비용 최적화, 장애 알림까지 “시스템화”합니다.`,
+                extraTitle: '플랫폼 엔지니어 필수 역량',
+                extraList: [
+                    '**IaC**: Terraform 등으로 인프라를 코드로 관리',
+                    '**Kubernetes/컨테이너**: 데이터 워크로드(배치/스트리밍/서빙) 운영',
+                    '**관측 가능성(Observability)**: 로그/메트릭/트레이싱 기반 장애 탐지',
+                    '**비용 최적화**: DW/쿼리/스토리지 비용을 숫자로 관리'
+                ]
+            },
+            {
+                id: 'role-dq', category: '직무', icon: '🧪', title: '데이터 품질/오브저버빌리티 엔지니어 (Data Quality/Observability)', tags: ['데이터품질', '테스트', '모니터링', 'Lineage'],
+                shift: {
+                    past: '대시보드 숫자가 틀리면 사람이 원인을 뒤지고, 장애는 "나중에" 발견.',
+                    present: '데이터 파이프라인에 **테스트/모니터링/알림**을 붙여서, 숫자가 깨지기 전에 자동으로 잡는 **데이터 신뢰성 엔지니어링**.'
+                },
+                summary: '“데이터가 맞다”를 보장하는 역할. 회사가 커질수록 수요가 폭발합니다.',
+                content: `Data Quality/Observability는 데이터의 정확성/신선도/완전성(SLA)을 책임집니다.
+스키마 드리프트, 갑작스런 0값/폭증 같은 이상징후를 자동 감지하고, 라인리지(Lineage)로 원인을 빠르게 추적합니다.`,
+                extraTitle: 'DQ/Observability 핵심 스택',
+                extraList: [
+                    '**dbt tests/커스텀 테스트**: 컬럼 null 비율, 유니크 키, 참조 무결성 검증',
+                    '**Great Expectations**: 데이터 품질 규칙을 코드로 관리',
+                    '**Lineage**: OpenLineage/메타데이터 기반 영향도 분석',
+                    '**알림/운영**: Slack/On-call 연동, SLO/SLI 설계'
+                ]
+            },
+            {
+                id: 'role-governance', category: '직무', icon: '🛡️', title: '데이터 거버넌스 매니저 / 데이터 스튜어드 (Governance/Steward)', tags: ['정의', '카탈로그', '권한관리', '규정'],
+                shift: {
+                    past: '부서마다 KPI 정의가 다르고, 민감 데이터 접근이 통제되지 않아 리스크가 커짐.',
+                    present: '**데이터 정의/표준/권한/정책**을 운영해서, 데이터가 “자산”으로 관리되도록 만드는 조직 운영 직무.'
+                },
+                summary: '데이터 조직의 규칙과 운영체계를 만들고 유지합니다. 대기업/유니콘에서 특히 중요합니다.',
+                content: `데이터 거버넌스는 기술만이 아니라 **운영(프로세스)**입니다.
+"DAU 정의는 무엇인가?", "개인정보 컬럼은 누가 볼 수 있는가?", "대시보드 숫자 불일치는 어떻게 해결하는가?" 같은 기준을 정하고 계속 지키게 만듭니다.`,
+                extraTitle: '거버넌스 필수 역량',
+                extraList: [
+                    '**Data Catalog 운영**: 테이블/컬럼 설명, 오너십(Owner) 관리',
+                    '**메트릭 사전**: KPI 정의, 계산식, 주의사항 문서화',
+                    '**권한/보안 정책**: RBAC, PII 분류, 접근 이력 관리',
+                    '**커뮤니케이션**: 비즈니스/보안/데이터팀을 동시에 설득'
+                ]
+            },
+            {
+                id: 'role-applied', category: '직무', icon: '🧬', title: 'Applied Scientist (프로덕트 중심 ML)', tags: ['실험', '추천/랭킹', '온라인지표', '성능개선'],
+                shift: {
+                    past: '오프라인(정확도/ROC-AUC)만 높이면 “좋은 모델”이라고 생각.',
+                    present: '온라인 서비스에서 **A/B 테스트 KPI**로 성능을 증명하고, 추천/랭킹/검색을 “매출/리텐션”과 직접 연결.'
+                },
+                summary: '연구(DS)와 제품(프로덕트 KPI) 사이를 연결하는 역할입니다.',
+                content: `Applied Scientist는 모델 자체보다, 모델이 **프로덕트 KPI에 주는 영향**에 집착합니다.
+추천/검색/랭킹에서 흔한 문제(오프라인-온라인 갭, 편향, 장기 지표)를 다루며, 실험 설계와 반복 개선을 빠르게 돌립니다.`,
+                extraTitle: 'Applied Scientist가 자주 다루는 것',
+                extraList: [
+                    '**오프라인-온라인 갭**: 로그 편향, 서빙/피처 차이 보정',
+                    '**실험 설계**: A/B 테스트, 홀드아웃, 장기지표(리텐션/LTV) 해석',
+                    '**추천/랭킹 피처**: 피처 엔지니어링, 피처 스토어 개념',
+                    '**성능/효율**: Latency/Cost까지 포함한 최적화'
+                ]
+            },
+            {
+                id: 'role-llmops', category: '직무', icon: '🧠', title: 'LLM 엔지니어 / LLMOps (RAG & 서빙)', tags: ['LLM', 'RAG', 'Eval', '비용최적화'],
+                shift: {
+                    past: '프롬프트만 잘 쓰면 끝(데모 수준).',
+                    present: '실서비스에서는 **RAG/평가(Eval)/가드레일/비용·지연 최적화/버전관리**까지 포함한 **LLM 시스템 엔지니어링**이 핵심.'
+                },
+                summary: 'LLM을 “서비스”로 만드는 엔지니어입니다. 요즘 채용시장에서 매우 강하게 뜨는 포지션입니다.',
+                content: `LLM 엔지니어는 단순 호출(API)이 아니라, 환각을 줄이고(근거 기반), 비용을 관리하고, 빠르게 응답하고, 지속적으로 품질을 유지하는 **전체 파이프라인**을 설계합니다.
+대표적으로 사내 문서 기반 **RAG** + 품질 평가 + 서빙 최적화(vLLM 등)를 묶습니다.`,
+                extraTitle: 'LLMOps 핵심 구성 요소',
+                extraList: [
+                    '**RAG 파이프라인**: Chunking/Embedding/Vector DB/재랭킹',
+                    '**서빙 최적화**: vLLM/TGI 등으로 Latency/Throughput 튜닝',
+                    '**평가(Eval)**: 정량/정성 평가 체계, 회귀 테스트',
+                    '**가드레일**: 정책/금칙어/PII 방지, 프롬프트 버전 관리'
+                ]
+            },
+
+            // ================= 3. 도메인 지식 사전 A to Z (15 Domains) =================
+            {
+                id: 'dom-commerce', category: '도메인', icon: '🛒', title: '[산업 A to Z] 전자상거래/커머스 (E-commerce)', tags: ['전환율', '초개인화', 'LTV', '퍼널'],
+                summary: '장바구니에 담고 결제하기까지의 "고객 여정"을 최적화하여 매출을 극대화하는, 데이터 분석의 기본이자 꽃인 도메인입니다.',
+                content: `**[산업 개요]**
+쿠팡, 네이버쇼핑, 무신사 등 우리가 매일 돈을 쓰는 곳입니다. 가입부터 탐색, 장바구니, 결제로 이어지는 명확한 퍼널(Funnel)이 존재하며, 1%의 전환율 개선이 수억 원의 매출로 직결됩니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **CVR (Conversion Rate, 전환율)**: 장바구니 담기, 최종 결제 등 목표 행동 달성 비율
+- **LTV (Customer Lifetime Value, 고객생애가치)**: 한 고객이 이탈 전까지 서비스에 가져다주는 총이익
+- **CAC (고객획득비용)**: 1명의 신규 결제 유저를 데려오는 데 든 마케팅 비용
+
+**[주요 데이터 소스]**
+- **Clickstream (행동 로그)**: 앱 내 마우스 스크롤, 클릭, 체류 시간
+- **Transaction (결제 내역)**: 주문 번호, 결제 금액, 할인 쿠폰 사용 여부
+
+**[직무별 핵심 미션]**
+- **DA (분석가)**: GA4/Amplitude로 **퍼널 이탈 지점 파악** 및 **A/B 테스트** 주도.
+- **DS/MLE**: **초개인화 추천 시스템(RecSys)** 구축으로 교차판매(Cross-sell) 유도.`
+            },
+            {
+                id: 'dom-finance', category: '도메인', icon: '💳', title: '[산업 A to Z] 금융/핀테크 (Finance & FinTech)', tags: ['신용평가', 'FDS', '보안', '대안데이터'],
+                summary: '숫자의 오차가 수백억 손실로 직결되는 보수적인 환경 속에서, 대안 데이터를 융합해 초개인화 자산관리를 실현합니다.',
+                content: `**[산업 개요]**
+은행/카드사 및 토스 같은 테크핀 기업입니다. 데이터의 정합성과 개인정보보호(규제)가 생명입니다. 클라우드 도입과 '마이데이터' 사업으로 폭발적으로 성장 중입니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **NPL (부실채권율)**: 대출을 갚지 못하는 고객의 비율 (리스크 관리)
+- **FDS 적중률**: 이상 거래(사기)를 실제 차단한 확률 및 오탐률
+
+**[주요 데이터 소스]**
+- **수신/여신/카드 트랜잭션**: 입출금, 대출 상환 이력 시계열 데이터
+- **마이데이터**: 타행 계좌, 통신비 납부 내역, 이커머스 쇼핑 내역
+
+**[직무별 핵심 미션]**
+- **DA**: 마이데이터 기반 소비 패턴 분석 및 **초개인화 금융 상품 타겟팅**.
+- **DS**: 비정형 대안 데이터를 활용한 **대안신용평가(CSS)** 모델링 및 딥러닝 기반 **이상금융거래탐지(FDS)** 고도화. 소명을 위한 **XAI(설명가능한 AI)** 필수.`
+            },
+            {
+                id: 'dom-game', category: '도메인', icon: '🎮', title: '[산업 A to Z] 게임 (Gaming & Esports)', tags: ['밸런싱', '이탈예측', '로그분석', '어뷰징'],
+                summary: '초 단위로 테라바이트급 로그가 쌓이는 빅데이터의 원조. 유저의 이탈을 막고 게임 내 경제 시스템을 방어합니다.',
+                content: `**[산업 개요]**
+3N 등 게임업계는 데이터 인프라가 가장 먼저, 방대하게 발달한 곳입니다. 마우스 클릭, 아이템 획득, 몬스터 타격 등 모든 것이 초 단위 로그로 남습니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **DAU/MAU**: 일/월간 활성 사용자 수
+- **ARPU/ARPPU**: 결제 유저당 평균 결제액
+- **재화 인플레이션 지수**: 게임 내 골드의 생산/소모 비율
+
+**[주요 데이터 소스]**
+- **인게임 액션 로그**: 좌표 이동, 스킬 사용 (Sequence 데이터)
+- **경제/결제 로그**: 경매장 거래 내역, 확률형 아이템(가챠) 로그
+
+**[직무별 핵심 미션]**
+- **DA**: 특정 레벨업 구간에서 유저가 왜 접는지 분석하고, **게임 전투/경제 밸런스 개선안** 기획.
+- **DE**: 초대용량 로그 처리를 위한 **Hadoop, Spark 분산 처리** 생태계 운영.
+- **DS**: 딥러닝을 이용한 유저 **이탈 징후 조기 예측** 및 불법 핵(작업장) **어뷰징 머신러닝 탐지**.`
+            },
+            {
+                id: 'dom-mfg', category: '도메인', icon: '🏭', title: '[산업 A to Z] 스마트팩토리/제조 (Smart Factory)', tags: ['반도체', '배터리', '예지보전', '시계열', '수율'],
+                summary: '대한민국 산업의 근간. 1%의 불량률(수율) 개선이 수백억의 이익을 창출하는 극강의 시계열 데이터 분석 분야입니다.',
+                content: `**[산업 개요]**
+삼성전자, 하이닉스, LG에솔 등 제조 공장입니다. 수만 개의 센서 데이터를 분석해 AI가 불량을 잡고 공정을 최적화(Industry 4.0)합니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **수율 (Yield Rate)**: 투입 원자재 대비 정상적으로 생산된 합격품의 비율 (가장 중요)
+- **Downtime (비가동 시간)**: 기계 고장으로 공장이 멈춘 시간 (손실액 직결)
+
+**[주요 데이터 소스]**
+- **설비 센서 데이터(Time-Series)**: 0.1초 단위의 온도, 압력, 진동 시계열 데이터
+- **비전/이미지 데이터**: 완성된 웨이퍼 표면 고해상도 이미지 (불량 검사용)
+
+**[직무별 핵심 미션]**
+- **DA**: 공정 변수 중 수율 저하에 영향을 미치는 **핵심 인자(Key Factor)** 통계적 도출.
+- **DS**: 진동 센서 데이터를 딥러닝(AutoEncoder 등)으로 분석해 고장 나기 전 알리는 **예지보전(PdM)** 모델, 이미지 판독을 위한 **비전 AI** 개발.`
+            },
+            {
+                id: 'dom-mobility', category: '도메인', icon: '🚕', title: '[산업 A to Z] 모빌리티/물류 (Mobility & Logistics)', tags: ['쏘카', '공간데이터', '수요예측', '라우팅'],
+                summary: '지도 위의 데이터를 통제합니다. 최단 시간, 최저 비용으로 사람과 물건을 이동시키는 "최적화 알고리즘"이 핵심입니다.',
+                content: `**[산업 개요]**
+카카오모빌리티, 배달의민족, 쿠팡 로지스틱스 등 물리적 이동을 통제합니다. "어디서 콜이 발생할 것인가?"를 예측하고 실시간으로 배차를 최적화합니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **배차 성공률 / 매칭률**: 유저의 호출(수요)에 차량(공급)이 연결된 비율
+- **ETA (도착 예정 시간) 정확도**: 고객에게 안내한 시간과 실제 도착 시간의 오차율
+
+**[주요 데이터 소스]**
+- **공간/GIS 데이터**: 위도, 경도(Lat/Lon), 도로망 네트워크
+- **이동 로그**: 차량 실시간 GPS 트래킹, 급정거 센서
+- **외부 환경 변수**: 실시간 기상청 날씨, 교통 체증(API)
+
+**[직무별 핵심 미션]**
+- **DA**: **GeoPandas** 활용 핫스팟 시각화 및 비 오는 날의 **다이내믹 프라이싱(탄력 요금제)** 로직 설계.
+- **DS**: 수만 대 차량 동선을 실시간 계산하는 **VRP(라우팅 최적화)** 및 매칭 알고리즘 연구.`
+            },
+            {
+                id: 'dom-media', category: '도메인', icon: '📺', title: '[산업 A to Z] 미디어/OTT/콘텐츠', tags: ['넷플릭스', '웹툰', '구독경제', '체류시간'],
+                summary: '사용자의 여가 시간을 점유하기 위한 전쟁. "다음 화를 무조건 보게 만드는" 맥락적 추천이 중요합니다.',
+                content: `**[산업 개요]**
+넷플릭스, 티빙, 네이버웹툰 등 디지털 콘텐츠 구독(Subscription) 비즈니스입니다. 유저가 끊임없이 볼거리를 발견하게 만들어 '체류 시간'을 극대화해야 합니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **Retention (리텐션)**: 가입 후 특정 시점에 서비스를 계속 이용하는 비율
+- **Churn Rate (구독 취소율)**: 월 단위 구독 해지율
+- **체류 시간 / 소비 심도**: 영상을 끝까지 시청한 비율
+
+**[주요 데이터 소스]**
+- **시청/열람 로그**: 영상 재생, 빨리감기, 스크롤 멈춤 (초 단위 기록)
+- **콘텐츠 메타데이터**: 장르, 배우 및 비전 AI로 추출한 '분위기', '색감'
+
+**[직무별 핵심 미션]**
+- **DA**: 특정 오리지널 콘텐츠가 **구독 유지(Retention)에 미치는 기여도** 분석 및 썸네일 **A/B 테스트**.
+- **DS**: 영상 텍스트/이미지를 멀티모달로 분석해 취향을 저격하는 **초개인화 홈 화면 큐레이션 알고리즘** 고도화.`
+            },
+            {
+                id: 'dom-hr', category: '도메인', icon: '👥', title: '[산업 A to Z] HR/피플 (People Analytics)', tags: ['조직문화', '이탈예측', '성과분석'],
+                summary: '고객이 아닌 "우리 회사 직원"을 분석합니다. 감에 의존하던 인사를 데이터 기반으로 혁신하여 핵심 인재를 지킵니다.',
+                content: `**[산업 개요]**
+빅테크를 중심으로 확산 중인 영역입니다. 채용, 평가, 보상, 퇴직에 이르는 직원의 생애주기 데이터를 분석해 최적의 조직 문화를 설계하고, 에이스의 이탈을 막습니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **자발적 퇴사율 (Voluntary Turnover)**: 핵심 인재가 스스로 회사를 나가는 비율
+- **직원 만족도 (eNPS)**: 회사에 대한 순추천지수 (설문조사 기반)
+
+**[주요 데이터 소스]**
+- **인사/근태 원장**: 연봉, 승진 이력, 휴가 패턴, 출퇴근 시간
+- **협업 로그**: 슬랙(Slack), 지라(Jira) 등 협업 툴의 메시지 빈도(네트워크 분석용)
+
+**[직무별 핵심 미션]**
+- **HR 애널리스트**: 부서 간 소통 네트워크를 시각화해 고립된 팀 파악. 머신러닝을 활용해 "어떤 불만을 가진 직원이 퇴사할 확률이 높은가?" **이탈 위험군 예측(Attrition Model)** 개발.`
+            },
+            {
+                id: 'dom-health', category: '도메인', icon: '🧬', title: '[산업 A to Z] 의료/헬스케어 (Digital Health)', tags: ['의료데이터', '웨어러블', '생체신호', '가명정보'],
+                summary: '규제와 개인정보의 벽을 넘어 생명을 연장합니다. 생물학적 도메인 지식과 딥러닝(CV)이 만나는 곳입니다.',
+                content: `**[산업 개요]**
+루닛(의료 AI 영상 판독), 눔(웰니스 앱) 등을 포괄합니다. 데이터를 잘못 분석하면 생명과 직결될 수 있고, HIPAA 등 강력한 규제가 적용되어 진입 장벽이 높습니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **모델 민감도 / 특이도**: 실제 병이 있는/없는 사람을 정확히 판독할 확률
+- **복약 순응도 (Adherence)**: 환자가 꾸준히 약을 먹거나 앱 지시를 따른 비율
+
+**[주요 데이터 소스]**
+- **EMR/EHR**: 의사의 차트 기록 (정제되지 않은 자연어 텍스트)
+- **의료 영상 (DICOM)**: X-ray, MRI 병리 슬라이드 (초고해상도 비전 데이터)
+- **생체 신호**: 웨어러블 심전도(ECG), 혈당 시계열 데이터
+
+**[직무별 핵심 미션]**
+- **DS**: 노이즈가 심한 생체 신호에서 질병 징후를 예측하거나, 의료 영상에서 암세포를 찾는 **비전 AI(CNN)** 개발. 의사에게 판단 근거를 소명하기 위한 **설명 가능한 AI(XAI)** 필수.
+- **DE**: 반출 금지 규제를 피하기 위한 **연합학습(Federated Learning)** 인프라 구축.`
+            },
+            {
+                id: 'dom-proptech', category: '도메인', icon: '🏢', title: '[산업 A to Z] 프롭테크/부동산 (PropTech)', tags: ['직방', '시세예측', '공간데이터', 'AVM'],
+                summary: '부동산과 IT의 만남. 공인중개사의 "감"에 의존하던 시세와 상권을 데이터로 정량화하고 예측합니다.',
+                content: `**[산업 개요]**
+직방, 호갱노노 및 상업용 부동산 분석 스타트업입니다. 정보 비대칭이 심한 부동산 시장을 데이터를 통해 투명하게 만듭니다. '지도' 위에 뿌려지는 공간 데이터 활용 능력이 핵심입니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **AVM(자동가치산정) 오차율**: AI가 예측한 시세와 실제 거래된 가격 간의 오차율(MAPE)
+- **허위매물 신고율**: 양질의 데이터베이스 확보 지표
+
+**[주요 데이터 소스]**
+- **공공 데이터 API**: 국토부 실거래가, 건축물대장, 토지대장
+- **공간/GIS 파생 변수**: 반경 1km 내 스타벅스 수, 지하철역 도보 소요 시간, 일조량 시뮬레이션
+
+**[직무별 핵심 미션]**
+- **DA/DS**: **GeoPandas, QGIS** 등을 활용해 공간 파생 변수 생성. 머신러닝(XGBoost 등)을 활용해 향후 집값 변동을 예측하는 **AVM(시세예측모델)** 개발.`
+            },
+            {
+                id: 'dom-sports', category: '도메인', icon: '⚽', title: '[산업 A to Z] 스포츠 (Sports Analytics)', tags: ['머니볼', '트래킹데이터', 'xG', '부상예측'],
+                summary: '영화 <머니볼>의 현실화. 선수의 땀방울과 모든 움직임을 수치화하여 감독의 전술을 짜고 우승을 만듭니다.',
+                content: `**[산업 개요]**
+프로 구단, 스포츠 데이터 전문 업체(옵타 등)입니다. 베테랑 스카우터의 주관적 직관을 넘어, 선수 영입부터 인게임 전술, 피지컬 관리까지 수치화된 데이터베이스에 의존합니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **xG (Expected Goals, 기대 득점)**: 슈팅 위치, 수비수 위치를 고려해 해당 슈팅이 골로 연결될 확률
+- **ACWR (부상 위험도)**: 선수의 단기 부하 대비 장기 부하 비율
+
+**[주요 데이터 소스]**
+- **트래킹 데이터**: 카메라가 초당 수십 프레임으로 추출한 선수의 X, Y 좌표
+- **웨어러블 데이터**: 훈련 중 선수가 착용한 조끼(GPS, 심박계)의 가속도, 심박수
+
+**[직무별 핵심 미션]**
+- **스포츠 DA/DS**: 트래킹 데이터로 수비 라인의 간격을 시각화하여 전술 리포트 제공. 웨어러블 시계열 데이터를 분석해 선수의 근육 피로도를 모니터링하고 **부상 위험을 머신러닝으로 사전 예측**.`
+            },
+            {
+                id: 'dom-education', category: '도메인', icon: '📚', title: '[산업 A to Z] 에듀테크/교육 (EduTech)', tags: ['지식추적', '맞춤형학습', 'LLM튜터', '이탈분석'],
+                summary: 'AI로 교육 격차를 줄입니다. 학생의 머릿속에 어떤 지식이 부족한지(지식 추적) 알아내어 1:1 맞춤형 과외 선생님을 만듭니다.',
+                content: `**[산업 개요]**
+산타토익(뤼이드), 콴다 등 교육과 AI를 융합하는 도메인입니다. 단순 정답률 통계를 넘어, "이 학생이 왜 이 문제를 틀렸는지", "내일 시험에서 몇 점을 맞을지"를 AI가 분석해 최적의 학습 경로를 추천합니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **정답률 예측 정확도 (AUC)**: AI가 예측한 정답 확률과 실제 결과의 일치율
+- **학습 유지율 (Retention)**: 지루하거나 너무 어려워 앱을 끄는 시점 파악
+
+**[주요 데이터 소스]**
+- **문항 풀이 인터랙션 로그**: 문제 풀이 소요 시간, 오답 선택 패턴, 힌트 사용 여부
+- **문항 메타데이터**: 난이도, 핵심 개념(태그), 문항 간 선수 학습 관계
+
+**[직무별 핵심 미션]**
+- **DS**: 학생의 풀이 이력을 시퀀스 모델(Transformer)에 넣어 현재의 지식 상태를 추적하는 **DKT (Deep Knowledge Tracing)** 알고리즘 고도화.
+- **MLE / Prompt Eng**: **LLM 파인튜닝**을 통해 틀린 부분만 콕 집어 친절하게 해설해주는 **초개인화 AI 튜터 챗봇** 개발.`
+            },
+            {
+                id: 'dom-public', category: '도메인', icon: '🏛️', title: '[산업 A to Z] 공공/스마트시티 (Public Sector)', tags: ['스마트시티', '공공데이터', '보안', 'sLLM'],
+                summary: '보안과 폐쇄망 환경 속에서 스마트시티 인프라와 디지털 플랫폼 정부를 구축하는 도메인입니다.',
+                content: `**[산업 개요]**
+정부 부처, 지자체 및 이를 지원하는 B2B/SI 기업들의 도메인입니다. 과거 엑셀 취합 중심의 행정을 벗어나, 교통 흐름 통제, 상하수도 누수 예측 등 도시 전체의 실시간 데이터를 분석하는 스마트시티 인프라 구축 수요가 급증하고 있습니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **행정 처리 소요 시간 단축률**: 자동화 시스템 도입 전/후 비교
+- **민원 답변 정확도**: AI 챗봇의 민원 답변 적절성
+
+**[주요 데이터 소스]**
+- **IoT 센서 데이터**: 교통량 측청 카메라, 대기질 측정기 센서 실시간 로그
+- **공공 행정 문서**: 수만 페이지에 달하는 지자체 규정집, 조례안, 과거 민원 내역 텍스트
+
+**[직무별 핵심 미션]**
+- **DE**: 공공 와이파이, 교통 센서에서 올라오는 막대한 스트리밍 데이터를 모으는 스마트시티 파이프라인 구축.
+- **MLE / 프롬프트 엔지니어**: 망분리 보안 규정 상 외부 ChatGPT를 쓸 수 없으므로, 내부에 구축형 **오픈소스 소형 언어 모델(sLLM)**을 띄우고 **RAG 시스템**을 연동해 행정 문서를 자동 검색/요약해주는 시스템 개발.`
+            },
+            {
+                id: 'dom-smartfarm', category: '도메인', icon: '🌱', title: '[산업 A to Z] 스마트팜/애그테크 (Agriculture)', tags: ['그린랩스', 'IoT센서', '비전AI', '기후데이터'],
+                summary: '데이터로 농사를 짓습니다. 기후 위기 속에서 작물 수확량을 최적화하는 매력적인 미래 산업입니다.',
+                content: `**[산업 개요]**
+그린랩스, 팜에이트 등 농업(Agriculture)과 IT를 결합한 도메인입니다. 농부의 오랜 경험과 직관(감)에 의존하던 파종 시기, 물주기, 병해충 대응을 온실 내 센서 데이터와 외부 기상청 데이터를 융합 분석해 AI가 통제합니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **단위 면적당 수확량 증대율**: 스마트팜 도입 후 생산량 개선도
+- **자원 투입 최적화율**: 물, 비료, 전기(난방) 사용량 절감 비율
+
+**[주요 데이터 소스]**
+- **온실 IoT 데이터**: 온도, 습도, 일사량, 토양 수분, CO2 농도
+- **비전/이미지 데이터**: 드론이나 스마트폰으로 촬영한 작물 잎사귀 이미지
+- **거시 기후 데이터**: 기상청 날씨 API, 강수량 예측 모델 데이터
+
+**[직무별 핵심 미션]**
+- **DA/DS**: "토양 수분이 30% 이하이고 내일 비가 오지 않으면 스프링클러를 가동하라"는 식의 생육 환경 제어 **최적화 로직 및 수요/수확량 예측 모델링**.
+- **DS (비전 AI)**: 작물 이미지를 **CNN 기반 비전 모델**로 판독해 조기에 병해충 여부를 진단하는 알고리즘 개발.`
+            },
+            {
+                id: 'dom-marketing', category: '도메인', icon: '🎯', title: '[산업 A to Z] 마케팅/애드테크 (Marketing & AdTech)', tags: ['퍼포먼스', 'ROAS', '어트리뷰션', 'MMM'],
+                summary: '한정된 마케팅 예산을 가장 효율적으로 분배하는 방법을 찾습니다. 프라이버시 시대에 통계적 추론 역량이 생명입니다.',
+                content: `**[산업 개요]**
+디지털 종합 광고 에이전시, 애드테크 플랫폼(모비데이즈 등), 기업 내부의 그로스/마케팅 부서입니다. 과거에는 페이스북/구글의 서드파티 쿠키를 통한 무차별 타겟팅이 통했지만, 현재는 개인정보 보호 강화(쿠키리스)로 추적이 어려워져 '통계적 데이터 분석력'이 마케팅의 성패를 가릅니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **ROAS (광고비 대비 매출)**: 광고에 100만 원을 썼을 때 얼마의 매출이 발생했는가
+- **CPA (행동당 단가) / CPI (설치당 단가)**: 유저 한 명을 가입/설치시키는 데 드는 비용
+
+**[주요 데이터 소스]**
+- **매체 API 데이터**: 구글 애즈, 메타(페이스북), 네이버 광고 대시보드의 캠페인 성과 데이터
+- **앱 트래킹(MMP) 데이터**: AppsFlyer, Adjust 등에서 수집하는 유저 유입 경로 로그
+
+**[직무별 핵심 미션]**
+- **마케팅 DA / 그로스해커**: 10개의 광고 채널 중 "어떤 매체가 정말로 매출 증가에 기여했는가?"를 통계적으로 밝혀내는 **기여도 분석(Attribution)** 및 **MMM(마케팅 믹스 모델링)** 수행. 여러 매체의 API 데이터를 **SQL/Python**으로 한 번에 끌어와 **Tableau** 대시보드로 자동화.`
+            },
+            {
+                id: 'dom-saas', category: '도메인', icon: '☁️', title: '[산업 A to Z] B2B SaaS/소프트웨어', tags: ['채널톡', '잔디', 'MRR', '구독경제', 'Churn'],
+                summary: '기업(B2B)을 대상으로 하는 구독형 소프트웨어 서비스입니다. 월 반복 매출(MRR)과 이탈률(Churn) 관리가 알파이자 오메가입니다.',
+                content: `**[산업 개요]**
+채널톡, 잔디, 플렉스(Flex), 센드버드 등 소프트웨어를 월 단위로 구독하게 하는 비즈니스입니다. B2C(일반 소비자)에 비해 유저(고객사) 수는 적지만 객단가가 매우 높고, 충동구매가 아닌 매우 논리적인 의사결정을 거쳐 구매 및 해지가 발생합니다.
+
+**[핵심 비즈니스 지표 (KPI)]**
+- **MRR (Monthly Recurring Revenue)**: 월 반복 매출 (SaaS 기업의 기업가치를 결정하는 가장 핵심 지표)
+- **ARR (Annual Recurring Revenue)**: 연간 반복 매출
+- **B2B Churn Rate**: 고객사의 구독 취소율
+- **NDR (순매출유지율)**: 기존 고객이 업셀링(비싼 요금제 전환)을 통해 매출을 얼마나 더 올려주었는지 보여주는 지표
+
+**[주요 데이터 소스]**
+- **기능 사용 로그**: 고객사 직원들이 우리 소프트웨어의 핵심 기능(메시지 전송, 파일 업로드 등)을 일주일에 몇 번 쓰는지
+- **CRM 데이터**: 세일즈 담당자가 입력한 영업 미팅 기록, 고객 불만(CS) 접수 내역
+
+**[직무별 핵심 미션]**
+- **B2B DA (분석가)**: 고객사가 우리 서비스를 잘 쓰고 있는지 데이터를 통해 **'건강도(Health Score)'**를 측정. 이탈(구독 취소) 징후가 데이터로 포착되면 즉시 세일즈/CS 팀에 알람을 주어 고객을 방어하도록 지원하는 **데이터 기반 세일즈 파이프라인(PLG)** 구축.`
+            },
+
+            // ================= 4. 최신 AI / 엔지니어링 트렌드 (5 TRENDS) =================
+            {
+                id: 'trend-text2sql', category: 'AI 트렌드', icon: '💬', title: '코딩 중심의 종말: Text-to-SQL과 AI 에이전트',
+                tags: ['Text-to-SQL', 'AI에이전트', '비즈니스기획', 'Orchestration'],
+                shift: { past: '복잡한 JOIN, 서브쿼리를 며칠에 걸쳐 구글링하며 에러 없이 하드코딩하는 능력이 분석가의 핵심 역량.', present: '자연어로 "VIP 고객 월별 매출 추이 뽑아줘" 하면 LLM이 최적화된 SQL을 자동 생성. 분석가는 **결과 해석과 비즈니스 기획**에 집중.' },
+                summary: 'SQL 쿼리와 파이썬 전처리는 AI가 다 짜주는 시대입니다. "코드 입력기"가 될 것인가, AI를 지휘하는 "조율자(Orchestrator)"가 될 것인가?',
+                content: `**[현황]**
+최근 데이터 직군(특히 DA/초급 DS)의 판도를 바꾸고 있는 가장 무서운 트렌드입니다. GitHub Copilot, ChatGPT를 통해 자연어 지시만으로 복잡한 파이썬 전처리 코드와 데이터베이스 쿼리를 거의 완벽하게 짜낼 수 있습니다.
+
+**[생존 전략: 우리는 무엇을 공부해야 하는가?]**
+1. **문제 정의 역량**: AI는 "코호트 쿼리 짜줘"라고 하면 짜주지만, "우리 앱의 매출이 왜 떨어졌고, 어떤 코호트를 봐야 하는가?"는 스스로 결정하지 못합니다. 비즈니스 도메인 지식을 바탕으로 가설을 세우는 **기획력**이 1순위 스킬이 되었습니다.
+2. **Orchestration (AI 파이프라인 조율)**: 단일 스크립트를 짜는 것을 넘어, [DB 추출] ➡️ [LLM 인사이트 요약] ➡️ [Tableau 업데이트] ➡️ [슬랙 리포트 전송]으로 이어지는 전체 과정을 기획하고, Airflow나 LangChain 등으로 묶어내는 **시스템 엔지니어링 사고방식**이 실무에서 압도적으로 우대받습니다.`
+            },
+            {
+                id: 'trend-rag', category: 'AI 트렌드', icon: '🤖', title: 'LLM의 환각(거짓말)을 잠재우다: RAG (검색 증강 생성)',
+                tags: ['RAG', 'LLM', 'VectorDB', '프롬프트엔지니어링'],
+                shift: { past: 'OpenAI API에 단순 프롬프트만 작성. (최신 데이터가 없거나, 기업 내부 보안 문서에 접근 불가하여 거짓말 발생)', present: '기업 내부 문서(사규, 매뉴얼)를 벡터화(Embedding)하여 검색(Search)한 후, 그 정확한 내용을 바탕으로 LLM이 대답하도록 **아키텍처 구축**' },
+                summary: '현재 데이터/AI 채용 시장에서 기업들이 가장 절실하게 찾는 스킬 1순위입니다. 사내 맞춤형 똑똑한 AI를 만드는 뼈대 기술입니다.',
+                content: `**[RAG가 도대체 무엇인가요?]**
+ChatGPT는 훌륭하지만 "우리 회사의 내년도 환불 규정"에 대해서는 대답하지 못하거나 지어냅니다(Hallucination). 이를 해결하기 위해 거의 모든 기업이 도입하는 기술이 **RAG(Retrieval-Augmented Generation)**입니다.
+
+**[구현 프로세스 핵심]**
+1. 사내의 수만 장 문서(PDF, 노션)를 문단 단위로 쪼개어 숫자로 변환(Embedding)하고, 이를 **Vector DB (Chroma, FAISS 등)**에 저장.
+2. 유저가 질문하면, 질문과 가장 유사한 내용의 문서를 Vector DB에서 먼저 빠르고 정확하게 찾아냄 (Retrieval).
+3. 찾아낸 텍스트를 LLM(GPT-4 등)에게 프롬프트와 함께 건네주며 "이 텍스트(근거)만 기반으로 유저에게 대답해!"라고 지시 (Generation).
+
+🔥 **부트캠프 이력서 꿀팁**: 이력서에 "단순 ChatGPT API 콜" 경험이 아니라, **"LangChain을 이용해 OOO 도메인의 PDF 문서를 학습한 RAG 챗봇 파이프라인 구축 및 정확도 평가(RAGAS 적용)"** 경험을 적어낸다면 서류 합격률이 대폭 상승합니다.`
+            },
+            {
+                id: 'trend-linux', category: 'AI 트렌드', icon: '💻', title: '서버 엔지니어링의 귀환: Linux, Tmux, Docker',
+                tags: ['Linux', 'Tmux', 'Docker', 'GPU서버', '터미널'],
+                shift: { past: '개인 윈도우 랩탑이나 구글 Colab(GUI)에서 마우스로 클릭하며 Jupyter Notebook 모델 학습.', present: '기가바이트 단위의 데이터와 LLM 학습 필수화. 반드시 클라우드의 **원격 Linux/GPU 서버**에 접속해 검은 화면(터미널 CLI)에서 키보드로만 작업.' },
+                summary: '데이터 직군도 "개발자/엔지니어"입니다. 마우스가 없는 검은 터미널 화면과 친해지지 않으면 실무 투입이 불가능합니다.',
+                content: `**[왜 리눅스와 터미널인가?]**
+많은 수강생들이 로컬 랩탑 환경에서 훈련하지만, 실무에 가면 100% 클라우드(AWS EC2 등) 상의 **원격 Linux 서버(Ubuntu)**에 SSH로 접속해 **터미널(CLI)**에서 키보드만으로 작업합니다. 
+특히 딥러닝 파인튜닝이나 대규모 데이터 전처리는 짧게는 수 시간, 며칠이 걸립니다. 내 랩탑 덮개를 닫아도, 서버에서 돌아가는 학습 코드가 죽지 않게 백그라운드로 안전하게 유지해 주는 **Tmux(Terminal Multiplexer)** 사용법은 생존 필수 스킬입니다. 
+
+면접관이 **"도커(Docker) 써보셨어요? 리눅스 터미널 편하신가요?"**라고 묻는 이유는 수학적 모델링 능력이 뛰어나도 서버를 다루지 못하면 실제 인프라에서 사고를 치기 때문입니다. 기본적인 Linux 명령어(cd, ls, grep, top)와 Docker 컨테이너 띄우기는 꼭 숙지하세요.`
+            },
+            {
+                id: 'trend-mlops', category: 'AI 트렌드', icon: '🔄', title: '연구실 밖으로 나온 AI: MLOps와 LLMOps',
+                tags: ['MLOps', 'MLflow', '자동화', '모니터링', '모델배포'],
+                shift: { past: 'DS가 모델 파일(.pkl, .pth)을 만들어 개발팀에 메신저로 던져주면 끝. 시간이 지나 성능이 떨어져도 인지 불가.', present: '모델 학습 코드, 배포(Serving), 실시간 성능 모니터링, 재학습(Retraining) 과정을 하나의 파이프라인으로 **자동화(MLOps)**.' },
+                summary: '소프트웨어 개발에 DevOps가 있다면, 인공지능에는 MLOps가 있습니다. AI 모델을 "살아 숨 쉬는 서비스"로 유지하는 기술입니다.',
+                content: `모델을 한 번 잘 만드는 것보다 어려운 것은, **'실제 서비스 환경에서 지속적으로 높은 성능을 유지하는 것'**입니다. 
+고객의 데이터 패턴은 계속 변하기 때문에(Data Drift), 과거에 만든 모델의 예측률은 시간이 갈수록 무조건 떨어집니다. 이를 막기 위해 실시간으로 성능을 모니터링하다가 지표가 떨어지면 최신 데이터로 알아서 재학습(Retraining)하여 배포하는 파이프라인 구축 기술이 **MLOps**입니다. 최근에는 무거운 LLM의 프롬프트와 버전을 관리하기 위한 **LLMOps** 개념까지 확장되어 MLE의 필수 역량이 되었습니다.`
+            },
+            {
+                id: 'trend-datamesh', category: 'AI 트렌드', icon: '🕸️', title: '거대한 데이터를 다루는 철학: 데이터 거버넌스와 Data Mesh',
+                tags: ['데이터거버넌스', 'DataMesh', '보안', '권한관리'],
+                shift: { past: '모든 부서의 데이터를 하나의 중앙 데이터 웨어하우스(Data Lake)에 몰아넣고, 소수의 중앙 데이터팀(DE)이 모든 요청을 독박 처리.', present: '각 도메인 부서(마케팅팀, 재무팀)가 스스로의 데이터를 생성/관리하고 API 형태로 타 부서에 제공하는 **분산형 아키텍처(Data Mesh)** 도입.' },
+                summary: '회사가 커질수록 데이터가 어디에, 어떤 기준으로 쌓여있는지 아무도 모르게 됩니다. 데이터를 자산으로 통제하는 뼈대(거버넌스)가 대두됩니다.',
+                content: `특정 코딩 기술이라기보다는, 데이터가 많아진 대기업/유니콘 스타트업이 반드시 겪는 **조직적(Architecture) 트렌드**입니다. 
+데이터가 기하급수적으로 쌓이면서 "어제 마케팅팀이 뽑은 매출액과 재무팀이 뽑은 매출액 숫자가 다릅니다!" 같은 참사가 매일 벌어집니다. 이를 막기 위해 데이터의 주인(Owner)을 명확히 하고, 컬럼의 정의를 사내 위키에 기록(Data Catalog)하며, 민감한 개인정보 접근 권한을 철저히 통제하는 **데이터 거버넌스(Governance)**의 중요성이 극대화되었습니다. 
+면접 시 "결측치를 채우기 전 원본 데이터의 출처와 기준을 어떻게 검증할 것인가?" 같은 질문으로 지원자의 데이터 철학을 묻기도 합니다.`
+            }
+        ];
+
+        // --- STATE & INITIALIZATION ---
+        let currentFilter = 'all';
+        let currentSubFilter = 'all';
+        let searchQuery = '';
+
+        const contentGrid = document.getElementById('contentGrid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const searchInput = document.getElementById('searchInput');
+        const subFilterContainer = document.getElementById('subFilterContainer');
+
+        // Modal Elements
+        const modal = document.getElementById('detailModal');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+        const modalHeaderLeft = document.getElementById('modalHeaderLeft');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalTags = document.getElementById('modalTags');
+        const modalJDSection = document.getElementById('modalJDSection');
+        const modalJDReq = document.getElementById('modalJDReq');
+        const modalJDTech = document.getElementById('modalJDTech');
+        const modalJDReview = document.getElementById('modalJDReview');
+        const modalShiftSection = document.getElementById('modalShiftSection');
+        const modalPastText = document.getElementById('modalPastText');
+        const modalPresentText = document.getElementById('modalPresentText');
+        const modalBody = document.getElementById('modalBody');
+        const modalExtraSection = document.getElementById('modalExtraSection');
+        const modalExtraTitle = document.getElementById('modalExtraTitle');
+        const modalExtraList = document.getElementById('modalExtraList');
+        const modalFooter = document.getElementById('modalFooter');
+
+        // Text parsing function for Custom Markdown **Highlight**
+        function parseHighlights(text) {
+            if (!text) return '';
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong class="skill-highlight">$1</strong>');
+        }
+
+        // ✅ 도메인/직무/채용공고 세분화 매핑
+        const subCategoryMap = {
+            '도메인': {
+                'dom-commerce': '커머스',
+                'dom-finance': '금융/핀테크',
+                'dom-game': '게임',
+                'dom-mfg': '제조/스마트팩토리',
+                'dom-mobility': '모빌리티/물류',
+                'dom-media': '미디어/콘텐츠',
+                'dom-hr': 'HR/People',
+                'dom-health': '헬스케어',
+                'dom-proptech': '프롭테크/부동산',
+                'dom-sports': '스포츠',
+                'dom-education': '에듀테크/교육',
+                'dom-public': '공공/스마트시티',
+                'dom-smartfarm': '스마트팜/애그테크',
+                'dom-marketing': '마케팅/애드테크',
+                'dom-saas': 'B2B SaaS',
+            },
+            '직무': {
+                'role-da': 'DA',
+                'role-ds': 'DS',
+                'role-de': 'DE',
+                'role-mle': 'MLE',
+                'role-ae': 'AE',
+                'role-growth': 'Growth',
+                'role-bi': 'BI',
+                'role-dpm': 'DPM',
+                'role-prompt': 'Prompt/AI',
+                'role-hr': 'People Analytics',
+                'role-quant': 'Quant',
+                'role-arch': 'Data Architect',
+                'role-platform': 'Data Platform',
+                'role-dq': 'Data Quality',
+                'role-governance': 'Governance',
+                'role-applied': 'Applied Scientist',
+                'role-llmops': 'LLM Engineer',
+            },
+            '채용공고': {
+                'jd-toss-da': 'DA',
+                'jd-daangn-mle': 'MLE',
+                'jd-naver-de': 'DE',
+                'jd-musinsa-ae': 'AE',
+                'jd-hyundai-ds': 'DS',
+                'jd-yanolja-growth': 'Growth',
+            }
+        };
+
+        const subFilterOrder = {
+            '채용공고': ['DA', 'DS', 'DE', 'AE', 'MLE', 'Growth'],
+            '직무': ['DA', 'DS', 'DE', 'AE', 'MLE', 'BI', 'Growth', 'DPM', 'Prompt/AI', 'People Analytics', 'Quant', 'Data Architect', 'Data Platform', 'Data Quality', 'Governance', 'Applied Scientist', 'LLM Engineer'],
+            '도메인': ['커머스', '금융/핀테크', '게임', '제조/스마트팩토리', '모빌리티/물류', '미디어/콘텐츠', '마케팅/애드테크', 'B2B SaaS', '헬스케어', '프롭테크/부동산', '에듀테크/교육', '스마트팜/애그테크', '공공/스마트시티', 'HR/People', '스포츠'],
+        };
+
+        function getSubCategory(item) {
+            if (!item) return null;
+            const map = subCategoryMap[item.category];
+            return map ? (map[item.id] || null) : null;
+        }
+
+        function updateFilterCounts() {
+            const counts = {
+                all: database.length,
+                '직무': database.filter(d => d.category === '직무').length,
+                '도메인': database.filter(d => d.category === '도메인').length,
+                'AI 트렌드': database.filter(d => d.category === 'AI 트렌드').length,
+                '채용공고': database.filter(d => d.category === '채용공고').length
+            };
+
+            document.querySelectorAll('[data-count]').forEach(el => {
+                const key = el.getAttribute('data-count');
+                el.textContent = (counts[key] ?? counts.all ?? 0);
+            });
+        }
+
+        function getAvailableSubCategories(cat) {
+            const set = new Set();
+            database.forEach(item => {
+                if (item.category !== cat) return;
+                const sub = getSubCategory(item);
+                if (sub) set.add(sub);
+            });
+
+            const arr = [...set];
+            const order = subFilterOrder[cat] || [];
+            const rank = (x) => {
+                const idx = order.indexOf(x);
+                return idx === -1 ? 9999 : idx;
+            };
+
+            arr.sort((a, b) => {
+                const ra = rank(a);
+                const rb = rank(b);
+                if (ra !== rb) return ra - rb;
+                return a.localeCompare(b, 'ko');
+            });
+
+            return arr;
+        }
+
+        function renderSubFilters() {
+            const cat = currentFilter;
+
+            // 세부필터를 지원하는 카테고리만 노출
+            if (!(cat in subCategoryMap)) {
+                subFilterContainer.classList.add('hidden');
+                subFilterContainer.innerHTML = '';
+                currentSubFilter = 'all';
+                return;
+            }
+
+            const subs = getAvailableSubCategories(cat);
+            if (subs.length === 0) {
+                subFilterContainer.classList.add('hidden');
+                subFilterContainer.innerHTML = '';
+                currentSubFilter = 'all';
+                return;
+            }
+
+            subFilterContainer.classList.remove('hidden');
+
+            subFilterContainer.innerHTML = `
+                <button class="subfilter-btn px-4 py-2 rounded-xl bg-white text-gray-700 border border-gray-200 font-bold text-sm transition-all shadow-sm hover:border-gray-900 hover:text-gray-900 ${currentSubFilter === 'all' ? 'active' : ''}"
+                    data-subfilter="all">전체</button>
+                ${subs.map(sub => `
+                    <button class="subfilter-btn px-4 py-2 rounded-xl bg-white text-gray-700 border border-gray-200 font-bold text-sm transition-all shadow-sm hover:border-gray-900 hover:text-gray-900 ${currentSubFilter === sub ? 'active' : ''}"
+                        data-subfilter="${sub}">${sub}</button>
+                `).join('')}
+            `;
+
+            const subBtns = subFilterContainer.querySelectorAll('.subfilter-btn');
+            subBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    subBtns.forEach(b => b.classList.remove('active'));
+                    const t = e.currentTarget;
+                    t.classList.add('active');
+                    currentSubFilter = t.getAttribute('data-subfilter');
+                    renderCards();
+                });
+            });
+        }
+
+        // --- RENDER CARDS ---
+        function renderCards() {
+            contentGrid.innerHTML = '';
+
+            const filteredData = database.filter(item => {
+                const matchFilter = currentFilter === 'all' || item.category === currentFilter;
+
+                const shouldUseSub = (currentFilter in subCategoryMap) && currentFilter !== 'all';
+                const sub = getSubCategory(item);
+                const matchSub = currentSubFilter === 'all' || sub === currentSubFilter;
+
+                const searchStr = `${item.title} ${item.tags.join(' ')} ${sub || ''} ${item.summary} ${item.content || ''}`.toLowerCase();
+                const matchSearch = searchStr.includes(searchQuery.toLowerCase());
+
+                return matchFilter && (shouldUseSub ? matchSub : true) && matchSearch;
+            });
+
+            if (filteredData.length === 0) {
+                contentGrid.innerHTML = `
+                    <div class="col-span-full py-24 text-center text-slate-500 bg-white rounded-3xl border-2 border-dashed border-slate-300">
+                        <span class="text-6xl block mb-4">🥲</span>
+                        <p class="text-xl font-bold text-slate-800 mb-2">검색 결과가 없습니다.</p>
+                        <p class="text-base">키워드를 변경하거나 필터를 '전체보기'로 바꿔보세요.</p>
+                    </div>`;
+                return;
+            }
+
+            filteredData.forEach(item => {
+                let badgeStyle = 'bg-slate-100 text-slate-700';
+                if (item.category === '직무') badgeStyle = 'bg-indigo-100 text-indigo-800 border border-indigo-200';
+                if (item.category === '도메인') badgeStyle = 'bg-blue-50 text-blue-700 border border-blue-200';
+                if (item.category === 'AI 트렌드') badgeStyle = 'bg-slate-800 text-white border border-slate-900';
+                if (item.isJD) badgeStyle = 'bg-green-600 text-white pulse-badge';
+
+                let deadlineHTML = '';
+                if (item.isJD) {
+                    deadlineHTML = `<span class="text-[11px] font-black bg-green-100 text-green-800 px-2 py-1 rounded border border-green-200">${item.deadline}</span>`;
+                }
+
+                const sub = getSubCategory(item);
+                const subBadgeHTML = sub
+                    ? `<span class="px-3 py-1.5 rounded-lg text-[11px] font-black bg-slate-50 text-slate-700 border border-slate-200 shadow-sm uppercase tracking-wider">${sub}</span>`
+                    : '';
+
+                const cardHTML = `
+                    <div class="sparta-card bg-white rounded-2xl shadow-sm border ${item.isJD ? 'border-green-300 ring-2 ring-green-100' : 'border-slate-200'} p-6 cursor-pointer flex flex-col h-full group" onclick="openModal('${item.id}')">
+                        <div class="flex items-center justify-between mb-5">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="px-3 py-1.5 rounded-lg text-[11px] font-black ${badgeStyle} uppercase tracking-wider shadow-sm">${item.category}</span>
+                                ${subBadgeHTML}
+                                ${deadlineHTML}
+                            </div>
+                            <span class="text-3xl bg-slate-50 w-12 h-12 flex items-center justify-center rounded-xl group-hover:scale-110 transition-transform shadow-inner">${item.icon}</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold mb-3 text-slate-900 leading-snug group-hover:text-red-600 transition-colors">${item.title}</h3>
+                        <p class="text-slate-600 mb-5 text-sm flex-grow line-clamp-3 leading-relaxed font-medium">${item.summary}</p>
+                        <div class="flex flex-wrap gap-1.5 mt-auto pt-4 border-t border-slate-100">
+                            ${item.tags.slice(0, 4).map(tag => `<span class="text-[11px] text-slate-600 bg-slate-100 px-2 py-1 rounded-md font-bold">#${tag}</span>`).join('')}
+                            ${item.tags.length > 4 ? `<span class="text-[11px] text-slate-400 font-bold px-1 py-1">+${item.tags.length - 4}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+                contentGrid.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+
+        // --- MODAL LOGIC ---
+        function openModal(id) {
+            const data = database.find(item => item.id === id);
+            if (!data) return;
+
+            const sub = getSubCategory(data);
+            const subBadge = sub
+                ? `<span class="text-xs font-black bg-slate-100 text-slate-700 uppercase tracking-wider px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">${sub}</span>`
+                : '';
+
+            // Header
+            modalHeaderLeft.innerHTML = `
+                <span class="text-xs font-black ${data.isJD ? 'bg-green-600 text-white' : 'bg-slate-900 text-white'} uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">${data.category}</span>
+                ${subBadge}
+            `;
+
+            // Basics
+            modalTitle.textContent = data.title;
+
+            // Body
+            let parsedContent = parseHighlights(data.content.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>'));
+            modalBody.innerHTML = parsedContent;
+
+            modalTags.innerHTML = data.tags.map(tag => `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-sm rounded-lg font-bold border border-slate-200">#${tag}</span>`).join('');
+
+            // Reset Subsections
+            modalJDSection.classList.add('hidden');
+            modalShiftSection.classList.add('hidden');
+            modalExtraSection.classList.add('hidden');
+
+            // Footer Reset
+            modalFooter.innerHTML = '<button onclick="closeModal()" class="px-8 py-3 bg-slate-900 text-white rounded-xl hover:bg-black font-bold transition-colors shadow-md">닫기</button>';
+
+            if (data.isJD) {
+                modalJDReq.innerHTML = data.qualifications.map(q => `<li>${parseHighlights(q)}</li>`).join('');
+                modalJDTech.innerHTML = data.techStack.map(t => `<span class="px-3 py-1.5 bg-white text-green-700 text-xs font-black rounded-lg shadow-sm border border-green-200">${t}</span>`).join('');
+                modalJDReview.innerHTML = parseHighlights(data.review);
+                modalJDSection.classList.remove('hidden');
+                modalFooter.insertAdjacentHTML('afterbegin', `<button class="px-6 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors shadow-md">🚀 채용 공고 지원하기 (모의)</button>`);
+            } else if (data.shift) {
+                modalPastText.innerHTML = parseHighlights(data.shift.past);
+                modalPresentText.innerHTML = parseHighlights(data.shift.present);
+                modalShiftSection.classList.remove('hidden');
+            }
+
+            if (data.extraTitle && data.extraList && data.extraList.length > 0) {
+                modalExtraTitle.innerHTML = `<span>💡</span> ${data.extraTitle}`;
+                modalExtraList.innerHTML = data.extraList.map(item => `<li>${parseHighlights(item)}</li>`).join('');
+                modalExtraSection.classList.remove('hidden');
+            }
+
+            // Animate In
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modalOverlay.classList.remove('opacity-0');
+            modalOverlay.classList.add('opacity-100');
+            modalContent.classList.remove('opacity-0', 'scale-95');
+            modalContent.classList.add('opacity-100', 'scale-100');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('opacity-100');
+            modalOverlay.classList.add('opacity-0');
+            modalContent.classList.remove('opacity-100', 'scale-100');
+            modalContent.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); document.body.style.overflow = 'auto'; }, 300);
+        }
+
+        // --- EVENT LISTENERS ---
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                const t = e.currentTarget;
+                t.classList.add('active');
+
+                currentFilter = t.getAttribute('data-filter');
+                currentSubFilter = 'all';
+
+                renderSubFilters();
+                renderCards();
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => { searchQuery = e.target.value; renderCards(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
+
+        // --- CHARTS INITIALIZATION (Chart.js) ---
+        function initCharts() {
+            Chart.defaults.font.family = "'Pretendard', sans-serif";
+            Chart.defaults.color = '#64748B';
+
+            // 1. Skills Chart
+            new Chart(document.getElementById('skillsChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['SQL/데이터가공', 'Python(ML/분석)', 'Airflow/dbt', 'Tableau(BI)', 'Docker/Linux/GPU'],
+                    datasets: [{
+                        data: [96, 88, 75, 65, 60],
+                        backgroundColor: ['#0F172A', '#334155', '#DC2626', '#F87171', '#94A3B8'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true, max: 100, grid: { color: '#F1F5F9' } }, y: { grid: { display: false }, ticks: { font: { weight: 'bold' } } } }
+                }
+            });
+
+            // 2. Domain Matrix Chart (Stacked Bar)
+            new Chart(document.getElementById('domainChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['이커머스/커머스', '금융/핀테크', '게임', '스마트팩토리', '모빌리티', '의료/헬스케어'],
+                    datasets: [
+                        { label: '비즈니스 분석/기획(DA)', data: [55, 40, 30, 10, 30, 20], backgroundColor: '#0F172A' },
+                        { label: '데이터 인프라 구축(DE/AE)', data: [25, 35, 45, 50, 40, 30], backgroundColor: '#94A3B8' },
+                        { label: 'AI/알고리즘 연구(DS/MLE)', data: [20, 25, 25, 40, 30, 50], backgroundColor: '#DC2626' }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
+                    scales: { x: { stacked: true, grid: { display: false }, ticks: { font: { size: 9 } } }, y: { stacked: true, grid: { color: '#F1F5F9' } } }
+                }
+            });
+
+            // 3. Role Trend (Doughnut)
+            new Chart(document.getElementById('roleTrendChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Data Analyst (기획)', 'AI/ML Engineer (서빙)', 'Data Engineer (인프라)', 'Analytics Eng / Growth', '기타 (DS 연구 등)'],
+                    datasets: [{
+                        data: [30, 30, 20, 15, 5],
+                        backgroundColor: ['#0F172A', '#DC2626', '#94A3B8', '#FCA5A5', '#E2E8F0'],
+                        borderWidth: 0, hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'right', labels: { padding: 12, usePointStyle: true, font: { size: 11, weight: 'bold' } } } },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        // INIT
+        updateFilterCounts();
+        renderSubFilters();
+        renderCards();
+        setTimeout(initCharts, 200);
+    </script>
+</body>
+
+</html>
