@@ -1,0 +1,2936 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPARTA Data Career Bible (All-in-One)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap');
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 320px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #fca5a5;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ef4444;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .sparta-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sparta-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(220, 38, 38, 0.10), 0 10px 10px -5px rgba(220, 38, 38, 0.04);
+            border-color: #fca5a5;
+        }
+
+        .pulse-badge {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .5;
+            }
+        }
+
+        #modal-overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #modal-content {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        /* Thick, Red Highlight for Skills/Competencies */
+        .skill-highlight {
+            font-weight: 900;
+            color: #B91C1C;
+            background-color: #FEF2F2;
+            padding: 2px 6px;
+            border-radius: 6px;
+            border: 1px solid #FECACA;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            display: inline-block;
+            margin: 2px 0;
+        }
+
+        /* Accordion tweaks */
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="antialiased flex flex-col min-h-screen selection:bg-red-200 selection:text-red-900">
+
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+        <div class="w-full h-1.5 bg-gradient-to-r from-red-600 to-red-400"></div>
+        <div
+            class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3 w-full lg:w-auto">
+                <div class="bg-red-600 text-white px-3 py-1.5 rounded-lg font-black text-xl tracking-tighter shadow-sm">
+                    SPARTA
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-end sm:gap-2">
+                    <h1 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">
+                        Data Career Bible
+                    </h1>
+                    <div class="text-sm text-red-600 font-extrabold">2026 올인원 (직무/도메인/컨설팅/BA)</div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-[520px] relative">
+                <input type="text" id="searchInput"
+                    placeholder="검색 (예: Business Analyst, 컨설팅, RAG, 데이터웨어하우스, SQL, 스마트팜...)"
+                    class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition-all font-medium shadow-inner" />
+                <span class="absolute left-4 top-3.5 text-gray-400">🔍</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <div
+            class="mb-10 bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-6 items-center">
+            <div class="flex-grow">
+                <h2 class="text-3xl font-extrabold mb-3 text-gray-900 leading-tight">
+                    🔥 데이터 직무/도메인/컨설팅 <span class="text-red-600">A to Z</span>
+                </h2>
+                <p class="text-gray-600 text-[17px] leading-relaxed font-medium">
+                    Role은 나의 <strong>무기</strong>이고, Domain은 내가 싸울 <strong>전장</strong>입니다.<br />
+                    여기에 <strong>Business Analyst(BA)</strong>와 <strong>Data/AI 컨설턴트</strong>를 분리해 “현업 기준”으로
+                    완성했습니다.<br />
+                    각 카드에는 <strong>현업에서 실제 하는 일</strong>, <strong>핵심 지식 체크리스트</strong>, <strong>면접 질문(토글)</strong>까지
+                    포함됩니다.
+                </p>
+            </div>
+            <div class="w-full md:w-auto flex flex-col gap-2">
+                <div class="bg-red-50 border border-red-100 rounded-2xl px-5 py-4">
+                    <div class="text-xs font-black text-red-700">빠른 사용법</div>
+                    <div class="text-sm font-bold text-red-900 mt-1 leading-relaxed">
+                        1) 필터 선택 → 2) 카드 클릭 → 3) 면접 질문 토글 펼치기
+                    </div>
+                </div>
+                <div class="text-xs text-slate-400 font-semibold">
+                    (Mock Data 기반 / 자유롭게 수정 가능)
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2.5 mb-8" id="filterContainer"></div>
+
+        <div id="contentGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-16"></div>
+
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-6 sm:p-10 mt-12 mb-10">
+            <div class="mb-10 border-b border-gray-100 pb-6">
+                <h3 class="text-3xl font-extrabold mb-2 text-gray-900">📊 2026.03 데이터 채용 트렌드 대시보드</h3>
+                <p class="text-gray-500 font-medium">최근 14일 800+ 공고 기반 “핵심 툴/언어” 수요 시각화 (Mock Data)</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="flex flex-col items-center w-full">
+                    <h4
+                        class="text-sm font-extrabold mb-4 text-gray-700 bg-gray-50 px-4 py-2 rounded-lg w-full text-center">
+                        필수 툴/언어 중요도 (전체 시장)
+                    </h4>
+                    <div class="chart-wrapper"><canvas id="skillsChart"></canvas></div>
+                </div>
+
+                <div class="flex flex-col items-center w-full">
+                    <h4
+                        class="text-sm font-extrabold mb-4 text-gray-700 bg-gray-50 px-4 py-2 rounded-lg w-full text-center">
+                        도메인별 TOP 스킬 수요 분포
+                    </h4>
+                    <div class="chart-wrapper"><canvas id="domainChart"></canvas></div>
+                </div>
+
+                <div class="flex flex-col items-center w-full">
+                    <h4
+                        class="text-sm font-extrabold mb-4 text-gray-700 bg-gray-50 px-4 py-2 rounded-lg w-full text-center">
+                        AI 시대 직무 수요 변화(TO)
+                    </h4>
+                    <div class="chart-wrapper"><canvas id="roleTrendChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="detailModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6"
+        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div id="modal-overlay"
+            class="fixed inset-0 bg-gray-900 bg-opacity-60 backdrop-blur-sm opacity-0 cursor-pointer" aria-hidden="true"
+            onclick="closeModal()"></div>
+
+        <div id="modal-content"
+            class="relative bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 flex flex-col">
+            <div
+                class="sticky top-0 bg-white/95 backdrop-blur-md px-6 py-4 flex justify-between items-center z-20 border-b border-gray-100">
+                <div class="flex items-center gap-3" id="modalHeaderLeft"></div>
+                <button onclick="closeModal()"
+                    class="text-gray-400 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition-colors font-bold text-xl">&times;</button>
+            </div>
+
+            <div class="px-6 py-8 flex-grow">
+                <h2 id="modalTitle" class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-6 leading-snug">Title
+                </h2>
+
+                <div id="modalTags" class="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-100"></div>
+
+                <div id="modalJDSection" class="hidden mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-sm">
+                        <div
+                            class="text-sm font-black text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-200 pb-2">
+                            ✅ 직무/자격 요건 (Qualifications)
+                        </div>
+                        <ul id="modalJDReq" class="list-disc pl-5 space-y-3 text-gray-700 text-[15px] leading-relaxed">
+                        </ul>
+                    </div>
+
+                    <div class="bg-red-50 p-6 rounded-2xl border border-red-100 shadow-sm">
+                        <div
+                            class="text-sm font-black text-red-900 mb-4 flex items-center gap-2 border-b border-red-200 pb-2">
+                            🛠️ 필수 기술 스택 (Tech Stack)
+                        </div>
+                        <div id="modalJDTech" class="flex flex-wrap gap-2"></div>
+
+                        <div
+                            class="mt-6 text-sm font-black text-red-900 mb-3 flex items-center gap-2 border-b border-red-200 pb-2">
+                            💡 합격자/실무자 리뷰
+                        </div>
+                        <div id="modalJDReview" class="text-[14px] text-red-800 leading-relaxed italic"></div>
+                    </div>
+                </div>
+
+                <div id="modalShiftSection" class="hidden mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                        <div class="text-sm font-black text-gray-400 mb-3 uppercase flex items-center gap-2">
+                            <span>⏪</span> 기존의 패러다임
+                        </div>
+                        <div id="modalPastText" class="text-gray-600 font-medium leading-relaxed"></div>
+                    </div>
+                    <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100 shadow-sm">
+                        <div class="text-sm font-black text-indigo-700 mb-3 uppercase flex items-center gap-2">
+                            <span>🚀</span> AI 도입 및 현재 트렌드
+                        </div>
+                        <div id="modalPresentText" class="text-indigo-900 font-bold leading-relaxed"></div>
+                    </div>
+                </div>
+
+                <div class="prose max-w-none text-gray-700 leading-relaxed space-y-6">
+
+                    <div id="modalRelatedRolesSection" class="hidden mt-2 mb-6 pb-6 border-b border-slate-100">
+                        <div class="flex items-center gap-3 mb-1">
+                            <div class="w-1 h-7 bg-red-600 rounded-full flex-shrink-0"></div>
+                            <h3 class="text-xl font-extrabold text-slate-900">이 도메인에서 활약하는 직무</h3>
+                            <span class="text-[11px] font-black text-red-600 bg-red-50 px-2.5 py-1 rounded-lg border border-red-100 whitespace-nowrap">카드 클릭 → A to Z 상세 보기</span>
+                        </div>
+                        <p class="text-sm text-slate-400 font-medium mb-4 ml-4">각 직무를 클릭하면 현업에서 하는 일, 핵심 역량, 면접 질문까지 확인할 수 있어요</p>
+                        <div id="modalRelatedRolesList" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                    </div>
+
+                    <div id="modalBody" class="whitespace-pre-line text-[16px]"></div>
+
+                    <div id="modalExtraSection"
+                        class="hidden mt-10 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                        <h3 id="modalExtraTitle"
+                            class="text-lg font-extrabold mb-4 text-slate-900 flex items-center gap-2"></h3>
+                        <ul id="modalExtraList"
+                            class="list-disc pl-5 space-y-3 text-slate-700 font-medium marker:text-red-500 text-[15px]">
+                        </ul>
+                    </div>
+
+                    <div id="modalWorkSection" class="hidden mt-6 bg-white p-6 rounded-2xl border border-slate-200">
+                        <h3 class="text-lg font-extrabold mb-4 text-slate-900 flex items-center gap-2">
+                            <span>🧩</span> 현업에서 실제 하는 일 (업무 예시)
+                        </h3>
+                        <ul id="modalWorkList"
+                            class="list-disc pl-5 space-y-3 text-slate-700 font-medium marker:text-red-500 text-[15px]">
+                        </ul>
+                    </div>
+
+                    <div id="modalKnowledgeSection"
+                        class="hidden mt-6 bg-white p-6 rounded-2xl border border-slate-200">
+                        <h3 class="text-lg font-extrabold mb-4 text-slate-900 flex items-center gap-2">
+                            <span>🧠</span> 핵심 지식 체크리스트
+                        </h3>
+                        <ul id="modalKnowledgeList"
+                            class="list-disc pl-5 space-y-3 text-slate-700 font-medium marker:text-red-500 text-[15px]">
+                        </ul>
+                    </div>
+
+                    <div id="modalWinnerSection" class="hidden mt-6 bg-white p-6 rounded-2xl border border-slate-200">
+                        <h3 class="text-lg font-extrabold mb-4 text-slate-900 flex items-center gap-2">
+                            <span>🏅</span> 합격자/실무자 인터뷰 스니펫
+                        </h3>
+                        <div id="modalWinnerList" class="space-y-3 text-[15px]"></div>
+                    </div>
+
+                    <div id="modalPlaybookSection" class="hidden"></div>
+
+                    <div id="modalInterviewSection"
+                        class="hidden mt-6 bg-white p-6 rounded-2xl border border-slate-200">
+                        <h3 id="modalInterviewTitle"
+                            class="text-lg font-extrabold mb-4 text-slate-900 flex items-center gap-2">
+                            <span>🎤</span> 면접 질문
+                        </h3>
+                        <div id="modalInterviewList" class="space-y-3"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bg-gray-50 px-6 py-5 rounded-b-3xl border-t border-gray-200 flex justify-end" id="modalFooter">
+                <button onclick="closeModal()"
+                    class="px-8 py-3 bg-gray-900 text-white rounded-xl hover:bg-black font-bold transition-colors shadow-md">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================
+        // Helpers
+        // =========================
+        function parseHighlights(text) {
+            if (!text) return '';
+            return String(text).replace(/\*\*(.*?)\*\*/g, '<strong class="skill-highlight">$1</strong>');
+        }
+
+        function escapeHTML(str) {
+            return String(str)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+        // =========================
+        // Database (All-in-One)
+        // =========================
+        const database = [
+            // ==========================================================
+            // 1) 최신 채용공고 (Mock)
+            // ==========================================================
+            {
+                id: 'jd-toss-da',
+                category: '채용공고',
+                icon: '💼',
+                title: '[토스(Toss)] 여/수신 Data Analyst',
+                tags: ['금융', 'A/B테스트', '주니어', 'SQL', 'Amplitude'],
+                isJD: true,
+                deadline: '26.03.12 (D-10)',
+                summary: '예적금/대출 고객 여정을 분석하고 실험으로 비즈니스 임팩트를 만드는 주니어 분석가 포지션.',
+                qualifications: [
+                    '관련 실무 경력 1~3년 또는 이에 준하는 **프로젝트 경험 및 비즈니스 이해도**',
+                    '복잡한 비즈니스 로직을 **SQL**로 완벽히 추출하고 가공할 수 있는 역량 (고난도 코테)',
+                    '통계적 방법론을 활용한 **A/B 테스트 설계** 및 결과 해석 능력',
+                    '데이터를 바탕으로 **PO/현업을 논리적으로 설득**할 수 있는 커뮤니케이션'
+                ],
+                techStack: ['SQL (Window Function)', 'Python', 'Tableau', 'BigQuery', 'Amplitude'],
+                review: '“단순 쿼리 작성자가 아니라 **왜 이 데이터를 봐야 하는가**를 집요하게 파고, 임팩트를 **%로 증명**해야 합니다. 코테는 **Window/CTE/복잡 JOIN**이 자주 나옵니다.”',
+                content:
+                    `토스뱅크 여/수신은 은행의 핵심 매출을 책임지는 영역입니다.\n` +
+                    `고객이 대출/예적금 상품을 탐색→신청→심사→실행하는 **퍼널(Funnel)**을 정의하고,\n` +
+                    `이탈 구간을 좁혀 **전환율(CVR)**과 **승인율**을 끌어올리는 것이 핵심입니다.\n\n` +
+                    `**[이 포지션의 진짜 난이도]**\n` +
+                    `- 데이터가 “정답”이 아니라, 현업의 의사결정이 “정답”입니다.\n` +
+                    `- 그래서 **지표 정의(분모/분자/집계 기준)**와 **설명력(스토리)**이 합격을 가릅니다.\n`
+            },
+            {
+                id: 'jd-daangn-mle',
+                category: '채용공고',
+                icon: '💼',
+                title: '[당근] 추천/검색 AI/ML Engineer',
+                tags: ['커머스', '추천시스템', 'MLOps', 'PyTorch', 'Kubernetes', 'vLLM'],
+                isJD: true,
+                deadline: '26.03.08 (D-6)',
+                summary: '홈피드/검색 결과를 고도화하는 추천 모델을 연구하고 서비스에 서빙(Serving)합니다.',
+                qualifications: [
+                    '**Recommendation(추천)**, NLP, CV 관련 석사 이상 또는 이에 준하는 실무',
+                    '대용량 트래픽에서 모델 **Inference 속도 최적화(API Serving)** 경험',
+                    'HuggingFace, **vLLM** 등 활용한 오픈소스 **LLM 파인튜닝** 경험 우대',
+                    '**Docker, Kubernetes** 기반 ML 인프라 활용 경험'
+                ],
+                techStack: ['PyTorch', 'FastAPI', 'Kubernetes', 'Airflow', 'vLLM'],
+                review: '“연구자보다 **실서비스 배포/Latency 최적화** 경험을 봅니다. 포트폴리오에 **Docker로 모델 배포** 경험이 있으면 강합니다.”',
+                content:
+                    `수천만 개의 거래 로그/피드 행동 데이터를 기반으로,\n` +
+                    `유저가 원하는 중고 물품을 **0.1초** 안에 띄우는 초개인화 엔진을 만듭니다.\n\n` +
+                    `**[핵심 체크]**\n` +
+                    `- Offline 지표가 좋아도 Online에서 망할 수 있습니다. (데이터 누수/서빙 편향)\n` +
+                    `- “모델”보다 “서빙/관측/재학습”이 실전에서 더 중요합니다.\n`
+            },
+            {
+                id: 'jd-naver-de',
+                category: '채용공고',
+                icon: '💼',
+                title: '[네이버웹툰] 글로벌 트래픽 Data Engineer',
+                tags: ['미디어/콘텐츠', 'Spark', 'Kafka', '스트리밍', 'Airflow'],
+                isJD: true,
+                deadline: '26.03.15 (D-13)',
+                summary: '글로벌 사용자 로그를 실시간으로 수집/처리하는 스트리밍 파이프라인을 구축합니다.',
+                qualifications: [
+                    '**Java, Scala, Python** 중 1개 이상 능숙',
+                    '**Hadoop, Apache Spark** 대용량 분산 처리 생태계 경험',
+                    '**Kafka, Flink** 기반 실시간 **Streaming Processing** 경험 우대',
+                    '**Apache Airflow** 기반 파이프라인 운영 경험'
+                ],
+                techStack: ['Apache Spark', 'Kafka', 'Hadoop', 'Airflow', 'Scala'],
+                review: '“단일 DB 쿼리 수준을 넘어, **분산 컴퓨팅**과 **장애 대응 아키텍처** 이해가 핵심입니다.”',
+                content:
+                    `글로벌 수억 명 독자의 스크롤/클릭 로그는 초단위로 폭증합니다.\n` +
+                    `DS/DA가 추천/지표를 돌릴 수 있게, 데이터를 **지연 없이** 적재하는 “운영형” 파이프라인이 핵심입니다.\n`
+            },
+            {
+                id: 'jd-musinsa-ae',
+                category: '채용공고',
+                icon: '💼',
+                title: '[무신사] Analytics Engineer (dbt/데이터 모델링)',
+                tags: ['커머스', 'dbt', '데이터웨어하우스', 'SQL', 'BigQuery'],
+                isJD: true,
+                deadline: '상시채용',
+                summary: '전사가 신뢰하는 데이터 마트를 dbt로 구축하고 SQL 모델링을 운영합니다.',
+                qualifications: [
+                    '복잡한 원천 데이터를 유지보수 가능한 형태로 변환하는 **초고급 SQL**',
+                    '**dbt** 기반 변환 파이프라인 구축 경험',
+                    '**Git** 기반 형상 관리 및 **CI/CD 프로세스** 적용 경험',
+                    '**데이터 품질(Data Quality)**, 리니지(Lineage) 이해'
+                ],
+                techStack: ['SQL', 'dbt', 'BigQuery', 'Git', 'Airflow'],
+                review: '“**쿼리 실행 시간을 N% 단축**한 경험과, **dbt 도입으로 생산성 개선**을 증명하면 강합니다.”',
+                content:
+                    `AE는 지저분한 원천 데이터를 “분석하기 예쁜 형태(데이터 마트)”로 가공합니다.\n` +
+                    `핵심은 SQL만 잘 쓰는 게 아니라, **테스트/문서화/버전관리**까지 “소프트웨어 공학”으로 끌어오는 것입니다.\n`
+            },
+            {
+                id: 'jd-hyundai-ds',
+                category: '채용공고',
+                icon: '💼',
+                title: '[현대오토에버] 스마트팩토리 시계열 Data Scientist',
+                tags: ['제조', '시계열', '예지보전', '이상탐지', '센서'],
+                isJD: true,
+                deadline: '26.03.14 (D-12)',
+                summary: '공정 센서 데이터를 분석해 설비 고장 예측과 수율 개선 모델을 개발합니다.',
+                qualifications: [
+                    '통계/산공/컴공 등 관련 전공 학사/석사',
+                    '대규모 **시계열 데이터(Time-Series)** 노이즈 처리/전처리 역량',
+                    'LSTM/AutoEncoder 기반 **이상탐지/예지보전(PdM)** 모델 경험',
+                    '현장 도메인 지식을 데이터로 번역하는 **커뮤니케이션 능력**'
+                ],
+                techStack: ['Python', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'SQL'],
+                review: '“제조 데이터는 더럽습니다. 화려한 모델보다 **결측/노이즈를 어떻게 견고하게 처리했는지**를 봅니다.”',
+                content:
+                    `1초에 수만 개씩 쏟아지는 센서 데이터를 분석해,\n` +
+                    `멈추면 수백억 손실인 공장 설비를 지키는 역할입니다.\n\n` +
+                    `**[핵심]**\n` +
+                    `- 모델 정확도보다 **알람의 신뢰도(오탐/미탐)**가 중요합니다.\n` +
+                    `- “현장 적용”까지 설계하지 않으면 프로젝트가 죽습니다.\n`
+            },
+            {
+                id: 'jd-yanolja-growth',
+                category: '채용공고',
+                icon: '💼',
+                title: '[야놀자] Growth Hacker (CRM/퍼포먼스)',
+                tags: ['마케팅', 'GA4', 'CRM', 'AARRR', 'SQL', 'Braze'],
+                isJD: true,
+                deadline: '26.03.06 (D-4)',
+                summary: '내부 퍼스트파티 데이터를 직접 추출/분석해 전환율과 매출을 끌어올립니다.',
+                qualifications: [
+                    '개발자 도움 없이 **스스로 SQL**로 타겟 세그먼트 추출',
+                    '**GA4/Amplitude/Mixpanel** 등 Product Analytics 경험',
+                    '**Braze** 등 CRM 자동화 세팅 및 성과 분석 경험',
+                    '**A/B 테스트** 기획/운영/가설 검증 경험'
+                ],
+                techStack: ['SQL', 'GA4', 'Amplitude', 'Braze', 'Tableau'],
+                review: '“외부 광고 경험만으론 부족합니다. **앱 내부 데이터 SQL 추출→코호트 분석→캠페인→매출 O% 개선**을 봅니다.”',
+                content:
+                    `그로스는 “유입”이 아니라 “전환/리텐션/매출”을 책임지는 실험 조직입니다.\n` +
+                    `데이터를 직접 뽑아 **코호트/퍼널**로 병목을 찾고, CRM 캠페인을 반복 최적화합니다.\n`
+            },
+
+            // ==========================================================
+            // 2) 직무/역할 (Role Bible)
+            // ==========================================================
+            {
+                id: 'role-ba',
+                category: '직무',
+                icon: '🧩',
+                title: '비즈니스 애널리스트 (Business Analyst, BA)',
+                tags: ['요구사항정의', '프로세스개선', '문서화', 'Stakeholder', '데이터정의', 'UAT'],
+                shift: {
+                    past: '“회의록 쓰고, 요청사항 정리해서 개발팀에 던지는 사람”으로 오해받는 **문서 담당자**.',
+                    present: 'AI/데이터 프로젝트가 늘면서, BA는 **비즈니스 언어 ↔ 데이터/기술 언어 번역기**이자 **정의(Definition) 책임자**로 격상. “무엇을 만들지”를 정하고, “무엇이 성공인지”를 수치로 잠그는 역할.'
+                },
+                summary: 'BA는 “분석(Analysis)”보다 “정의(Definition)”로 먹고 삽니다. 데이터/AI가 성공하려면 BA가 먼저 성공합니다.',
+                content:
+                    `BA는 회사의 문제를 “개발/데이터 팀이 실행 가능한 형태”로 번역합니다.\n\n` +
+                    `**[BA가 만드는 것(산출물)]**\n` +
+                    `- **요구사항 정의서(BRD/FRD/DRD)**: 무엇을 왜 만들어야 하는지, 성공 기준이 무엇인지\n` +
+                    `- **프로세스(As-is/To-be) 맵**: 지금 흐름/바꿀 흐름을 한 장으로 고정\n` +
+                    `- **지표/용어 정의서(Data Dictionary & Metric Spec)**: “매출”, “활성”, “전환”의 분모/분자/조건\n` +
+                    `- **UAT(Test) 시나리오**: 만들고 끝이 아니라, “맞게 만들었는지” 검증\n\n` +
+                    `**[데이터/AI 프로젝트에서 BA가 핵심인 이유]**\n` +
+                    `데이터 팀이 제일 많이 망하는 이유는 모델/파이프라인이 아니라,\n` +
+                    `**‘성공 정의가 없는 상태로 만들기부터 시작’**하기 때문입니다.\n` +
+                    `BA는 문제를 **KPI 트리**로 쪼개고, 데이터 정의를 고정하고, 범위를 잠그고,\n` +
+                    `현업이 실제로 쓰게 만드는 “채택(Adoption)”까지 설계합니다.\n\n` +
+                    `**[DA와의 차이(중요)]**\n` +
+                    `- DA: 데이터로 “원인/인사이트”를 뽑아 의사결정을 돕는 역할\n` +
+                    `- BA: “무엇을 만들지/어떤 지표를 성공으로 볼지”를 정의해 실행을 가능하게 하는 역할\n`
+                ,
+                extraTitle: 'BA 필수 역량 & 툴킷',
+                extraList: [
+                    '**문제 구조화**: SCQA / MECE / Issue Tree로 문제를 쪼개고 정의를 잠그기',
+                    '**요구사항 문서화**: User Story + Acceptance Criteria + Decision Log',
+                    '**지표/용어 정의**: 분모/분자/윈도우/중복/환불/취소 등 예외 케이스를 먼저 박제',
+                    '**프로세스 설계**: As-is/To-be, 병목(Bottleneck)과 통제점(Control Point) 도출',
+                    '**데이터 리터러시**: **SQL 기본(Join/Window)**로 검증 가능한 수준 + 이벤트 설계 감각',
+                    '**UAT/검증**: Edge Case 테스트 케이스를 선제적으로 설계'
+                ],
+                workExamples: [
+                    '신규 기능 런칭 전, “성공 KPI”를 **North Star + Input Metric + Guardrail**로 분해하고 정의서 배포',
+                    '데이터팀/개발팀에 전달할 **데이터 요구사항(DRD)** 작성: 필요한 컬럼, 그레인(grain), 리프레시 주기, 소스, 품질 기준',
+                    'As-is 프로세스에서 병목(예: 승인/심사/CS)을 찾고 To-be를 설계해 **리드타임 N% 단축**',
+                    '이벤트 로깅 설계(이벤트명/파라미터/트리거/중복/세션 정의) 및 수집 누락 점검',
+                    'UAT 계획 수립: 정상/비정상/경계값 시나리오, 샘플 데이터 준비, 검증 체크리스트 운영',
+                    '스코프 크립 방지: Change Request 템플릿 운영 + 우선순위 재정렬(RICE/WSJF)',
+                    '데이터 정의 충돌(“매출”이 팀마다 다름) 발생 시, 의사결정 회의 운영 후 **Decision Log**로 고정'
+                ],
+                knowledgeChecklist: [
+                    '**KPI 정의 5요소**: 목적(Why) / 공식(Formula) / 윈도우(Time) / 포함·제외(In/Out) / 소스(Source)',
+                    '**Grain(그레인)**: 유저 단위인지, 주문 단위인지, 세션 단위인지가 분석/모델을 결정',
+                    '**Acceptance Criteria**: “완료”를 테스트 가능한 문장으로 바꾸기',
+                    '**Decision Log**: 회의에서 결정된 내용을 “번복 불가”하게 기록',
+                    '**MoSCoW / RICE / WSJF** 우선순위 프레임',
+                    '**UAT vs QA**: QA는 “버그”, UAT는 “요구사항 충족”',
+                    '**데이터 품질 차원**: 정확성/완전성/일관성/적시성/유일성'
+                ],
+                winnerQuotes: [
+                    '“BA 면접은 문서 예쁘게 쓰는지보다, **정의 충돌을 어떻게 끝냈는지**를 봅니다.”',
+                    '“지표 정의서에 예외 케이스(환불/취소/중복)가 없으면, 실무에서 바로 깨집니다.”',
+                    '“SQL은 코테 수준이 아니라 **검증 가능한 수준**이면 충분한데, 대신 정의를 제대로 해야 합니다.”'
+                ],
+                interviewQuestions: [
+                    {
+                        q: 'BA와 DA(데이터 애널리스트)의 차이를 한 문단으로 설명해보세요.',
+                        a: [
+                            'DA는 데이터로 **원인/인사이트**를 도출해 의사결정을 돕고, BA는 **무엇을 만들지/성공 기준이 무엇인지**를 정의합니다.',
+                            'BA는 “정의(Definition)”를 잠그는 사람이라, **지표·용어·요구사항**이 핵심 산출물입니다.',
+                            '프로젝트가 망하는 가장 흔한 이유는 “데이터가 없어서”가 아니라 **성공 정의가 없어서**입니다.'
+                        ],
+                        follow: ['그럼 BA가 SQL을 얼마나 해야 합니까?', 'DA가 요구사항 정의까지 하면 BA는 필요 없지 않나요?']
+                    },
+                    {
+                        q: '요구사항 수집부터 문서화까지의 프로세스를 어떻게 가져가나요?',
+                        a: [
+                            '1) Stakeholder 맵핑 → 2) As-is 관찰/인터뷰 → 3) 문제를 Issue Tree로 분해 → 4) To-be 옵션 설계 → 5) User Story + Acceptance Criteria로 고정합니다.',
+                            '회의는 “토론”이 아니라 **결정**을 만들기 위해 운영하고, 결정은 **Decision Log**로 남깁니다.',
+                            '스코프는 MoSCoW(필수/선택/나중/제외)로 잠그고, 변경 요청은 Change Request로 통제합니다.'
+                        ]
+                    },
+                    {
+                        q: 'KPI를 정의할 때 반드시 포함해야 하는 요소는 무엇인가요?',
+                        a: [
+                            '**공식(Formula)**: 분자/분모/조건(예: 환불·취소 포함 여부)까지 문장으로 박제',
+                            '**윈도우(Time Window)**: 일/주/월, 기준 시점(주문일/결제일/정산일)을 명시',
+                            '**데이터 소스(Source)**: 어떤 테이블/이벤트/시스템이 Single Source of Truth인지 지정'
+                        ]
+                    },
+                    {
+                        q: '지표 정의가 팀마다 달라 충돌이 났을 때 어떻게 해결하나요?',
+                        a: [
+                            '우선 “각 팀이 왜 그 정의를 쓰는지” 목적을 확인하고, 목적이 다르면 지표를 **분리(예: 주문매출 vs 정산매출)**합니다.',
+                            '하나로 통일해야 한다면 CFO/PO 등 의사결정자를 지정하고, 회의에서 결론을 내린 뒤 **Decision Log + Metric Spec**로 고정합니다.',
+                            '정의 변경은 과거 데이터 재산출(backfill)까지 영향이 있으므로, 변경 비용과 일정을 함께 합의합니다.'
+                        ]
+                    },
+                    {
+                        q: '스코프 크립(scope creep)을 어떻게 막나요?',
+                        a: [
+                            '요구사항에 **Acceptance Criteria**를 붙여 “완료 기준”을 테스트 가능하게 만듭니다.',
+                            '추가 요청은 “요청 사유/가치/대체안/일정 영향”을 적는 **Change Request**로 접수합니다.',
+                            '우선순위 프레임(RICE/WSJF)로 재정렬하고, 일정이 고정이면 **범위를 줄이는** 결정을 강제합니다.'
+                        ]
+                    },
+                    {
+                        q: 'UAT를 어떻게 설계하나요? 무엇을 검증해야 하나요?',
+                        a: [
+                            'UAT는 “버그 찾기”가 아니라 **요구사항 충족 여부**를 검증합니다.',
+                            '정상 케이스뿐 아니라 **경계값/예외 케이스(환불·취소·중복·지연)**를 테스트 시나리오로 만듭니다.',
+                            '검증은 “샘플 데이터→기대 결과→실 실제 결과→판정” 형태로 남겨 재현 가능하게 합니다.'
+                        ]
+                    },
+                    {
+                        q: '데이터 요구사항(DRD)을 작성할 때 필수 항목은 무엇인가요?',
+                        a: [
+                            '**Grain**(유저/주문/세션 등), 필요한 컬럼, 타입, NULL 허용 여부',
+                            '갱신 주기(실시간/시간/일배치), 지연 허용(SLA), 소스 시스템(SSOT)',
+                            '품질 기준(중복/누락/범위 체크), 보안(PII/권한/마스킹) 요구사항'
+                        ]
+                    },
+                    {
+                        q: 'BA가 SQL을 쓸 수 있어야 하는 “최소 수준”은 어느 정도라고 보나요?',
+                        a: [
+                            'Join/Group by/Window로 **검증 쿼리**를 짤 수 있어야 합니다. (정의가 맞는지, 이벤트가 빠졌는지 확인)',
+                            '성능 튜닝 전문가일 필요는 없지만, “왜 숫자가 안 맞는지”를 **데이터로 반박/증명**할 수 있어야 합니다.',
+                            '현업과 개발/데이터 사이에서 “사실 확인”을 직접 할 수 있어야 커뮤니케이션 비용이 줄어듭니다.'
+                        ]
+                    },
+                    {
+                        q: '프로세스 개선(As-is/To-be) 프로젝트를 어떻게 진행하나요?',
+                        a: [
+                            'As-is를 “사람이 말하는 대로”가 아니라 **실제 로그/현장 관찰**로 확인합니다.',
+                            '병목은 리드타임/대기시간/재작업률로 잡고, 통제점(Control Point)을 설계합니다.',
+                            'To-be는 1안/2안/3안으로 비용·리스크·효과를 비교해 의사결정하게 만듭니다.'
+                        ]
+                    },
+                    {
+                        q: 'PRD/BRD/FRD의 차이를 설명해보세요.',
+                        a: [
+                            '**BRD**: 비즈니스 관점(왜/무엇/가치/리스크)\n**PRD**: 제품 관점(유저 문제/기능/UX)\n**FRD**: 기능 관점(동작/규칙/예외/인터페이스)',
+                            'BA는 보통 BRD/FRD 성격을 강하게 다루고, 조직에 따라 PRD까지 커버하기도 합니다.',
+                            '중요한 건 문서 이름이 아니라 “의사결정에 필요한 정보를 빠짐없이 제공”하는 것입니다.'
+                        ]
+                    },
+                    {
+                        q: '이해관계자(현업/개발/데이터) 간 의견이 갈릴 때 회의를 어떻게 운영하나요?',
+                        a: [
+                            '의제(Agenda)를 “결정해야 하는 질문”으로 작성하고, 회의 종료 시 **결정/보류/추가조사**로 분류합니다.',
+                            '토론이 길어지면 “가정(Assumption)”과 “사실(Fact)”을 분리해, 사실 검증 액션을 먼저 만듭니다.',
+                            '결정은 Decision Log로 남기고, 다음 액션(Owner/Deadline)을 명확히 합니다.'
+                        ]
+                    },
+                    {
+                        q: '애자일 스프린트에서 BA가 하는 일은 무엇인가요?',
+                        a: [
+                            'Backlog Refinement에서 유저 스토리를 쪼개고, Acceptance Criteria를 붙여 “스프린트에 들어갈 크기”로 만듭니다.',
+                            'Sprint Planning에서 우선순위/의존성을 확인하고, 스코프를 잠급니다.',
+                            'Sprint Review에서 UAT 관점으로 기능이 요구사항을 만족하는지 확인합니다.'
+                        ]
+                    },
+                    {
+                        q: '데이터 품질 문제가 발생했을 때 BA는 무엇을 하나요?',
+                        a: [
+                            '현상→재현→영향 범위(어떤 지표/어떤 기간/어떤 고객)에 대한 **트리아지**를 합니다.',
+                            '데이터팀/개발팀이 고칠 수 있도록 “어떤 정의가 깨졌는지/어떤 이벤트가 누락됐는지”를 문서화합니다.',
+                            '정의/프로세스 문제라면 재발 방지로 **로깅 규칙/검증 체크리스트**를 제도화합니다.'
+                        ]
+                    },
+                    {
+                        q: '새로운 데이터/AI 프로젝트를 시작할 때, 가장 먼저 확인할 3가지는?',
+                        a: [
+                            '**성공 정의(KPI)**가 있는가? (없으면 시작 금지)',
+                            '**데이터 준비도(Data Readiness)**: 수집 가능/품질/라벨/권한',
+                            '**채택(Adoption) 계획**: 누가/언제/어떻게 써서 의사결정이 바뀌는가'
+                        ]
+                    },
+                    {
+                        q: '요구사항이 모호할 때(“좋게 만들어주세요”) 어떻게 구체화하나요?',
+                        a: [
+                            '“좋다”를 KPI로 바꿉니다. 예: 전환율 +1% / CS 티켓 -20% / 처리시간 -30%.',
+                            '유저/업무 플로우를 따라 “어디가 불편한지”를 관찰하고, 가설을 세워 실험/기능으로 번역합니다.',
+                            '범위를 줄여 MVP로 정의하고, 성공 시 다음 스코프로 확장합니다.'
+                        ]
+                    },
+                    {
+                        q: '우선순위를 정할 때 RICE를 어떻게 쓰나요?',
+                        a: [
+                            'Reach(영향 사용자), Impact(효과 크기), Confidence(확신), Effort(공수)로 점수를 만들고 비교합니다.',
+                            '숫자는 완벽할 필요 없고, “왜 이게 2배 중요한지”를 팀이 합의하는 도구로 씁니다.',
+                            '리스크/규제/보안 같은 “강제 과제”는 별도 트랙으로 분리합니다.'
+                        ]
+                    },
+                    {
+                        q: '데이터 정의서(용어사전)를 만들 때 흔한 실수는?',
+                        a: [
+                            '정의는 있는데 **예외 케이스(취소/환불/중복/지연)**가 없는 것',
+                            '“활성 사용자”처럼 조직마다 의미가 달라지는 용어를 통일하지 않고 방치하는 것',
+                            'SSOT(단일 진실 소스)를 지정하지 않아 팀마다 다른 숫자가 나오는 것'
+                        ]
+                    },
+                    {
+                        q: '문서화와 속도 사이의 트레이드오프는 어떻게 보나요?',
+                        a: [
+                            '문서는 “완벽한 문서”가 아니라 **의사결정에 필요한 최소 문서(MVD)**가 목표입니다.',
+                            '바뀌는 부분은 Living Doc(살아있는 문서)로 운영하고, 결정된 부분만 고정합니다.',
+                            '가장 비싼 비용은 문서 작성 시간이 아니라, **정의 충돌로 재작업**이 발생하는 비용입니다.'
+                        ]
+                    },
+                    {
+                        q: 'BA로서 가장 강한 경험 한 가지를 STAR로 말해보세요.',
+                        a: [
+                            'Situation: 정의 충돌/스코프 크립/데이터 누락 같은 “실제 사고”를 선택합니다.',
+                            'Task: 무엇을 결정해야 했고, 성공 기준이 무엇이었는지 명시합니다.',
+                            'Action/Result: 문서·회의·검증으로 갈등을 끝내고, 리드타임/오류율/매출 같은 결과를 제시합니다.'
+                        ]
+                    },
+                    {
+                        q: '입사 후 30/60/90일 계획을 말해보세요.',
+                        a: [
+                            '30일: Stakeholder 맵 + 용어/지표 정의 현황 파악 + SSOT 확립',
+                            '60일: 1~2개 핵심 프로세스 As-is/To-be 개선안 도출 + 데이터 요구사항 체계화',
+                            '90일: 지표/정의 운영 프로세스(거버넌스) 정착 + 대형 프로젝트 1개를 안정 궤도에 올림'
+                        ]
+                    }
+                ]
+            },
+
+            {
+                id: 'role-da',
+                category: '직무',
+                icon: '📊',
+                title: '데이터 애널리스트 (Data Analyst, DA)',
+                tags: ['비즈니스문제해결', 'SQL', 'A/B테스트', '기획', 'ProductAnalytics'],
+                shift: {
+                    past: '팀에서 요청하는 데이터를 **SQL**과 엑셀로 뽑아주는 “데이터 추출기”.',
+                    present: 'Text-to-SQL/AI로 쿼리 시간을 줄이고, “왜 지표가 떨어졌는가?”를 설계해 프로덕트 방향을 바꾸는 **데이터 기획자**.'
+                },
+                summary: '데이터로 비즈니스 문제를 해결하는 탐정. KPI를 정의하고 실험을 설계해 임팩트를 만든다.',
+                content:
+                    `DA는 “숫자”가 아니라 “결정”을 만든다는 점에서 단순 분석가가 아닙니다.\n\n` +
+                    `**[DA의 핵심 미션]**\n` +
+                    `- KPI 트리로 문제를 쪼개고, 원인 후보를 데이터로 검증\n` +
+                    `- 퍼널/코호트/리텐션 분석으로 병목을 찾고, 실험(A/B)로 해결\n` +
+                    `- 결과를 “실행 가능한 액션”으로 바꿔 PO/마케팅/CS를 움직임\n\n` +
+                    `**[실무에서 자주 깨지는 포인트]**\n` +
+                    `- 지표 정의가 안 맞으면 분석은 무의미합니다. (분모/분자/기간/중복/환불)\n` +
+                    `- 대시보드만 만들고 끝내면 “보고서 공장”으로 전락합니다.\n` +
+                    `- “인사이트”가 아니라, **실행 후 KPI가 바뀌는지**가 성패입니다.\n`,
+                extraTitle: 'DA 필수 역량 및 테크 스택',
+                extraList: [
+                    '**SQL (초고급)**: Window/CTE/Subquery로 복잡 로직을 재현',
+                    '**실험/통계**: A/B 테스트 설계, 표본수, p-value/CI 해석',
+                    '**Product Analytics**: 퍼널/코호트/리텐션/세그먼트',
+                    '**시각화/공유**: Tableau/Looker/Redash로 “자동화된 관측” 만들기',
+                    '**커뮤니케이션**: 이해관계자 설득(Why→What→How→Impact)'
+                ],
+                workExamples: [
+                    '장바구니→결제 퍼널에서 이탈 구간 정의 후, UI 변경 A/B 테스트 설계 및 결과 해석',
+                    '리텐션이 떨어진 코호트를 분해(유입채널/디바이스/지역/가격)해 원인을 좁힘',
+                    '이상치(Outlier)로 KPI가 흔들릴 때, 정의/집계 기준을 재설계하고 SSOT로 고정',
+                    '“실행 계획”까지 포함한 분석 리포트 작성: 액션 항목 + 예상 임팩트 + 리스크',
+                    '로그 이벤트 누락/중복을 검출하고 개발팀과 로깅 스펙을 수정'
+                ],
+                winnerQuotes: [
+                    '“DA는 SQL보다 **문제 정의와 임팩트 계산**이 더 어려웠습니다.”',
+                    '“대시보드만 예쁘게 만드는 사람은 남고, **실험으로 KPI를 움직인 사람**이 승진합니다.”',
+                    '“면접에서 가장 많이 물은 건 ‘당신 분석으로 뭐가 바뀌었냐’였습니다.”'
+                ],
+                interviewQuestions: [
+                    { q: '분석 과제에서 KPI를 어떻게 정의하나요?', a: ['North Star→Input Metric→Guardrail로 분해합니다.', '공식/기간/예외(환불/취소/중복)를 문서로 고정합니다.', 'SSOT 테이블/이벤트를 지정해 숫자 충돌을 막습니다.'] },
+                    { q: '퍼널 분석을 할 때 흔한 함정은 무엇인가요?', a: ['이벤트 중복/세션 정의 오류로 전환율이 왜곡됩니다.', '분모를 “노출”로 둘지 “클릭”으로 둘지 목적에 맞춰야 합니다.', '동일 유저의 멀티 디바이스/재방문을 처리하지 않으면 착시가 납니다.'] },
+                    { q: '코호트 분석의 목적과 실무 예시를 말해보세요.', a: ['“특정 조건의 유저가 시간에 따라 어떻게 변하는지”를 봅니다.', '예: 가격 정책 변경 이후 신규 유저 코호트의 7일 리텐션 비교.', '유입 채널·캠페인별 LTV 차이를 비교해 예산을 재배분합니다.'] },
+                    { q: 'A/B 테스트 설계에서 가장 중요한 3가지는?', a: ['가설(왜 바뀔지) + 성공 지표(Primary) + 방어 지표(Guardrail).', '표본 수/기간을 추정하고, 실험 오염(노출/중복)을 통제합니다.', '실험 종료 기준(시간/표본/유의수준)을 사전에 합의합니다.'] },
+                    { q: 'p-value를 실무적으로 어떻게 설명하나요?', a: ['“효과가 없다고 가정했을 때 지금 같은 결과가 나올 확률”입니다.', 'p-value가 작아도 효과 크기가 작으면 비즈니스 의미가 없습니다.', 'CI(신뢰구간)로 효과 범위를 함께 제시합니다.'] },
+                    { q: '인과관계와 상관관계를 어떻게 구분하나요?', a: ['실험(A/B)이나 준실험(DD/IV/PSM)로 인과를 추정합니다.', '교란 변수(Confounder)를 식별하고 통제합니다.', '가능하면 “반사실(counterfactual)”을 설계합니다.'] },
+                    { q: '대시보드와 Ad-hoc 분석의 차이는?', a: ['대시보드는 “지속 관측”을 위한 자동화, 분석은 “의사결정”을 위한 깊은 탐정 작업입니다.', '대시보드 KPI는 정의가 고정돼야 하고, 분석은 가설에 따라 변할 수 있습니다.', '대시보드는 알람/드릴다운까지 설계해야 실제로 쓰입니다.'] },
+                    { q: 'SQL에서 Window Function을 언제 쓰나요?', a: ['유저별 최신 상태, 누적합, 순위, 이동 평균 같은 분석에 필수입니다.', '예: 유저별 첫 구매일/재구매 간격/세션별 이벤트 순서.', '코호트 리텐션 계산에도 Window가 자주 들어갑니다.'] },
+                    { q: '분석 결과를 이해관계자를 설득하는 방식은?', a: ['Why(문제)→What(증거)→So what(임팩트)→Now what(액션) 구조로 말합니다.', '결론을 먼저 말하고, 근거는 2~3개 핵심 그래프만 씁니다.', '반대 가설을 먼저 언급해 신뢰를 확보합니다.'] },
+                    { q: '데이터 품질 이슈를 어떻게 탐지/대응하나요?', a: ['갑자기 KPI가 튀면 로그 수집/중복/시간대/배치 실패부터 의심합니다.', '원인을 재현 가능한 쿼리로 고정하고, 영향 범위(기간/기능/플랫폼)를 산정합니다.', '수정 후 backfill/재집계 계획까지 포함해 공유합니다.'] },
+                    { q: '“AI로 SQL을 대신하는 시대”에 DA는 무엇을 해야 하나요?', a: ['쿼리는 자동화되고, “무엇을 봐야 하는지”가 경쟁력입니다.', '문제 정의, 지표 설계, 실험 설계, 실행 설계가 핵심이 됩니다.', 'AI 결과를 검증할 데이터 리터러시가 더 중요해집니다.'] },
+                    { q: '30/60/90일 계획을 말해보세요.', a: ['30일: KPI/정의/테이블 파악 + 주요 퍼널/리텐션 현황 진단', '60일: 우선순위 1~2개 실험 실행 + 대시보드/알람 정비', '90일: 반복 실험 프로세스 정착 + 임팩트 사례 1개 이상 확보'] },
+                    // 나머지 8개(총 20)
+                    { q: '리텐션을 개선하는 가장 흔한 레버는?', a: ['온보딩(첫 가치 경험) 단축', '핵심 기능 재방문 트리거(푸시/이메일/UX)', '가격/혜택 구조 최적화(구독/쿠폰)'] },
+                    { q: '세그먼테이션을 어떻게 설계하나요?', a: ['행동(빈도/최근성/금액) 기반 RFM', '유입 채널/디바이스/지역 기반', '가치(LTV) 기반 계층화'] },
+                    { q: '분석에서 과적합(Overfitting) 같은 실수를 DA도 하나요?', a: ['네. 데이터 스누핑(보고 싶은 것만 보기)이 대표적입니다.', '사전 가설과 검증 플랜을 문서화해 편향을 줄입니다.', '홀드아웃 기간/코호트로 재검증합니다.'] },
+                    { q: '“유저가 늘었는데 매출이 줄었다”를 어떻게 분해하나요?', a: ['유입 질(채널 믹스) 변화', '전환율 변화', '객단가(AOV) 변화, 환불/취소 변화로 분해합니다.'] },
+                    { q: '원인을 못 찾을 때 어떻게 하나요?', a: ['관측 지점을 늘립니다(로깅/세그먼트/드릴다운).', '가설 우선순위를 재정렬하고, 가장 가능성 높은 것부터 실험합니다.', '외생 변수(시즌/경쟁/정책)를 포함합니다.'] },
+                    { q: '대시보드 성능이 느릴 때 어떻게 개선하나요?', a: ['집계 테이블/머티리얼라이즈/파티셔닝을 도입합니다.', '필요 컬럼만 선택하고, 필터를 서버 사이드로 당깁니다.', '쿼리 플랜을 보고 병목 조인을 줄입니다.'] },
+                    { q: '어떤 포트폴리오가 DA에 유리한가요?', a: ['단순 EDA가 아니라 “의사결정→액션→결과”까지 있는 프로젝트', '지표 정의서/실험 설계/대시보드까지 포함', 'SQL + 통계 + 커뮤니케이션 흔적'] },
+                    { q: '면접에서 “가장 강한 사례”를 어떻게 말하나요?', a: ['문제→가설→분석→액션→임팩트(%/원) 순서', '반대 가설/리스크를 함께 말해 신뢰 확보', '재현 가능한 근거(쿼리/대시보드/로그)를 언급'] }
+                ]
+            },
+
+            {
+                id: 'role-consultant-dataai',
+                category: '직무',
+                icon: '🧳',
+                title: '데이터/AI 컨설턴트 (Data & AI Consultant)',
+                tags: ['전략', '로드맵', '데이터플랫폼', '거버넌스', 'GenAI', '스토리라인', 'PPT'],
+                shift: {
+                    past: '“PPT만 잘 만드는 직업”이라는 오해. (실제로는 데이터를 모르고는 못 합니다.)',
+                    present: '기업이 데이터/AI를 “도입”이 아니라 “사업화”하려 하면서, 컨설턴트는 **전략+플랫폼+운영+변화관리**를 묶는 통합 설계자 역할로 진화.'
+                },
+                summary: '컨설팅의 본질은 “정답을 맞히는 것”이 아니라 “조직을 움직여 KPI를 바꾸는 설계”입니다.',
+                content:
+                    `데이터/AI 컨설턴트는 고객사의 문제를 “돈 되는 구조”로 바꾸는 역할입니다.\n\n` +
+                    `**[컨설팅에서 Data/AI가 실제로 하는 딜 타입]**\n` +
+                    `1) **Data Strategy**: KPI 트리/Use-case 발굴/로드맵/조직(Operating Model)\n` +
+                    `2) **Data Platform**: DW/Lake/Lakehouse, 데이터 모델, 파이프라인, 권한/보안\n` +
+                    `3) **Advanced Analytics**: 수요예측/가격최적화/이탈예측/리스크 모델\n` +
+                    `4) **GenAI**: RAG, Copilot, LLMOps, 평가(Eval), 보안/컴플라이언스까지\n` +
+                    `5) **Adoption/Change**: 현업 교육, 운영 KPI, 프로세스 반영(안 쓰면 0점)\n\n` +
+                    `**[컨설팅 “전 티어”에서 Data/AI 조직은 이렇게 존재합니다 — 팀/브랜드명]**\n` +
+                    `※ 조직명은 국가/연도/리브랜딩에 따라 바뀔 수 있으니 “키워드”로 같이 기억하는 게 실전입니다.\n\n` +
+                    `**(A) MBB(Top) — 대표 브랜드/조직명**\n` +
+                    `- McKinsey: **QuantumBlack (AI by McKinsey)** / McKinsey Digital\n` +
+                    `- BCG: **BCG X** (내부적으로 Gamma/Digital Ventures 계열 역량 포함)\n` +
+                    `- Bain: **Bain Vector** (과거 Advanced Analytics Group 성격을 포함해 운영)\n\n` +
+                    `**(B) Tier-2 전략 컨설팅 — 대표 명칭(오피스별 상이)**\n` +
+                    `- Oliver Wyman: **Quotient (AI by Oliver Wyman)** / Oliver Wyman Labs\n` +
+                    `- Kearney: **Kearney Analytics** / Kearney Digital\n` +
+                    `- Strategy& (PwC): Strategy& Digital / Data & Analytics / AI Transformation (표기 방식 다양)\n` +
+                    `- Roland Berger/LEK/ADL 등: Digital/Analytics/AI Practice로 운영(고정 브랜드명은 오피스별 상이)\n\n` +
+                    `**(C) Big 4 컨설팅/어드바이저리 — 대표 명칭(국가별 상이)**\n` +
+                    `- Deloitte: AI & Data / Deloitte Digital / (브랜드) Deloitte AI 관련 조직\n` +
+                    `- PwC: Data & Analytics / AI Lab / Cloud & Digital / Strategy&\n` +
+                    `- EY: **EY.ai** / Technology Consulting / Data & Analytics\n` +
+                    `- KPMG: **KPMG Lighthouse** (데이터/AI/애널리틱스 역량 중심)\n\n` +
+                    `**(D) Tech/IT 컨설팅 & 글로벌 SI — 대표 명칭(사업부/국가별 상이)**\n` +
+                    `- Accenture: **Data & AI** (과거 Applied Intelligence 계열 포함)\n` +
+                    `- IBM: IBM Consulting + (GenAI 제품/플랫폼 라인) watsonx\n` +
+                    `- Capgemini: Invent + Insights & Data / Engineering\n\n` +
+                    `**[이 직무의 ‘진짜’ 스킬]**\n` +
+                    `- 데이터/AI를 안다고 “컨설팅”이 되지 않습니다.\n` +
+                    `- 컨설팅은 **구조화(프레임) + 이해관계자 설득(스토리라인) + 실행 설계(운영모델)**의 직업입니다.\n`,
+                extraTitle: '컨설턴트 필수 역량 & 툴킷',
+                extraList: [
+                    '**문제 구조화**: Issue Tree / KPI Tree / Value Tree / MECE',
+                    '**스토리라인**: 결론-근거-시각화(Exhibit)로 “임원 5분” 설득',
+                    '**ROI/비즈니스 케이스**: 가치(매출/비용/리스크) 산정 + 민감도 분석',
+                    '**데이터/플랫폼 이해**: DW/Lake/Lakehouse, 데이터 모델링, 파이프라인, 거버넌스',
+                    '**GenAI/RAG 실전**: 근거 기반(grounded) 설계, 평가(Eval), LLMOps',
+                    '**현장형 커뮤니케이션**: 워크샵 설계, 의사결정 회의 운영, Change Management',
+                    '**기본 분석력**: SQL/Python으로 “검증” 가능 (깊이보다 신뢰 확보용)'
+                ],
+                workExamples: [
+                    'C레벨 워크샵 운영: “AI로 무엇을 할 것인가”가 아니라 **“어떤 KPI를 바꿀 것인가”**로 논점을 고정',
+                    'Use-case Inventory: 아이디어 50개를 **가치(Value)×실현가능성(Feasibility)×리스크(Risk)**로 스코어링해 Top 5 선정',
+                    '데이터 플랫폼 Target Architecture 설계: DW/Lakehouse 선택, 데이터 흐름, 권한/보안, 운영 조직(RACI)',
+                    'GenAI 파일럿 설계: RAG 문서 선정→청킹/임베딩→평가셋 구축→정확도/근거율/비용/지연시간 튜닝',
+                    'Adoption 계획 수립: 현업 프로세스에 AI 결과가 “붙는 지점” 설계, 운영 KPI/교육/가이드 제작',
+                    'Executive Deck 제작: SCQA + Pyramid Principle로 “왜/무엇/어떻게/얼마”를 한 장씩 명확히'
+                ],
+                knowledgeChecklist: [
+                    '**컨설팅 5단계**: Diagnose → Design → Build → Deploy → Adopt',
+                    '**가치 산정(Value Tree)**: 매출(전환×객단가×빈도) / 비용(자동화×인력) / 리스크(부실/사기)로 분해',
+                    '**Target Operating Model(TOM)**: 조직/역할(RACI)/프로세스/데이터 거버넌스/툴 체계',
+                    '**데이터 거버넌스**: 데이터 오너, 정의, 카탈로그, 권한, 품질, 감사 추적',
+                    '**RAG 핵심**: 근거 문서 품질, 청킹, 리트리벌, 평가셋, 환각(헛소리) 억제',
+                    '**성공의 함정**: “PoC 성공”이 아니라 “현업이 쓰는가(Adoption)”가 최종 KPI'
+                ],
+                winnerQuotes: [
+                    '“컨설팅은 기술 면접보다 **구조화/커뮤니케이션**이 합격을 결정했습니다.”',
+                    '“데이터 플랫폼 딜은 결국 **거버넌스/조직**이 이기더라고요. 기술만으론 안 됩니다.”',
+                    '“GenAI 딜은 ‘데모’가 아니라 **평가(Eval) 체계**를 갖춘 팀이 이깁니다.”'
+                ],
+                interviewQuestions: [
+                    {
+                        q: '데이터/AI 컨설턴트가 하는 일을 “딜 타입”으로 나눠 설명해보세요.',
+                        a: [
+                            'Data Strategy(로드맵/Use-case/조직) → Data Platform(수집/저장/모델/보안) → Analytics/ML(모델) → GenAI(RAG/LLMOps) → Adoption(현업 반영)으로 나눕니다.',
+                            '실무는 “기술만”이 아니라, **운영모델/거버넌스/변화관리**까지 포함됩니다.',
+                            '고객은 PoC보다 “현업에서 쓰는 운영”을 원합니다.'
+                        ]
+                    },
+                    {
+                        q: 'AI/데이터 프로젝트의 ROI를 어떻게 산정하나요?',
+                        a: [
+                            'Value Tree로 매출(전환×객단가×빈도) / 비용(자동화×인력) / 리스크(부실/사기)를 분해합니다.',
+                            '보수/기준/낙관 3시나리오로 민감도 분석을 하고, 초기에는 “범위가 좁은 Quick Win”을 먼저 잡습니다.',
+                            '데이터/플랫폼 비용(클라우드/인력/운영)을 TCO로 산정해 “순가치”를 제시합니다.'
+                        ],
+                        follow: ['효과를 측정할 KPI는 어떻게 고정하나요?', '비용이 큰 플랫폼 구축은 어떻게 설득하나요?']
+                    },
+                    {
+                        q: 'Data Warehouse vs Data Lake vs Lakehouse를 언제 선택하나요?',
+                        a: [
+                            'DW: 정형 분석/BI 중심, 강한 거버넌스/성능\nLake: 원천/비정형/대용량 중심\nLakehouse: 둘을 통합해 분석+ML까지 한 플랫폼으로',
+                            '조직 성숙도/보안/운영 인력/비용 구조에 따라 “정답”이 달라집니다.',
+                            '중요한 건 기술 이름보다 **데이터 품질/정의/권한/운영**이 설계돼 있는가입니다.'
+                        ]
+                    },
+                    {
+                        q: 'Use-case를 우선순위화하는 프레임을 제시해보세요.',
+                        a: [
+                            'Value(가치) × Feasibility(실현가능성) × Risk(규제/보안/품질)로 스코어링합니다.',
+                            '가치가 큰데 데이터가 없으면 “로깅/데이터 준비”가 먼저 과제가 됩니다.',
+                            '초기에는 Quick Win 1~2개로 신뢰를 만들고, 이후 플랫폼/거버넌스로 확장합니다.'
+                        ]
+                    },
+                    {
+                        q: '고객이 “데이터가 없다”고 할 때 첫 액션은?',
+                        a: [
+                            'Data Audit(소스/테이블/이벤트)와 Data Readiness(품질/권한/라벨) 평가를 즉시 합니다.',
+                            '필요한 데이터가 “없다”면 Instrumentation(로깅) 설계를 먼저 제안합니다.',
+                            '단기: 수동/외부 데이터로 MVP, 중기: 자동 수집/플랫폼화로 로드맵을 제시합니다.'
+                        ]
+                    },
+                    {
+                        q: 'GenAI/RAG 프로젝트에서 가장 중요한 체크리스트 5가지는?',
+                        a: [
+                            '근거 문서 품질/권한(PII/보안), 청킹/임베딩 설계, 리트리벌 품질, 평가셋/지표, 운영(LLMOps)입니다.',
+                            '“데모”가 아니라, 환각을 낮추는 **평가(Eval)**가 핵심입니다.',
+                            '비용(토큰)과 지연시간(Latency)을 목표 KPI로 두고 튜닝합니다.'
+                        ]
+                    },
+                    {
+                        q: '임원(CEO/CIO)을 5분 안에 설득하는 데크 구조는?',
+                        a: [
+                            'SCQA: Situation-Complication-Question-Answer로 결론을 먼저 제시합니다.',
+                            '슬라이드는 1장=1메시지, 근거는 2~3개 핵심 Exhibit로만 사용합니다.',
+                            '“왜 지금 해야 하는가”와 “안 하면 어떤 손실이 나는가”를 숫자로 제시합니다.'
+                        ]
+                    },
+                    {
+                        q: '거버넌스/운영모델(TOM)을 어떻게 설계하나요?',
+                        a: [
+                            'Owner(데이터 오너) / Steward(정의·품질) / Platform(엔지니어링) / Consumer(현업) 역할을 RACI로 나눕니다.',
+                            '정의/카탈로그/권한/품질 테스트/감사 로그를 운영 프로세스로 박제합니다.',
+                            '중앙집중 vs 도메인 분산(Data Mesh)은 조직 규모/성숙도에 따라 선택합니다.'
+                        ]
+                    },
+                    // 나머지 12개(총 20)
+                    {
+                        q: '컨설팅에서 “Adoption(현업 채택)”을 어떻게 확보하나요?',
+                        a: [
+                            '현업 프로세스 안에 AI/데이터 산출물이 “붙는 지점”을 설계합니다.',
+                            '운영 KPI와 책임자(Owner)를 지정하고, 교육/가이드/알람 체계를 구축합니다.',
+                            '쓰지 않으면 KPI 0점이 되도록 “프로세스 강제”가 필요합니다.'
+                        ]
+                    },
+                    {
+                        q: '프로젝트 범위가 계속 늘어날 때(스코프 크립) 어떻게 통제하나요?',
+                        a: [
+                            'Change Request로 가치/비용/일정 영향을 문서화하고, 의사결정자를 지정합니다.',
+                            '일정이 고정이면 기능을 줄이는 결정을 강제(우선순위 재정렬)합니다.',
+                            '초기에는 MVP로 작게 성공시키는 것이 최선입니다.'
+                        ]
+                    },
+                    {
+                        q: '데이터 품질 이슈를 프로젝트 중간에 발견하면 어떻게 하나요?',
+                        a: [
+                            '영향 범위(기간/지표/업무)를 산정하고, 단기 우회(MVP)와 중기 개선(파이프라인/검증)을 분리합니다.',
+                            '품질 테스트(중복/누락/범위)를 파이프라인에 “제도화”합니다.',
+                            '재집계(backfill)와 커뮤니케이션 계획까지 포함해 제안합니다.'
+                        ]
+                    },
+                    {
+                        q: '클라우드 도입 vs 온프렘 유지의 의사결정 기준은?',
+                        a: [
+                            '규제/보안(망분리/PII), 운영 인력, 확장성, 비용(TCO), 벤더 락인을 비교합니다.',
+                            '하이브리드(민감 데이터 온프렘, 분석/서빙 클라우드)도 현실적인 선택입니다.',
+                            '“기술”이 아니라 “운영 가능성”이 결론을 결정합니다.'
+                        ]
+                    },
+                    {
+                        q: 'Analytics/ML 모델을 컨설팅에서 제안할 때, 무엇을 반드시 포함하나요?',
+                        a: [
+                            '모델 KPI(정확도)뿐 아니라 **운영 KPI(오탐/미탐 비용, SLA, 라벨링 비용)**를 포함합니다.',
+                            '서빙/모니터링/재학습(MLOps)까지 포함한 End-to-End 설계를 제시합니다.',
+                            '데이터 누수/편향/설명가능성(XAI) 이슈를 선제적으로 언급합니다.'
+                        ]
+                    },
+                    {
+                        q: '케이스: 매출이 10% 하락했습니다. 데이터 관점 접근을 구조화해보세요.',
+                        a: [
+                            '매출 = 트래픽 × 전환율 × 객단가 × 구매빈도 로 분해합니다.',
+                            '채널 믹스, 퍼널 단계별 이탈, 가격/할인, 재고/품절, 외생 변수(시즌/경쟁)를 점검합니다.',
+                            '가설 우선순위를 정해 빠르게 검증(대시보드/쿼리)하고 실험을 설계합니다.'
+                        ]
+                    },
+                    {
+                        q: '컨설팅의 “fit 인터뷰”에서 보는 핵심은?',
+                        a: [
+                            '압박 상황에서의 문제 해결/커뮤니케이션, 이해관계자 관리, 학습 속도를 봅니다.',
+                            'STAR로 “갈등을 끝내고 결과를 만든 사례”가 가장 강합니다.',
+                            '결과를 숫자로 말하고, 본인이 한 행동(Action)을 구체적으로 말해야 합니다.'
+                        ]
+                    },
+                    {
+                        q: '“기술 용어를 모르는 임원”에게 AI를 어떻게 설명하나요?',
+                        a: [
+                            '모델이 아니라 **업무 흐름**과 **KPI 변화**로 설명합니다.',
+                            '예: “상담 1건 처리시간 20% 단축”처럼 결과 중심으로 말합니다.',
+                            '리스크(환각/보안/규제)와 대응책(평가/권한/로그)을 함께 말합니다.'
+                        ]
+                    },
+                    {
+                        q: '컨설팅에서 SQL/분석 테스트가 나오면 어떻게 접근하나요?',
+                        a: [
+                            '테이블 그레인(grain)을 먼저 파악하고, 중복/누락을 방지하는 키를 잡습니다.',
+                            'Window/CTE로 단계별로 쪼개고, 샘플로 검증합니다.',
+                            '성능은 마지막에, 정확도/정의가 먼저입니다.'
+                        ]
+                    },
+                    {
+                        q: '프로젝트가 실패했을 때(혹은 실패 직전) 무엇을 하나요?',
+                        a: [
+                            '원인을 “기술/정의/조직”으로 분리하고, 통제 가능한 것부터 해결합니다.',
+                            '스코프를 줄여 MVP로 전환하고, 채택(Adoption) 설계를 강화합니다.',
+                            '이슈와 의사결정을 문서화해 이해관계자 신뢰를 회복합니다.'
+                        ]
+                    },
+                    {
+                        q: '입사 후 90일 안에 보여줄 수 있는 Quick Win은?',
+                        a: [
+                            '데이터 정의 충돌 1개를 끝내 SSOT를 만들거나,',
+                            'RAG/분석 자동화 파일럿을 만들어 “현업이 실제 쓰는” 도구로 배포하는 것입니다.',
+                            '중요한 건 데모가 아니라 “사용량/업무시간 절감” 같은 Adoption KPI입니다.'
+                        ]
+                    },
+                    {
+                        q: '왜 컨설팅을 선택했나요?',
+                        a: [
+                            '다양한 산업/문제를 빠르게 학습하며, 구조화/설득/실행 설계를 극한으로 훈련할 수 있기 때문입니다.',
+                            '데이터/AI는 기술만으로 끝나지 않고 조직/프로세스까지 바꿔야 하므로, 컨설팅의 강점이 큽니다.',
+                            '장기적으로는 산업 전문성과 데이터/AI를 결합해 “가치 창출”을 만들고 싶습니다.'
+                        ]
+                    }
+                ]
+            },
+
+            {
+                id: 'role-ds',
+                category: '직무',
+                icon: '🧠',
+                title: '데이터 사이언티스트 (Data Scientist, DS)',
+                tags: ['머신러닝', '예측모델링', '통계학', 'Python', '알고리즘'],
+                shift: {
+                    past: '수집-전처리-모델-배포까지 혼자 하던 “만능 마법사”.',
+                    present: '수집(DE)·배포(MLE) 분화. DS는 문제를 수학적으로 정의하고 **예측/추천 알고리즘**에 집중.'
+                },
+                summary: '미래를 예측하는 모델을 만든다. 정확도보다 “운영에서 이기는 모델”을 만드는 사람이 강하다.',
+                content:
+                    `DS는 “모델”을 만드는 직무지만, 실무에서는 **문제 정의와 평가 설계**가 승부처입니다.\n\n` +
+                    `**[DS의 핵심]**\n` +
+                    `- 타깃 정의(라벨링), 데이터 누수 방지, 올바른 검증(시간축 분리)\n` +
+                    `- 오프라인 성능과 온라인 성능의 괴리를 줄이는 설계\n` +
+                    `- 비즈니스 비용(오탐/미탐) 기준으로 임계값/정책을 결정\n`,
+                extraTitle: 'DS 필수 역량 & 테크 스택',
+                extraList: [
+                    '**Python/ML**: Pandas, Scikit-learn, XGBoost/LightGBM',
+                    '**딥러닝**: PyTorch/TensorFlow, 임베딩/시퀀스 모델',
+                    '**평가 설계**: AUC/PR, Calibration, 오탐/미탐 비용 기반 Threshold',
+                    '**실전 습관**: 데이터 누수 방지, 시간축 검증, 재현성(Seed/Version)'
+                ],
+                workExamples: [
+                    '이탈 예측 모델 구축: 라벨 정의(이탈=30일 미접속?)부터 합의하고 성능/정책까지 설계',
+                    '추천 모델 오프라인 평가→온라인 A/B 테스트 연결 (CTR/전환/리텐션의 가드레일 포함)',
+                    '불균형 데이터에서 PR-AUC/리콜/정밀도 트레이드오프를 비즈니스 비용으로 최적화',
+                    '드리프트 탐지 지표 설계(입력 분포/예측 분포) + 재학습 트리거 정의'
+                ],
+                interviewQuestions: [
+                    { q: '데이터 누수(leakage)를 예로 설명해보세요.', a: ['미래 정보가 학습에 섞이는 현상입니다(예: 환불 확정 후 생성되는 컬럼).', '시간축 검증/피처 생성 시점 관리로 막습니다.', '오프라인 점수는 좋지만 온라인에서 망하는 대표 원인입니다.'] },
+                    { q: '불균형 데이터에서 어떤 지표를 쓰나요?', a: ['AUC만으로는 부족해 PR-AUC/정밀도/재현율을 봅니다.', '비즈니스 비용(오탐/미탐)으로 임계값을 결정합니다.', '리샘플링/가중치/포컬 로스 같은 방법을 고려합니다.'] },
+                    // 총 20 대신 핵심 10만 제공(나머지는 검색/추가 확장용)
+                    { q: '시간 시계열/로그 데이터 검증은 어떻게 하나요?', a: ['랜덤 스플릿이 아니라 시간축으로 train/valid/test를 분리합니다.', '롤링 윈도우로 안정성을 확인합니다.', '실전 배포 시점과 같은 방식으로 피처를 생성합니다.'] },
+                    { q: '추천 시스템에서 오프라인 평가와 온라인 평가 차이는?', a: ['오프라인은 NDCG/Recall@K 같은 지표로 후보를 좁히고,', '온라인은 CTR/전환/리텐션을 A/B로 검증합니다.', '서빙 편향/노출 편향이 있어 오프라인이 좋아도 온라인이 망할 수 있습니다.'] },
+                    { q: '모델 해석가능성(XAI)이 필요한 이유는?', a: ['금융/의료 등 규제/설명 의무가 있습니다.', '현업이 정책을 바꾸려면 “왜”를 알아야 합니다.', 'SHAP/PD/ICE 등으로 근거를 제시합니다.'] },
+                    { q: '모델 드리프트를 어떻게 모니터링하나요?', a: ['입력 분포 변화(PSI/KS), 예측 분포 변화, 성능(라벨 지연)을 추적합니다.', '임계값을 두고 알람/재학습을 트리거합니다.', '데이터 파이프라인 품질과 같이 봅니다.'] },
+                    { q: '피처 엔지니어링 vs 딥러닝, 언제 무엇을?', a: ['데이터 양/패턴/설명가능성 요구에 따라 선택합니다.', '탭ular(tabular)에서는 부스팅이 강한 경우가 많습니다.', '시퀀스/텍스트/이미지에서는 딥러닝이 유리합니다.'] },
+                    { q: '모델 성능을 올리는 가장 현실적인 방법은?', a: ['모델보다 데이터 품질/라벨 정의를 먼저 고칩니다.', '피처 생성 시점을 정교하게 만들고 누수를 제거합니다.', '샘플링/세그먼트별 모델을 고려합니다.'] },
+                    { q: 'DS가 MLE/DE와 협업할 때 가장 중요한 것은?', a: ['온라인/오프라인 피처 일관성, 서빙 요구사항(latency), 모니터링 요구를 명확히 합의합니다.', '실험 설계와 배포 전략(카나리/롤백)을 같이 설계합니다.', '문서화(모델 카드/데이터 카드)가 협업을 살립니다.'] },
+                    { q: '입사 후 첫 달에 무엇부터 보나요?', a: ['KPI/정의, 데이터 흐름, 라벨 생성 로직부터 봅니다.', '현재 모델의 성능과 드리프트/운영 이슈를 먼저 파악합니다.', '가치가 큰데 실패 위험이 낮은 Quick Win을 하나 잡습니다.'] }
+                ]
+            },
+
+            {
+                id: 'role-de',
+                category: '직무',
+                icon: '🏗️',
+                title: '데이터 엔지니어 (Data Engineer, DE)',
+                tags: ['파이프라인', 'Spark', 'Airflow', '스트리밍', '클라우드', 'Kafka'],
+                shift: {
+                    past: '온프렘 Hadoop 운영자(서버실 야근).',
+                    present: '클라우드 환경에서 실시간 스트리밍까지 설계하는 **아키텍트 + 운영 엔지니어**.'
+                },
+                summary: '데이터가 흐르는 길을 만든다. “안 깨지는 파이프라인”이 실전 최우선이다.',
+                content:
+                    `DE는 분석/AI가 돌아가는 전제 조건을 만드는 직무입니다.\n` +
+                    `파이프라인은 “만들기”보다 “운영하기”가 10배 어렵습니다.\n\n` +
+                    `**[DE의 핵심 체크]**\n` +
+                    `- 재처리(idempotency), 스키마 진화(schema evolution), 장애 대응(runbook)\n` +
+                    `- 비용 최적화(파티셔닝/클러스터링/증분 적재)\n` +
+                    `- 데이터 품질 테스트와 모니터링을 파이프라인에 내장\n`,
+                extraTitle: 'DE 필수 역량 & 테크 스택',
+                extraList: [
+                    '**오케스트레이션**: **Airflow** DAG 설계(재시도/백필/의존성)',
+                    '**분산 처리**: Spark, Kafka/Flink(스트리밍)',
+                    '**클라우드/DW**: BigQuery/Snowflake/Redshift + S3/GCS',
+                    '**데이터 모델링**: 스타 스키마, SCD, 이벤트 그레인',
+                    '**운영**: 모니터링/알람, 장애 대응, 비용 최적화'
+                ],
+                interviewQuestions: [
+                    { q: 'ETL vs ELT 차이는? 언제 무엇을 쓰나요?', a: ['ETL은 변환 후 적재, ELT는 적재 후 변환입니다.', '클라우드 DW가 강해지며 ELT+dbt가 흔해졌습니다.', '보안/성능/원천 시스템 제약에 따라 선택합니다.'] },
+                    { q: 'Airflow DAG에서 idempotency(멱등성)가 중요한 이유는?', a: ['재시도/백필 시 중복 적재를 막기 위해서입니다.', '파티션 단위로 overwrite, merge 키를 설계합니다.', '실무 장애의 상당수가 중복/누락에서 발생합니다.'] },
+                    { q: '파티셔닝/클러스터링을 어떻게 설계하나요?', a: ['쿼리 패턴(필터 컬럼)과 데이터 볼륨에 맞춰 설계합니다.', '날짜 파티션 + 자주 필터되는 키 클러스터가 흔합니다.', '비용과 성능을 함께 최적화합니다.'] },
+                    { q: '스키마 진화(schema evolution)를 어떻게 다루나요?', a: ['스키마 버저닝, nullable 컬럼 추가, backward compatible 변경을 원칙으로 합니다.', '서브스크립션/컨슈머 영향도를 파악하고 릴리즈 노트를 운영합니다.', '데이터 계약(Data Contract)을 도입해 충돌을 줄입니다.'] },
+                    { q: '스트리밍 처리에서 “Exactly-once”를 어떻게 생각하나요?', a: ['현실에선 at-least-once가 많고, 중복 제거 키 설계가 중요합니다.', '체크포인트/오프셋 관리, 이벤트 타임/워터마크를 설계합니다.', '비즈니스 요구(정확 vs 지연)에 맞춰 타협합니다.'] },
+                    { q: '데이터 품질을 파이프라인에 어떻게 넣나요?', a: ['중복/누락/범위/참조 무결성 테스트를 자동화합니다.', '실패 시 알람+격리(Quarantine)로 다운스트림 피해를 막습니다.', 'dbt tests/Great Expectations 같은 도구를 활용합니다.'] },
+                    { q: '비용 최적화 경험을 말해보세요.', a: ['스캔 바이트를 줄이는 집계 테이블/머티리얼라이즈를 도입합니다.', '증분 로드 + 파티션 pruning으로 비용을 낮춥니다.', '스토리지/쿼리 비용을 분리해 모니터링합니다.'] },
+                    { q: '장애가 났을 때 대응 프로세스는?', a: ['영향 범위(어떤 테이블/어떤 지표/기간)를 먼저 산정합니다.', '원인(소스/스케줄/권한/스키마)을 재현하고 롤백/핫픽스를 합니다.', '재발 방지로 모니터링/테스트/런북을 강화합니다.'] }
+                ]
+            },
+
+            {
+                id: 'role-mle',
+                category: '직무',
+                icon: '⚙️',
+                title: '머신러닝 엔지니어 (ML Engineer, MLE)',
+                tags: ['모델배포', 'MLOps', 'Docker', 'Kubernetes', 'API서빙', 'LLMOps'],
+                shift: {
+                    past: 'DS 노트북 코드를 서비스 코드로 번역하는 역할.',
+                    present: '학습-배포-모니터링-재학습까지 자동화하는 **MLOps/LLMOps** 핵심 엔지니어.'
+                },
+                summary: '모델을 “살아있는 서비스”로 만든다. 정확도보다 latency/안정성/관측 가능성이 실전이다.',
+                content:
+                    `MLE는 “모델이 돌아가게” 만드는 직무입니다.\n` +
+                    `실무에서 DS가 만든 모델이 망하는 이유는 정확도보다 **서빙/운영** 때문인 경우가 많습니다.\n\n` +
+                    `**[핵심]**\n` +
+                    `- 서빙 구조(API/GPU/캐시), 지연시간 최적화\n` +
+                    `- 모델 버전/실험/모니터링, 카나리 배포/롤백\n` +
+                    `- 드리프트/성능 저하 감지 후 재학습 파이프라인\n`,
+                extraTitle: 'MLE 필수 역량 & 테크 스택',
+                extraList: [
+                    '**Container/Infra**: **Docker, Kubernetes**, Linux',
+                    '**Serving**: FastAPI, gRPC, 배치/온라인 서빙 아키텍처',
+                    '**MLOps/LLMOps**: 모델 레지스트리, 모니터링, 재학습',
+                    '**성능 최적화**: batching, quantization, 캐싱, GPU 튜닝'
+                ],
+                interviewQuestions: [
+                    { q: '온라인 서빙에서 latency를 줄이는 방법은?', a: ['batching/캐싱/비동기 처리, 모델 경량화(quantization) 등을 사용합니다.', '입출력 전처리 병목을 줄이고, 네트워크/직렬화 비용도 봅니다.', 'SLA에 맞춰 정확도-속도 트레이드오프를 설계합니다.'] },
+                    { q: '카나리 배포와 롤백은 어떻게 설계하나요?', a: ['트래픽 일부에만 새 모델을 노출하고 모니터링합니다.', '가드레일 지표(에러율/latency/전환)를 기준으로 자동 중단합니다.', '버전별 아티팩트/설정이 재현 가능해야 합니다.'] },
+                    { q: 'LLM 서빙에서 특히 중요한 것은?', a: ['토큰 비용/지연시간이 폭발하므로 캐시/프롬프트 최적화가 중요합니다.', 'RAG라면 retrieval 품질과 근거 제시율이 핵심입니다.', '정책/보안(PII)과 로그 관리가 필수입니다.'] }
+                ]
+            },
+
+            {
+                id: 'role-ae',
+                category: '직무',
+                icon: '🪄',
+                title: '애널리틱스 엔지니어 (Analytics Engineer, AE)',
+                tags: ['dbt', '데이터마트', 'SQL모델링', '품질관리', 'CI/CD'],
+                shift: {
+                    past: '가공/마트 생성은 DE 전담, 분석가는 대기.',
+                    present: '클라우드 DW 발전으로 **SQL+dbt**로 변환을 운영. 데이터팀 병목을 푸는 핵심 역할.'
+                },
+                summary: 'AE는 “분석하기 쉬운 데이터”를 만든다. 데이터팀 생산성의 레버리지 역할.',
+                content:
+                    `AE의 핵심은 “쿼리 잘 짜기”가 아니라,\n` +
+                    `SQL을 **테스트/버전관리/문서화**가 가능한 소프트웨어로 만들기입니다.\n\n` +
+                    `**[AE가 잘하면 생기는 변화]**\n` +
+                    `- 분석가가 요청하지 않고 스스로 데이터 마트를 사용 (Self-serve)\n` +
+                    `- 지표 정의가 통일되고, 숫자 충돌이 줄어듦\n` +
+                    `- 대시보드/분석 속도가 빨라져 실험 사이클이 가속\n`,
+                extraTitle: 'AE 필수 역량 & 테크 스택',
+                extraList: [
+                    '**SQL (초고급)**: 성능/가독성/모듈화',
+                    '**dbt**: 테스트, 문서화, 버전관리(Git), CI',
+                    '**데이터 모델링**: Star Schema, SCD, Metrics Layer',
+                    '**품질**: 데이터 계약, 리니지, 알람'
+                ],
+                interviewQuestions: [
+                    { q: 'dbt에서 모델을 어떻게 나누나요?', a: ['staging→intermediate→mart 레이어로 분리합니다.', '비즈니스 로직을 재사용 가능한 단위로 모듈화합니다.', '테스트/문서화가 쉬워집니다.'] },
+                    { q: '데이터 마트 설계에서 가장 중요한 것은?', a: ['그레인(grain)을 명확히 하고, 지표 계산이 일관되게 되도록 설계합니다.', 'slowly changing dimension(SCD)을 어떻게 처리할지 결정합니다.', '성능을 위해 집계/증분을 설계합니다.'] }
+                ]
+            },
+
+            {
+                id: 'role-bi',
+                category: '직무',
+                icon: '📈',
+                title: 'BI 엔지니어 (Business Intelligence Engineer)',
+                tags: ['Tableau', 'PowerBI', '대시보드', '지표자동화', 'SQL튜닝'],
+                shift: {
+                    past: '엑셀/PPT로 수동 리포트를 복붙하는 “보고서 공장”.',
+                    present: '전사 KPI를 실시간 모니터링하는 **대시보드 인프라** 구축자.'
+                },
+                summary: '회사의 계기판을 만든다. 대시보드가 “실제로 쓰이게” 만드는 것이 승부처.',
+                content:
+                    `BI는 단순 시각화가 아니라, KPI 정의/데이터 모델/성능/권한까지 포함합니다.\n\n` +
+                    `**[BI가 강한 사람 특징]**\n` +
+                    `- KPI 정의가 명확하고, “드릴다운”이 가능한 구조\n` +
+                    `- 대시보드 로딩 10초 → 2초로 만드는 SQL/집계 최적화\n` +
+                    `- RLS(행 단위 권한) 등 보안 설계\n`,
+                extraTitle: 'BI 엔지니어 핵심 역량',
+                extraList: [
+                    '**시각화 설계**: 메시지 우선(한 화면=한 결론), 드릴다운/필터',
+                    '**성능 튜닝**: 집계 테이블, 쿼리 최적화, 캐시',
+                    '**권한/거버넌스**: RLS, KPI 정의 통일'
+                ],
+                interviewQuestions: [
+                    { q: '대시보드 성능이 느릴 때 무엇부터 보나요?', a: ['쿼리 스캔량/조인 병목, 집계 테이블 존재 여부를 봅니다.', '필터/파티션 프루닝이 되는지 확인합니다.', '대시보드 레벨에서 불필요한 시각화를 줄입니다.'] },
+                    { q: '좋은 KPI 대시보드의 조건은?', a: ['정의가 고정돼 있고 SSOT를 사용합니다.', '드릴다운이 가능해 원인 분석이 가능합니다.', '알람/액션과 연결돼 “보고 끝”이 되지 않습니다.'] }
+                ]
+            },
+
+            {
+                id: 'role-growth',
+                category: '직무',
+                icon: '🚀',
+                title: '그로스 해커 / 퍼포먼스 마케터 (Growth)',
+                tags: ['AARRR', '퍼포먼스마케팅', 'GA4', 'CRM', '실험', 'SQL'],
+                shift: {
+                    past: '외부 매체 대시보드(ROAS/CTR)에 의존한 예산 배분.',
+                    present: '퍼스트파티 데이터 기반 코호트/CRM 자동화로 **리텐션/매출**을 직접 만든다.'
+                },
+                summary: '그로스는 실험 조직이다. KPI를 정의하고, 빠르게 실험하며, 돈을 만든다.',
+                content:
+                    `그로스는 광고 집행이 아니라 **성장 시스템**을 만드는 직무입니다.\n\n` +
+                    `**[그로스 실무 핵심]**\n` +
+                    `- AARRR 퍼널 병목 정의\n` +
+                    `- SQL로 세그먼트 추출 → CRM 캠페인 → 성과 측정 → 반복\n` +
+                    `- 어트리뷰션/기여도 분석, 실험 설계\n`,
+                extraTitle: '그로스 필수 역량',
+                extraList: [
+                    '**GA4/Amplitude**: 퍼널/코호트 설계',
+                    '**SQL**: 세그먼트 추출/검증',
+                    '**CRM**: Braze 등 자동화 + 실험'
+                ]
+            },
+
+            {
+                id: 'role-dpm',
+                category: '직무',
+                icon: '🧭',
+                title: '데이터 PM (Data Product Manager, DPM)',
+                tags: ['기획', '데이터거버넌스', '로드맵', '커뮤니케이션', '미니CEO'],
+                shift: {
+                    past: '일반 PM이 데이터팀에 티켓만 던지는 구조.',
+                    present: '데이터를 하나의 프로덕트로 보고, 로드맵/거버넌스/권한을 설계하는 **전담 DPM** 등장.'
+                },
+                summary: '데이터팀의 미니 CEO. “어떤 데이터가, 누구에게, 어떤 형태로” 제공돼야 하는지 설계한다.',
+                content:
+                    `DPM은 코딩보다 “데이터 생태계”를 설계합니다.\n` +
+                    `현업 요구를 번역하고, 데이터팀이 일할 수 있는 구조를 만든 뒤,\n` +
+                    `산출물이 실제로 쓰이게 만드는 책임을 집니다.\n`,
+                extraTitle: 'DPM 필수 역량',
+                extraList: [
+                    '**커뮤니케이션**: 요구사항 번역/조율',
+                    '**아키텍처 이해**: 수집→적재→모델링→활용',
+                    '**거버넌스**: 권한/정의/카탈로그/품질'
+                ]
+            },
+
+            {
+                id: 'role-prompt',
+                category: '직무',
+                icon: '🗣️',
+                title: '프롬프트 엔지니어 / AI 기획자',
+                tags: ['LLM', '프롬프트', 'RAG', '평가', '안전', 'LLMOps'],
+                shift: {
+                    past: '규칙 기반 챗봇(if-else)로 응답 제어.',
+                    present: '자연어로 LLM을 조련하고, RAG/평가/운영까지 설계하는 **LLM 시스템 기획자**.'
+                },
+                summary: 'LLM이 거짓말(환각)하지 않게 만들고, 원하는 형태로 일관되게 답하도록 설계한다.',
+                content:
+                    `프롬프트만 잘 써서는 실무가 안 됩니다.\n` +
+                    `RAG/평가/E2E 운영(LLMOps)까지 설계할 수 있어야 “서비스”가 됩니다.\n`
+            },
+
+            {
+                id: 'role-hr',
+                category: '직무',
+                icon: '👥',
+                title: 'HR 애널리스트 (People Analytics)',
+                tags: ['인사데이터', '이탈예측', '조직문화', '윤리', '통계'],
+                shift: {
+                    past: '감과 만족도 설문에 의존한 인사.',
+                    present: '협업/성과/근태 데이터를 결합해 **이탈 위험군**을 예측하고 조직을 설계.'
+                },
+                summary: '고객이 아닌 “직원”을 분석한다. 윤리/보안이 최우선이다.',
+                content:
+                    `People Analytics는 “분석”보다 “윤리”가 먼저입니다.\n` +
+                    `민감 데이터를 다루므로 권한/익명화/목적 제한이 필수입니다.\n`
+            },
+
+            {
+                id: 'role-quant',
+                category: '직무',
+                icon: '💹',
+                title: '퀀트 애널리스트 (Quantitative Analyst)',
+                tags: ['금융공학', '알고리즘트레이딩', '시계열', '백테스트', '리스크'],
+                shift: {
+                    past: '펀드매니저의 직관 기반 운용.',
+                    present: '대안데이터+모델 기반 자동 매매/리스크 관리 고도화.'
+                },
+                summary: '수학/통계/코딩으로 시장을 이기려는 직무. 백테스트 함정(과적합)이 핵심 리스크.',
+                content:
+                    `퀀트는 수익보다 “재현 가능한 전략”을 만드는 것이 먼저입니다.\n` +
+                    `백테스트 과적합/생존자 편향/슬리피지를 통제하지 못하면 실전에서 바로 깨집니다.\n`
+            },
+
+            // ==========================================================
+            // 3) 도메인 지식 A to Z (15) + relatedRoles 추가
+            // ==========================================================
+            {
+                id: 'dom-commerce',
+                category: '도메인',
+                icon: '🛒',
+                title: '[산업 A to Z] 전자상거래/커머스 (E-commerce)',
+                tags: ['전환율', '초개인화', 'LTV', '퍼널', '추천', '가격'],
+                relatedRoles: ['role-da', 'role-ae', 'role-growth', 'role-de', 'role-ds', 'role-mle'], // 추가된 연관 직무 데이터
+                summary: '가입→탐색→장바구니→결제 퍼널이 명확하고, 1% 개선이 수억 매출로 직결되는 “데이터의 꽃”.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `쿠팡/네이버쇼핑/무신사 같은 커머스는 “퍼널”이 가장 선명한 산업입니다.\n` +
+                    `전환율 1%p 개선이 바로 매출로 연결되므로, 데이터팀이 가장 강하게 임팩트를 내는 도메인입니다.\n\n` +
+                    `**[핵심 KPI]**\n` +
+                    `- **CVR(전환율)**: 장바구니/결제/구매 완료 비율\n` +
+                    `- **AOV(객단가)**, **LTV**, **CAC**\n` +
+                    `- **Repeat Rate(재구매율)**, **Refund/Cancel Rate(환불/취소율)**\n\n` +
+                    `**[주요 데이터 소스]**\n` +
+                    `- 클릭스트림(탐색/정렬/필터/검색)\n` +
+                    `- 트랜잭션(주문/결제/배송/환불)\n` +
+                    `- 상품 메타/재고/가격/프로모션\n\n` +
+                    `**[A to Z 체크포인트]**\n` +
+                    `- “매출” 정의: 주문매출 vs 결제매출 vs 정산매출\n` +
+                    `- 재고/품절이 퍼널을 깨는지(품절→이탈)\n` +
+                    `- 할인/쿠폰이 LTV를 올리는지(단기 매출 착시 주의)\n`,
+                knowledgeChecklist: [
+                    '**매출 정의 3종**(주문/결제/정산)과 환불/취소 처리 방식',
+                    '**퍼널 이벤트 설계**(노출→클릭→상세→장바구니→결제→완료)',
+                    '**가격/프로모션**이 전환·마진에 미치는 영향(착시 주의)',
+                    '**추천 시스템** KPI(CTR/전환/리텐션)와 가드레일(다양성/품절/CS)',
+                    '**배송/리드타임**이 리텐션에 미치는 영향',
+                    '**검색** 품질 지표(CTR@K, NDCG, zero-result)'
+                ],
+                interviewQuestions: [
+                    { q: '커머스에서 “매출”을 정의할 때 무엇을 확인하나요?', a: ['주문/결제/정산 시점과 환불/취소 포함 여부를 확인합니다.', '프로모션/쿠폰/포인트 처리(순매출 vs 총매출)를 구분합니다.'] },
+                    { q: '전환율이 떨어졌을 때 어디부터 보나요?', a: ['퍼널 단계별 이탈, 유입채널 믹스, 품절/가격/배송 이슈를 먼저 봅니다.', '세그먼트(신규/기존, 모바일/웹)로 분해해 원인을 좁힙니다.'] },
+                    { q: '추천 시스템의 성공을 무엇으로 정의하나요?', a: ['CTR만 보지 않고 전환/리텐션/마진 가드레일까지 봅니다.', '다양성/품절/CS 증가 같은 부작용을 함께 통제합니다.'] }
+                ]
+            },
+
+            {
+                id: 'dom-finance',
+                category: '도메인',
+                icon: '💳',
+                title: '[산업 A to Z] 금융/핀테크 (Finance & FinTech)',
+                tags: ['신용평가', 'FDS', '규제', '보안', '대안데이터'],
+                relatedRoles: ['role-da', 'role-ds', 'role-de', 'role-consultant-dataai', 'role-quant', 'role-ba'],
+                summary: '정합성과 규제가 생명. 오탐/미탐 비용이 크고, 설명가능성(XAI) 요구가 강하다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `은행/카드/핀테크는 숫자 오차가 바로 손실로 이어집니다.\n` +
+                    `강한 규제/보안/감사 환경에서, 대안데이터를 결합해 리스크/상품을 고도화합니다.\n\n` +
+                    `**[핵심 KPI]**\n` +
+                    `- **NPL(부실채권율)**, 연체율, 승인율\n` +
+                    `- **FDS 적중률**(사기 탐지)과 오탐률\n` +
+                    `- 고객 유지/자산 증대(AUM), 한도 사용률\n\n` +
+                    `**[주요 데이터 소스]**\n` +
+                    `- 트랜잭션(입출금/대출/카드)\n` +
+                    `- 마이데이터/대안데이터(통신/이커머스/납부)\n\n` +
+                    `**[주의]**\n` +
+                    `- 모델 성능보다 **설명가능성(XAI)**와 **감사 대응**이 중요합니다.\n` +
+                    `- 개인정보/접근권한 설계가 프로젝트 난이도를 결정합니다.\n`,
+                knowledgeChecklist: [
+                    '**신용/리스크 KPI**(연체/부실/승인/손실) 구조 이해',
+                    '**오탐/미탐 비용**: 탐지율을 올리면 고객 불편도 증가',
+                    '**XAI/설명**: 규제/민원 대응이 가능한 근거 제공',
+                    '**PII/권한/감사로그**: 폐쇄망/망분리 환경 고려',
+                    '**시계열**: 고객 행동은 시간축이 핵심(데이터 누수 주의)'
+                ],
+                interviewQuestions: [
+                    { q: 'FDS 모델에서 가장 중요한 것은 무엇인가요?', a: ['정확도보다 오탐/미탐 비용을 기준으로 임계값을 설계합니다.', '실시간 서빙/지연시간과 운영 안정성이 핵심입니다.'] },
+                    { q: '신용평가에서 데이터 누수는 어떻게 생기나요?', a: ['대출 승인/거절 이후 생성된 정보가 학습 데이터에 섞일 수 있습니다.', '피처 생성 시점과 검증을 시간축으로 엄격히 나눕니다.'] }
+                ]
+            },
+
+            {
+                id: 'dom-game',
+                category: '도메인',
+                icon: '🎮',
+                title: '[산업 A to Z] 게임 (Gaming & Esports)',
+                tags: ['밸런싱', '이탈예측', '로그분석', '어뷰징', '경제'],
+                relatedRoles: ['role-da', 'role-de', 'role-ds', 'role-growth'],
+                summary: '빅데이터의 원조. 초단위 로그로 밸런싱/이탈/어뷰징을 잡아 수익을 방어한다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `게임은 모든 행동이 로그로 남는 산업입니다.\n` +
+                    `핵심은 “재미”를 데이터로 번역해 밸런스를 조정하고, 이탈과 어뷰징을 방어하는 것입니다.\n\n` +
+                    `**[핵심 KPI]**\n` +
+                    `- DAU/MAU, ARPU/ARPPU, 잔존율\n` +
+                    `- 재화 인플레이션(생산/소모), 핵/작업장 탐지율\n\n` +
+                    `**[포인트]**\n` +
+                    `- 유저의 ‘순간 이탈’은 보통 특정 구간(레벨/던전/과금)에서 발생합니다.\n`,
+                knowledgeChecklist: [
+                    '**이탈 구간 분석**: 레벨/튜토리얼/특정 던전 병목',
+                    '**게임 경제**: 재화 생산/소모, 인플레이션 지표',
+                    '**어뷰징 탐지**: 작업장 패턴/이상 행동 시퀀스',
+                    '**A/B**: 이벤트 보상/난이도 조정의 실험 설계'
+                ],
+                interviewQuestions: [
+                    { q: '게임에서 “재미”를 어떻게 데이터로 보나요?', a: ['세션 길이/반복 플레이/다음날 재접속(리텐션)로 봅니다.', '실패율/재시도율로 난이도 병목을 찾습니다.'] },
+                    { q: '어뷰징 탐지의 핵심은?', a: ['정상 유저 대비 행동 패턴(속도/주기/동선)이 비정상적으로 규칙적입니다.', '시퀀스 기반 특징과 룰+ML 결합이 실전적입니다.'] }
+                ]
+            },
+
+            {
+                id: 'dom-mfg',
+                category: '도메인',
+                icon: '🏭',
+                title: '[산업 A to Z] 스마트팩토리/제조 (Smart Factory)',
+                tags: ['반도체', '배터리', '예지보전', '시계열', '수율', '이상탐지'],
+                relatedRoles: ['role-ds', 'role-de', 'role-da', 'role-ba'],
+                summary: '1% 수율 개선이 수백억. 센서/비전 시계열 데이터를 다루는 고난도 도메인.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `제조는 데이터가 깨끗하지 않고, 현장 제약이 강합니다.\n` +
+                    `모델 성능보다 “현장 적용 가능성”이 성공을 결정합니다.\n\n` +
+                    `**[핵심 KPI]**\n` +
+                    `- **수율(Yield)**, Downtime(비가동), 불량률\n\n` +
+                    `**[데이터]**\n` +
+                    `- 센서 시계열(온도/압력/진동)\n` +
+                    `- 비전 이미지(표면 불량)\n`,
+                knowledgeChecklist: [
+                    '**수율/불량 정의**와 라벨링 기준',
+                    '**노이즈/결측**이 많은 시계열 전처리',
+                    '**오탐/미탐 비용**(알람 신뢰도가 최우선)',
+                    '**현장 적용**: 알람 정책/점검 프로세스와 결합'
+                ]
+            },
+
+            {
+                id: 'dom-mobility',
+                category: '도메인',
+                icon: '🚕',
+                title: '[산업 A to Z] 모빌리티/물류 (Mobility & Logistics)',
+                tags: ['공간데이터', '수요예측', '라우팅', 'ETA', '최적화'],
+                relatedRoles: ['role-da', 'role-ds', 'role-de', 'role-mle'],
+                summary: '지도 위의 데이터를 통제한다. 최적화/수요예측이 핵심이고 외생 변수(날씨/교통)가 지배한다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `배차/배송은 “실시간 의사결정” 산업입니다.\n` +
+                    `수요(콜)와 공급(차량/라이더)을 맞추고, ETA 정확도를 끌어올리는 것이 핵심입니다.\n\n` +
+                    `**[핵심 KPI]**\n` +
+                    `- 매칭률, ETA 오차, 취소율\n`,
+                knowledgeChecklist: [
+                    '**GIS/공간 데이터** 기본(좌표/격자/핫스팟)',
+                    '**ETA** 모델링과 검증(시간축/외생 변수)',
+                    '**라우팅 최적화**(VRP) 기본 개념',
+                    '**날씨/교통** 외생 변수 반영'
+                ]
+            },
+
+            {
+                id: 'dom-media',
+                category: '도메인',
+                icon: '📺',
+                title: '[산업 A to Z] 미디어/OTT/콘텐츠',
+                tags: ['구독경제', '체류시간', '추천', 'Churn', '썸네일'],
+                relatedRoles: ['role-da', 'role-ds', 'role-de', 'role-growth'],
+                summary: '사용자의 시간을 점유하는 전쟁. 리텐션/체류시간/구독 유지가 핵심이다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `OTT/웹툰은 구독 유지(Churn 방지)가 생존입니다.\n` +
+                    `추천/썸네일/콘텐츠 편성이 리텐션을 결정합니다.\n`,
+                knowledgeChecklist: [
+                    '**Churn/Retention** 정의(기간/기준)',
+                    '**체류시간** 해석(진짜 몰입 vs 틀어놓기)',
+                    '**추천** KPI와 다양성 가드레일',
+                    '**콘텐츠 메타데이터** 설계'
+                ]
+            },
+
+            {
+                id: 'dom-hr',
+                category: '도메인',
+                icon: '👥',
+                title: '[산업 A to Z] HR/피플 (People Analytics)',
+                tags: ['조직문화', '이탈예측', '성과분석', '윤리'],
+                relatedRoles: ['role-hr', 'role-da', 'role-ba'],
+                summary: '직원을 분석한다. 윤리/권한/익명화가 최우선이다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `People Analytics는 고객이 아니라 직원 데이터를 다룹니다.\n` +
+                    `한 번 신뢰를 잃으면 조직 전체가 깨지므로, 윤리/보안이 실력입니다.\n`,
+                knowledgeChecklist: [
+                    '**익명화/가명처리**와 목적 제한',
+                    '**설문 설계**(신뢰도/편향) 기본',
+                    '**이탈 예측**의 윤리/공정성',
+                    '**현업 적용**(정책/제도)과 연결'
+                ]
+            },
+
+            {
+                id: 'dom-health',
+                category: '도메인',
+                icon: '🧬',
+                title: '[산업 A to Z] 의료/헬스케어 (Digital Health)',
+                tags: ['의료데이터', '웨어러블', '생체신호', '규제', 'XAI'],
+                relatedRoles: ['role-ds', 'role-mle', 'role-de', 'role-da'],
+                summary: '데이터 실수=생명. 규제/설명가능성/품질이 핵심이며, 비전/시계열이 강하게 들어온다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `의료는 규제/윤리/설명이 강합니다.\n` +
+                    `모델 성능보다 “임상적으로 안전한가”가 최종 기준입니다.\n`,
+                knowledgeChecklist: [
+                    '**민감정보/규제** 이해',
+                    '**민감도/특이도**와 임상적 해석',
+                    '**설명가능성(XAI)** 요구',
+                    '**데이터 품질**(라벨/노이즈/편향)'
+                ]
+            },
+
+            {
+                id: 'dom-proptech',
+                category: '도메인',
+                icon: '🏢',
+                title: '[산업 A to Z] 프롭테크/부동산 (PropTech)',
+                tags: ['시세예측', '공간데이터', 'AVM', '공공데이터'],
+                relatedRoles: ['role-da', 'role-ds', 'role-de'],
+                summary: '정보 비대칭 시장을 데이터로 투명하게 만든다. 공간/GIS + 공공데이터 결합이 핵심.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `부동산은 데이터 소스가 다양하고, 공간 파생 변수가 승부를 가릅니다.\n` +
+                    `AVM(자동가치산정) 오차율을 낮추는 것이 핵심 과제입니다.\n`,
+                knowledgeChecklist: [
+                    '**공공 데이터**(실거래가/대장) 수집/정제',
+                    '**공간 파생 변수** 설계(반경/접근성/상권)',
+                    '**AVM 평가**(MAPE)와 편향',
+                    '**허위매물/품질** 관리'
+                ]
+            },
+
+            {
+                id: 'dom-sports',
+                category: '도메인',
+                icon: '⚽',
+                title: '[산업 A to Z] 스포츠 (Sports Analytics)',
+                tags: ['트래킹데이터', 'xG', '부상예측', '전술'],
+                relatedRoles: ['role-da', 'role-ds'],
+                summary: '선수의 움직임을 수치화한다. 트래킹/웨어러블 시계열이 핵심이며, 전술/의학 도메인 지식이 필요하다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `스포츠는 “전술/피지컬”을 데이터로 번역합니다.\n` +
+                    `xG 같은 지표와 부상 위험 예측이 대표 과제입니다.\n`,
+                knowledgeChecklist: [
+                    '**트래킹 데이터**(좌표) 처리',
+                    '**xG** 같은 확률 지표 이해',
+                    '**부하/피로**와 부상 위험(ACWR)',
+                    '**전술 리포트** 스토리라인'
+                ]
+            },
+
+            {
+                id: 'dom-education',
+                category: '도메인',
+                icon: '📚',
+                title: '[산업 A to Z] 에듀테크/교육 (EduTech)',
+                tags: ['지식추적', '맞춤형학습', 'LLM튜터', '이탈분석'],
+                relatedRoles: ['role-ds', 'role-prompt', 'role-da', 'role-mle'],
+                summary: '학생의 지식 상태를 추적해 맞춤형 학습을 만든다. DKT/시퀀스 모델이 강하다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `교육은 단순 정답률이 아니라, “왜 틀렸는지/무엇이 부족한지”를 모델링합니다.\n`,
+                knowledgeChecklist: [
+                    '**학습 로그**(풀이시간/힌트/오답패턴)',
+                    '**DKT**(지식 추적) 개념',
+                    '**컨텐츠 메타데이터**(개념/난이도)',
+                    '**리텐션**(지루함/난이도) 분석'
+                ]
+            },
+
+            {
+                id: 'dom-public',
+                category: '도메인',
+                icon: '🏛️',
+                title: '[산업 A to Z] 공공/스마트시티 (Public Sector)',
+                tags: ['스마트시티', '공공데이터', '보안', '폐쇄망', '거버넌스'],
+                relatedRoles: ['role-consultant-dataai', 'role-de', 'role-prompt', 'role-ba'],
+                summary: '보안/폐쇄망 제약 속에서 데이터 플랫폼과 AI를 도입한다. 거버넌스가 난이도를 결정한다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `공공은 보안/망분리/규정이 강해, 기술보다 “운영 설계”가 더 어렵습니다.\n`,
+                knowledgeChecklist: [
+                    '**망분리/폐쇄망** 제약',
+                    '**권한/감사로그** 요구',
+                    '**문서 기반 RAG** 수요(규정/조례/민원)',
+                    '**데이터 표준화/카탈로그**'
+                ]
+            },
+
+            {
+                id: 'dom-smartfarm',
+                category: '도메인',
+                icon: '🌱',
+                title: '[산업 A to Z] 스마트팜/애그테크 (Agriculture)',
+                tags: ['IoT센서', '비전AI', '기후데이터', '수확량예측'],
+                relatedRoles: ['role-ds', 'role-de', 'role-da'],
+                summary: '센서+기후 데이터를 결합해 생육을 최적화한다. 시계열/제어/도메인 지식이 중요하다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `기후 위기 시대에 농업은 데이터/AI 도입이 가장 드라마틱한 산업 중 하나입니다.\n` +
+                    `온실 IoT 데이터와 외부 기상 데이터를 결합해 수확량/품질을 최적화합니다.\n`,
+                knowledgeChecklist: [
+                    '**센서 시계열** 전처리(노이즈/결측)',
+                    '**생육 제어 로직**(온도/습도/CO2)',
+                    '**기후 데이터** 반영',
+                    '**병해충** 비전 진단'
+                ]
+            },
+
+            {
+                id: 'dom-marketing',
+                category: '도메인',
+                icon: '🎯',
+                title: '[산업 A to Z] 마케팅/애드테크 (Marketing & AdTech)',
+                tags: ['ROAS', '어트리뷰션', 'MMM', '퍼포먼스', '쿠키리스'],
+                relatedRoles: ['role-growth', 'role-da', 'role-ae', 'role-ds'],
+                summary: '쿠키리스 시대에 통계/추론이 생명. 기여도/어트리뷰션과 MMM이 중요해진다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `마케팅은 “관측이 어려워지는 시대”입니다.\n` +
+                    `어트리뷰션/기여도 분석과 MMM 같은 추론 모델이 중요합니다.\n`,
+                knowledgeChecklist: [
+                    '**ROAS/CPA/CAC** 정의',
+                    '**어트리뷰션**(라스트/멀티터치) 한계',
+                    '**MMM** 기본 개념',
+                    '**실험 설계**(증분 효과)'
+                ]
+            },
+
+            {
+                id: 'dom-saas',
+                category: '도메인',
+                icon: '☁️',
+                title: '[산업 A to Z] B2B SaaS/소프트웨어',
+                tags: ['MRR', 'ARR', 'Churn', 'NDR', 'PLG', 'HealthScore'],
+                relatedRoles: ['role-da', 'role-ae', 'role-growth', 'role-dpm', 'role-bi'],
+                summary: 'MRR/Churn이 모든 것. “고객 건강도(Health Score)”와 리텐션이 기업가치를 만든다.',
+                content:
+                    `**[산업 개요]**\n` +
+                    `B2B SaaS는 고객 수는 적지만 객단가가 크고, 해지가 매우 논리적으로 발생합니다.\n` +
+                    `따라서 사용 로그 기반 Health Score와 Churn 방지가 핵심입니다.\n`,
+                knowledgeChecklist: [
+                    '**MRR/ARR/NDR** 정의와 계산',
+                    '**B2B Churn** 특성(해지 이유가 명확)',
+                    '**Health Score** 설계(핵심 기능 사용, 활성도)',
+                    '**PLG**(Product-led growth) 데이터'
+                ]
+            },
+
+            // ==========================================================
+            // 4) AI 트렌드
+            // ==========================================================
+            {
+                id: 'trend-text2sql',
+                category: 'AI 트렌드',
+                icon: '💬',
+                title: '코딩 중심의 종말: Text-to-SQL과 AI 에이전트',
+                tags: ['Text-to-SQL', 'AI에이전트', '오케스트레이션', '업무자동화'],
+                shift: {
+                    past: 'JOIN/서브쿼리를 하드코딩하는 능력이 핵심 역량.',
+                    present: '쿼리는 AI가 만들고, 사람은 **문제 정의/결과 해석/실행 설계**에 집중.'
+                },
+                summary: '쿼리가 아니라 “무엇을 볼지”가 경쟁력이다. 자동화 파이프라인을 설계하는 사람이 이긴다.',
+                content:
+                    `Text-to-SQL이 보편화되면, 분석가의 시간은 “작성”에서 “설계”로 이동합니다.\n\n` +
+                    `**[생존 전략]**\n` +
+                    `- 문제 정의: 어떤 KPI/코호트를 볼 것인가\n` +
+                    `- 오케스트레이션: DB→요약→대시보드→리포트 자동화\n`
+            },
+            {
+                id: 'trend-rag',
+                category: 'AI 트렌드',
+                icon: '🤖',
+                title: 'LLM의 환각을 잠재우다: RAG (검색 증강 생성)',
+                tags: ['RAG', 'VectorDB', 'Evaluation', 'LLMOps'],
+                shift: {
+                    past: '프롬프트만으로 답변(근거 없음).',
+                    present: '근거 문서 검색(Retrieval) 후 그 내용만 기반으로 답변(Generation).'
+                },
+                summary: '기업이 가장 절실하게 찾는 스킬 중 하나. “근거 기반”이 실서비스의 조건이다.',
+                content:
+                    `RAG의 핵심은 “데모”가 아니라 **평가(Eval)**입니다.\n` +
+                    `정확도/근거율/비용/지연시간을 지표로 튜닝하고 운영해야 합니다.\n`
+            },
+            {
+                id: 'trend-linux',
+                category: 'AI 트렌드',
+                icon: '💻',
+                title: '서버 엔지니어링의 귀환: Linux, Tmux, Docker',
+                tags: ['Linux', 'Docker', 'GPU서버', 'CLI'],
+                shift: {
+                    past: '로컬/Colab GUI 중심.',
+                    present: '원격 Linux/GPU 서버에서 터미널 기반 운영이 필수.'
+                },
+                summary: '데이터 직군도 엔지니어다. 터미널과 도커는 생존 스킬.',
+                content:
+                    `실무는 로컬이 아니라 서버입니다.\n` +
+                    `Docker/K8s를 모르면 모델/파이프라인이 “서비스”가 되지 않습니다.\n`
+            },
+            {
+                id: 'trend-mlops',
+                category: 'AI 트렌드',
+                icon: '🔄',
+                title: '연구실 밖으로 나온 AI: MLOps와 LLMOps',
+                tags: ['MLOps', 'LLMOps', '모니터링', '재학습'],
+                shift: {
+                    past: '모델 파일 던져주고 끝.',
+                    present: '학습-배포-모니터링-재학습 파이프라인 자동화.'
+                },
+                summary: '모델은 시간이 지나면 무조건 망가진다. 운영 자동화가 경쟁력이다.',
+                content:
+                    `드리프트/성능 저하를 감지하고 재학습/재배포하는 체계가 없으면,\n` +
+                    `AI는 “한 번 반짝”하고 끝납니다.\n`
+            },
+            {
+                id: 'trend-datamesh',
+                category: 'AI 트렌드',
+                icon: '🕸️',
+                title: '데이터 거버넌스와 Data Mesh',
+                tags: ['거버넌스', 'DataMesh', '권한관리', '정의'],
+                shift: {
+                    past: '중앙 데이터팀이 모든 요청을 독박.',
+                    present: '도메인 팀이 데이터 오너가 되어 분산 운영(Data Mesh) 도입.'
+                },
+                summary: '대기업/유니콘에서 필수. 숫자 충돌을 끝내는 “정의/권한/품질”이 승부처.',
+                content:
+                    `데이터가 많아질수록 “숫자 충돌”이 회사의 시간을 잡아먹습니다.\n` +
+                    `거버넌스는 코딩이 아니라, 회사의 “운영 체계”입니다.\n`
+            }
+        ];
+
+        // =========================
+        // Playbook Data (from index3)
+        // =========================
+        const ROLE_INTERVIEW_BASE = [
+            "가장 최근 프로젝트에서 **문제 정의 → 지표 선택 → 실행(액션)** 흐름을 설명해 주세요.",
+            "원인 분석할 때 **트래킹/ETL 이슈**와 **실제 비즈니스 변화**를 어떻게 구분하나요?",
+            "SQL에서 **Window Function/CTE**를 실제로 사용한 사례를 설명해 주세요.",
+            "대시보드/리포트에서 **지표 정의 불일치**를 겪었을 때 어떻게 해결했나요?",
+            "데이터 **결측/중복/지연**을 어떻게 모니터링하고 대응하나요?",
+            "A/B 테스트에서 **MDE, 파워(1-β), 유의수준(α)**를 어떻게 잡나요?",
+            "상관관계와 인과관계를 구분해서 의사결정한 경험이 있나요?",
+            "이해관계자(PO/마케팅/엔지니어)와 충돌이 생겼을 때 어떻게 조율하나요?",
+            "실패한 분석/모델/파이프라인 경험과 개선한 점(회고)을 말해 주세요.",
+            "LLM/AI 도구를 어디까지 쓰고, 결과 **검증**은 어떻게 하나요?",
+            "한 문장으로 '본인의 강점'을 정의하고, 근거 사례를 말해 주세요.",
+            "데이터가 '맞다/틀리다'를 어떤 절차로 검증하나요?",
+            "분석 결과가 예상과 다를 때(가설 실패) 어떻게 행동했나요?",
+            "숫자를 보고 '액션'으로 바꾸는 프로세스를 설명해 주세요.",
+            "데이터 요청이 모호할 때(요구사항 불명확) 어떻게 정리하나요?",
+            "성공 지표(KPI)가 애매할 때 어떤 방식으로 합의하나요?",
+            "데이터 품질을 개선해서 사용자 신뢰를 올린 사례가 있나요?",
+            "업무 문서화/재현성을 위해 어떤 습관을 가지고 있나요?",
+            "개인정보/보안/윤리 이슈를 고려해서 데이터 작업한 경험이 있나요?",
+            "모니터링/알람을 설계해본 경험이 있나요?"
+        ];
+
+        const DOMAIN_INTERVIEW_BASE = [
+            "이 도메인의 **North Star Metric**은 무엇이고 왜 그렇게 보나요?",
+            "이 도메인에서 KPI끼리 충돌하는 **Trade-off** 예시를 들어보세요.",
+            "핵심 로그/테이블 스키마를 설계한다면 어떤 이벤트/컬럼이 필요할까요?",
+            "이 도메인에서 자주 생기는 **데이터 품질/라벨** 문제는 무엇인가요?",
+            "실험(A/B) 혹은 준실험을 적용한다면 어떤 상황에 어떻게 쓰겠어요?",
+            "세그먼트/코호트를 어떤 기준으로 나누고, 무엇을 비교하나요?",
+            "최근 3개월 안에 개선해볼 **핵심 레버 1개**를 제안해보세요.",
+            "이 도메인에서 **시즌성/외생 변수**(날씨/휴일/프로모션)를 어떻게 통제하나요?",
+            "지표가 좋아졌는데 비즈니스가 나빠지는 착시 사례는?",
+            "이 도메인의 대표적인 **퍼널**(전환 흐름)을 그려보세요.",
+            "중요한 지표 3개만 고르라면 무엇이고 이유는?",
+            "이 도메인에서 '고객'의 정의는 무엇이고, 단위는 무엇인가요?",
+            "규제/정책/보안 때문에 못 하는 분석이 있다면 대안은?",
+            "지표 목표를 설정할 때(OKR) 어떤 기준을 쓰나요?",
+            "이 도메인에서 경쟁사 벤치마킹을 데이터로 한다면 무엇을 비교할까요?"
+        ];
+
+        const ROLE_PLAYBOOK = {
+            "role-da": {
+                workA2Z: [
+                    "KPI 트리(북극성→서브 KPI) 만들고 **지표 정의서**로 합의",
+                    "퍼널/코호트 분석으로 병목 구간 찾기 (예: 결제 단계 이탈)",
+                    "SQL로 로그 추출 → 세그먼트 분해(채널/신규·기존/버전) → 원인 가설 수립",
+                    "A/B 테스트 설계(대상/기간/MDE) 및 결과 해석(유의성+효과크기)",
+                    "대시보드(일/주간) 운영: 이상치 감지, 정의 변경 이력 관리",
+                    "인사이트를 **액션 플랜**으로 변환(PO 설득/우선순위/예상 임팩트 %)"
+                ],
+                deliverables: [
+                    "주간 KPI 대시보드 + 이상징후 코멘트",
+                    "실험 설계 문서(가설/지표/대상/표본수) + 실험 결과 리포트",
+                    "핵심 SQL 쿼리(재현 가능하게) + 데이터 정의서/메트릭 사전",
+                    "제품 개선 제안서(가설→근거 데이터→예상 임팩트→리스크)"
+                ],
+                pitfalls: [
+                    "정의가 다른 지표를 섞어서 결론 내림(DAU/매출/전환율)",
+                    "효과크기/비즈니스 임팩트 없이 p-value만 보고 의사결정",
+                    "트래킹 이슈(중복 이벤트/누락) 확인 없이 원인 분석 진행"
+                ],
+                studyRoadmap: [
+                    "**SQL 고급**(Window/CTE/튜닝) → 코테 대비",
+                    "**실험/통계**(MDE/파워/SRM/다중비교) 기본기",
+                    "퍼널/코호트/리텐션 프레임워크 체화",
+                    "데이터 스토리텔링: 1페이지 리포트로 의사결정 유도",
+                    "포트폴리오: 이커머스/앱 로그로 '문제→실험→임팩트' 1개 완주"
+                ],
+                topQuestions: [
+                    "퍼널 지표가 떨어졌을 때 **처음 30분**에 무엇부터 보나요?",
+                    "A/B 테스트에서 **SRM**은 어떻게 확인하고 대응하나요?",
+                    "전환율이 올랐는데 매출이 떨어지는 경우(Trade-off)를 어떻게 해석하나요?",
+                    "코호트 분석을 설계할 때 '동일 코호트' 기준을 어떻게 잡나요?",
+                    "대시보드가 느릴 때 SQL/마트 관점에서 어떤 최적화를 하나요?",
+                    "트래킹 플랜(Event Spec)을 작성해본 경험이 있나요?",
+                    "PM이 원하는 분석이 '의미 없다'고 판단될 때 어떻게 설득하나요?",
+                    "인과추론(준실험)을 써야 했던 사례를 말해 주세요."
+                ],
+                interviewExamples: [
+                    { q: "결제 전환율이 급락했습니다. 어떻게 접근하나요?", a: ["1) **정의/측정부터 확인**: 전환율 분모·분자, 기간, 로그 누락/중복 여부 점검", "2) **세그먼트 분해**: 신규/기존, 채널, 앱버전, OS, 결제수단으로 쪼개 '어디서' 깨졌는지 찾기", "3) **퍼널 단계별**: 장바구니→주문서→결제→성공 단계 중 이탈이 급증한 지점 특정", "4) 가설 2~3개로 좁혀 **재현/증거** 확보 후 PO/개발팀에 액션 제안"] },
+                    { q: "A/B 테스트에서 유의미하게 나왔는데 배포를 망설인 이유는?", a: ["유의성(p)뿐 아니라 **효과크기(absolute/relative lift)**와 비용/리스크를 같이 봄", "세그먼트별 편차가 크면 **이질성(Heterogeneity)** 분석 후 부분 롤아웃 제안", "다중 실험/지표를 동시에 봤다면 **다중비교**와 장기지표(리텐션/LTV) 리스크 체크"] },
+                    { q: "SQL 코딩테스트를 잘 보려면?", a: ["**Window/CTE/자기조인/집계** 패턴을 '문제 유형'으로 묶어 반복", "WHERE로 먼저 줄이고 JOIN, 필요한 컬럼만 SELECT하는 **성능 습관**", "쿼리를 '검증 쿼리'(샘플 행 확인)와 '최종 쿼리'로 나눠 디버깅"] }
+                ]
+            },
+            "role-ba": {
+                workA2Z: [
+                    "신규 기능 런칭 전, **성공 KPI**를 North Star + Input Metric + Guardrail로 분해하고 정의서 배포",
+                    "데이터팀/개발팀에 전달할 **데이터 요구사항(DRD)** 작성: 컬럼/그레인/리프레시 주기/소스/품질 기준",
+                    "As-is 프로세스에서 병목(승인/심사/CS)을 찾고 To-be를 설계해 **리드타임 N% 단축**",
+                    "이벤트 로깅 설계(이벤트명/파라미터/트리거/중복/세션 정의) 및 수집 누락 점검",
+                    "UAT 계획 수립: 정상/비정상/경계값 시나리오, 샘플 데이터 준비, 검증 체크리스트 운영",
+                    "스코프 크립 방지: Change Request 템플릿 운영 + 우선순위 재정렬(RICE/WSJF)",
+                    "데이터 정의 충돌 발생 시, 의사결정 회의 운영 후 **Decision Log**로 고정"
+                ],
+                deliverables: [
+                    "요구사항 정의서(BRD/FRD/DRD) + Decision Log",
+                    "프로세스(As-is/To-be) 맵 + 병목/통제점 정리",
+                    "지표/용어 정의서(Data Dictionary & Metric Spec)",
+                    "UAT 시나리오 + 검증 체크리스트"
+                ],
+                pitfalls: [
+                    "정의는 있는데 예외 케이스(취소/환불/중복/지연)가 없는 것",
+                    "스코프를 잠그지 않아 요구사항이 계속 늘어남(Scope Creep)",
+                    "SSOT(단일 진실 소스)를 지정하지 않아 팀마다 다른 숫자가 나오는 것"
+                ],
+                studyRoadmap: [
+                    "문제 구조화: SCQA / MECE / Issue Tree로 문제 정의",
+                    "요구사항 문서화: User Story + Acceptance Criteria + Decision Log",
+                    "**SQL 기본(Join/Window)**으로 '검증 가능한 수준' 확보",
+                    "프로세스 설계: As-is/To-be, 병목과 통제점 도출",
+                    "포트폴리오: 데이터 정의 충돌 해결 + 프로세스 개선 사례"
+                ],
+                topQuestions: [
+                    "BA와 DA의 차이를 한 문단으로 설명해보세요.",
+                    "요구사항 수집부터 문서화까지 프로세스를 어떻게 가져가나요?",
+                    "KPI를 정의할 때 반드시 포함해야 하는 요소는 무엇인가요?",
+                    "스코프 크립을 어떻게 막나요?",
+                    "UAT를 어떻게 설계하나요?",
+                    "데이터 요구사항(DRD)을 작성할 때 필수 항목은?",
+                    "PRD/BRD/FRD의 차이를 설명해보세요.",
+                    "지표 정의가 팀마다 달라 충돌이 났을 때 어떻게 해결하나요?"
+                ],
+                interviewExamples: [
+                    { q: "'매출'의 정의가 팀마다 다를 때 BA는 무엇을 하나요?", a: ["각 팀이 왜 그 정의를 쓰는지 목적을 확인하고, 목적이 다르면 지표를 분리(주문매출 vs 정산매출)", "하나로 통일한다면 CFO/PO 의사결정자를 지정하고, 회의에서 결론 → **Decision Log + Metric Spec**으로 고정", "정의 변경은 과거 데이터 재산출(backfill)까지 영향이 있으므로 변경 비용과 일정을 함께 합의"] },
+                    { q: "스코프 크립을 막은 경험을 말해보세요.", a: ["요구사항에 **Acceptance Criteria**를 붙여 '완료 기준'을 테스트 가능하게 만듦", "추가 요청은 '요청 사유/가치/대체안/일정 영향'을 적는 **Change Request**로 접수", "우선순위 프레임(RICE/WSJF)으로 재정렬하고, 일정이 고정이면 범위를 줄이는 결정을 강제"] },
+                    { q: "새로운 데이터/AI 프로젝트를 시작할 때, 가장 먼저 확인할 3가지는?", a: ["**성공 정의(KPI)**가 있는가? (없으면 시작 금지)", "**데이터 준비도(Data Readiness)**: 수집 가능/품질/라벨/권한", "**채택(Adoption) 계획**: 누가/언제/어떻게 써서 의사결정이 바뀌는가"] }
+                ]
+            },
+            "role-consultant-dataai": {
+                workA2Z: [
+                    "C레벨 워크샵 운영: '어떤 KPI를 바꿀 것인가'로 논점을 고정",
+                    "Use-case Inventory: 아이디어를 **가치×실현가능성×리스크**로 스코어링해 Top 5 선정",
+                    "데이터 플랫폼 Target Architecture 설계: DW/Lakehouse 선택, 데이터 흐름, 권한/보안, 운영 조직(RACI)",
+                    "GenAI 파일럿 설계: RAG 문서 선정→청킹/임베딩→평가셋 구축→정확도/비용/지연시간 튜닝",
+                    "Adoption 계획 수립: 현업 프로세스에 AI 결과가 '붙는 지점' 설계, 운영 KPI/교육/가이드 제작",
+                    "Executive Deck 제작: SCQA + Pyramid Principle로 '왜/무엇/어떻게/얼마'를 한 장씩 명확히"
+                ],
+                deliverables: [
+                    "Executive Deck(현황 진단 + 전략 로드맵)",
+                    "Use-case 우선순위 매트릭스 + ROI 산정",
+                    "데이터 플랫폼/거버넌스 아키텍처 문서",
+                    "Adoption 계획(운영 KPI/교육/프로세스 반영)"
+                ],
+                pitfalls: [
+                    "PoC 성공에 만족하고 '현업이 쓰는가(Adoption)' KPI를 놓침",
+                    "기술 이름에 집중해 '운영 가능성'을 설계하지 않음",
+                    "데이터 거버넌스/정의 없이 플랫폼만 구축"
+                ],
+                studyRoadmap: [
+                    "문제 구조화: Issue Tree / KPI Tree / Value Tree / MECE",
+                    "스토리라인: SCQA + Pyramid Principle로 임원 5분 설득",
+                    "데이터/플랫폼 이해: DW/Lake/Lakehouse, 파이프라인, 거버넌스",
+                    "GenAI/RAG 실전: 근거 기반 설계, 평가(Eval), LLMOps",
+                    "포트폴리오: Use-case 발굴 + ROI 산정 + Deck 작성"
+                ],
+                topQuestions: [
+                    "데이터/AI 컨설턴트가 하는 일을 '딜 타입'으로 나눠 설명해보세요.",
+                    "AI/데이터 프로젝트의 ROI를 어떻게 산정하나요?",
+                    "Use-case를 우선순위화하는 프레임을 제시해보세요.",
+                    "고객이 '데이터가 없다'고 할 때 첫 액션은?",
+                    "GenAI/RAG 프로젝트에서 가장 중요한 체크리스트 5가지는?",
+                    "임원을 5분 안에 설득하는 데크 구조는?",
+                    "컨설팅에서 'Adoption(현업 채택)'을 어떻게 확보하나요?",
+                    "왜 컨설팅을 선택했나요?"
+                ],
+                interviewExamples: [
+                    { q: "케이스: 매출이 10% 하락했습니다. 데이터 관점 접근을 구조화해보세요.", a: ["매출 = 트래픽 × 전환율 × 객단가 × 구매빈도로 분해", "채널 믹스, 퍼널 단계별 이탈, 가격/할인, 재고/품절, 외생 변수(시즌/경쟁) 점검", "가설 우선순위를 정해 빠르게 검증(대시보드/쿼리)하고 실험 설계"] },
+                    { q: "RAG 프로젝트에서 품질을 어떻게 측정하나요?", a: ["골든셋(Q&A) 구축 → 정확도/근거충실도/포맷준수 자동 평가(Eval)", "환각(헛소리) 억제: 근거 없으면 거절, 출처 표기 강제", "비용(토큰)/지연시간(Latency)을 KPI로 두고 튜닝"] },
+                    { q: "데이터 플랫폼 프로젝트에서 가장 자주 실패하는 이유는?", a: ["기술 선택에 집중하고 **데이터 정의/오너십/거버넌스**를 뒤로 미룸", "PoC는 성공하지만 '누가 운영할지(TOM)'를 설계하지 않음", "Adoption 계획 없이 플랫폼만 만들어 '아무도 안 쓰는' 결과"] }
+                ]
+            },
+            "role-ds": {
+                workA2Z: [
+                    "비즈니스 문제를 **예측/분류/랭킹** 문제로 수학적으로 정의",
+                    "데이터 수집/라벨 정의(지연 라벨, 노이즈) 및 피처 설계",
+                    "Baseline → 모델 후보 비교(GBM/NN) → 평가 지표 선택(AUC, NDCG 등)",
+                    "데이터 누수(Leakage) 방지: 시간 기준 분할, 피처 생성 시점 관리",
+                    "오프라인 성능↔온라인 성능 갭 분석(서빙 피처 차이/편향)",
+                    "실험으로 KPI 임팩트 검증 + 모델 모니터링(드리프트/성능 저하)"
+                ],
+                deliverables: [
+                    "문제정의/라벨링/평가지표 명세서",
+                    "피처 리스트/피처 생성 파이프라인(Feature spec)",
+                    "모델 리포트(지표/오류 분석/세그먼트 성능)",
+                    "서빙 전 A/B 실험 설계 + 모니터링 대시보드"
+                ],
+                pitfalls: [
+                    "시간 누수/미래 정보가 섞인 피처로 오프라인만 과대평가",
+                    "지표 최적화가 실제 KPI와 안 맞음(예: AUC↑, 매출↓)",
+                    "라벨 지연/선택 편향을 무시하고 학습"
+                ],
+                studyRoadmap: [
+                    "ML 기본기(편향-분산, CV, leakage) + 오류 분석 습관",
+                    "추천/랭킹/시계열 등 '도메인 문제 유형' 1~2개 깊게",
+                    "실험(A/B)과 인과적 사고(왜 이 모델이 KPI를 올리나)",
+                    "피처 시점/서빙 피처 동일성 등 실무 이슈 경험 쌓기",
+                    "포트폴리오: '문제정의→라벨→모델→오류분석→KPI 가설' 흐름"
+                ],
+                topQuestions: [
+                    "데이터 **누수(Leakage)**를 발견/방지한 경험을 말해 주세요.",
+                    "클래스 불균형을 어떻게 처리했고, 지표는 무엇을 썼나요?",
+                    "오프라인 지표가 좋은데 온라인에서 안 좋으면 어디부터 보나요?",
+                    "추천/랭킹에서 **NDCG/MAP** 같은 지표를 왜 쓰나요?",
+                    "드리프트(분포 변화)를 어떻게 감지하고 대응하나요?",
+                    "모델 해석(XAI)이 필요한 경우 어떤 방법을 쓰나요?",
+                    "라벨이 지연되는 문제(예: 구매/이탈)에서 학습 전략은?",
+                    "피처 스토어/서빙 피처 동기화 문제를 어떻게 해결하나요?"
+                ],
+                interviewExamples: [
+                    { q: "AUC는 올랐는데 KPI(매출/리텐션)가 떨어졌다면?", a: ["1) **최적화 목표 불일치** 가능성: 모델 점수가 KPI 레버를 제대로 반영하는지 확인", "2) 상위 노출/정책 변경으로 **피드백 루프**(편향) 생겼는지 점검", "3) 세그먼트별 성능/캘리브레이션을 보고 '누가' 피해 보는지 확인", "4) 목표를 KPI에 더 근접한 지표로 재정의 또는 실험 재설계"] },
+                    { q: "Leakage를 방지하는 핵심 원칙 3가지는?", a: ["시간 기준 Split(Train/Valid/Test)과 피처 생성 시점 '미래 금지'", "라벨 생성 로직에 사용된 정보를 피처에 넣지 않기(동일 소스 주의)", "서빙 시점에 존재하지 않는 피처(사후 집계)를 학습에 넣지 않기"] },
+                    { q: "모델 오류 분석을 어떻게 하나요?", a: ["오류 샘플을 세그먼트(채널/국가/신규·기존/상품군)로 분해해서 **취약 구간** 발견", "Confusion Matrix/PR Curve 등으로 임계값 변화에 따른 운영 Trade-off 확인", "라벨 품질/데이터 누수/피처 시점 문제를 1순위로 점검"] }
+                ]
+            },
+            "role-de": {
+                workA2Z: [
+                    "원천 로그/DB/API에서 데이터 수집(배치/스트리밍) 설계",
+                    "Airflow로 ETL/ELT DAG 운영(재시도, 알람, 백필)",
+                    "Spark로 대용량 변환/집계(파티션/셔플 최적화)",
+                    "Kafka/Flink로 실시간 파이프라인 구축(Exactly-once 고려)",
+                    "DW/Lakehouse 적재 후 데이터 마트/권한/비용 최적화",
+                    "장애 대응: 지연/중복/스키마 변경/백필 전략"
+                ],
+                deliverables: [
+                    "데이터 파이프라인 아키텍처 문서(소스→싱크)",
+                    "Airflow DAG 코드 + 운영 룰(SLA/알람/백필)",
+                    "Spark 잡/스트리밍 잡 + 성능 튜닝 기록",
+                    "데이터 품질 체크(기본 테스트/카운트/중복) + 모니터링"
+                ],
+                pitfalls: [
+                    "Idempotency(재실행 안전성) 없이 재처리하다 중복 적재",
+                    "스키마 변경 대응이 없어서 다운스트림(DA/BI) 폭발",
+                    "셔플/파티션 설계 미흡으로 비용 폭증"
+                ],
+                studyRoadmap: [
+                    "배치 vs 스트리밍, Exactly-once, 멱등성 기본기",
+                    "Airflow 운영(백필/재시도/센서/알람) 경험",
+                    "Spark 튜닝(파티션, 조인 전략, 파일 포맷 Parquet)",
+                    "DW 모델링/권한/비용 최적화",
+                    "포트폴리오: '로그→DW→마트→대시보드' end-to-end"
+                ],
+                topQuestions: [
+                    "ETL과 ELT를 어떤 기준으로 나누나요?",
+                    "Airflow에서 **멱등성/백필**을 어떻게 설계하나요?",
+                    "Spark에서 조인 성능 이슈가 있을 때 무엇부터 보나요?",
+                    "스트리밍에서 중복/순서 뒤바뀜을 어떻게 처리하나요?",
+                    "SLA 지연을 감지하고 복구하는 프로세스는?",
+                    "스키마 드리프트가 발생하면 어떻게 대응하나요?",
+                    "DW 비용을 줄여본 경험이 있나요?",
+                    "데이터 품질 테스트를 어떤 레벨로 넣나요?"
+                ],
+                interviewExamples: [
+                    { q: "파이프라인이 새벽에 터졌습니다. 첫 대응은?", a: ["1) **영향 범위** 파악(어떤 마트/대시보드/모델이 깨졌는지)", "2) 원인 후보: 소스 지연/스키마 변경/리소스 부족/코드 배포", "3) 롤백/재시도/백필 계획 세우고, 알람/대시보드로 복구 확인", "4) 재발 방지: 품질 체크/스키마 계약/리소스 autoscaling"] },
+                    { q: "멱등성을 어떻게 보장하나요?", a: ["파티션(날짜/시간) 단위로 **overwrite** 혹은 upsert 전략", "고유키 기반 dedup + 체크포인트/오프셋 관리", "재실행 시 동일 결과가 나오도록 외부 상태 의존 최소화"] },
+                    { q: "스키마가 바뀌면(컬럼 추가/타입 변경) 어떻게 대응하나요?", a: ["스키마 계약(계층)과 검증: ingestion 단계에서 차이 감지", "하위 호환 처리(컬럼 추가는 허용, 타입 변경은 차단/격리)", "다운스트림 영향도(라인리지) 기반 공지 + 마이그레이션 플랜"] }
+                ]
+            },
+            "role-mle": {
+                workA2Z: [
+                    "학습 코드(노트북)를 서비스 코드로 리팩토링(재현/테스트)",
+                    "FastAPI/GRPC로 모델 서빙 API 구현 + 입력/출력 스키마 관리",
+                    "Docker 이미지 빌드 → K8s 배포(오토스케일/롤링업데이트)",
+                    "Latency/Throughput 최적화(배치 추론, 캐시, 양자화, vLLM 등)",
+                    "모델 버전/실험 추적(MLflow) + 모니터링(성능/드리프트)",
+                    "재학습 파이프라인 자동화(스케줄/트리거/검증 후 배포)"
+                ],
+                deliverables: [
+                    "서빙 API + 배포 매니페스트(도커/K8s) + 롤백 전략",
+                    "모델 모니터링 대시보드(지연/에러율/품질 지표)",
+                    "모델 릴리즈 노트(버전/변경점/리스크)",
+                    "재학습 파이프라인(학습→검증→배포) 자동화"
+                ],
+                pitfalls: [
+                    "학습/서빙 피처 불일치로 온라인 품질 붕괴",
+                    "모니터링 없이 배포해서 성능 저하를 늦게 발견",
+                    "GPU/인프라 비용 관리 없이 서빙 비용 폭증"
+                ],
+                studyRoadmap: [
+                    "Docker/K8s + API 서빙(FastAPI) 필수",
+                    "모델 최적화(ONNX, 양자화, 배치 추론) 맛보기",
+                    "모니터링(로그/메트릭)과 드리프트 개념",
+                    "CI/CD(테스트/배포) 기본",
+                    "포트폴리오: '모델→API→배포→모니터링' 데모"
+                ],
+                topQuestions: [
+                    "모델 서빙 Latency를 줄인 경험이 있나요?",
+                    "Canary/Shadow 배포를 어떻게 설계하나요?",
+                    "모델 버전/피처 버전을 어떻게 관리하나요?",
+                    "드리프트를 어떤 지표로 감지하나요?",
+                    "LLM 서빙에서 비용/지연 최적화는 어떻게 하나요?",
+                    "입력 데이터 검증(스키마/이상치)과 실패 처리는?",
+                    "재학습 트리거를 무엇으로 잡나요?"
+                ],
+                interviewExamples: [
+                    { q: "모델 응답이 느려졌습니다. 어디부터 보나요?", a: ["1) 병목 분리: 네트워크/전처리/추론/후처리/DB 호출 중 어디가 느린지", "2) 추론 최적화: 배치/캐시/모델 경량화(양자화) 후보 검토", "3) 인프라: 오토스케일, GPU 메모리, 요청 큐잉/타임아웃 점검", "4) 품질과의 Trade-off를 명확히 하고 목표 SLA로 튜닝"] },
+                    { q: "서빙 피처와 학습 피처가 달라지는 문제는?", a: ["피처 생성 로직을 하나로(공유 라이브러리/피처 스토어) 관리", "피처 버전과 데이터 스냅샷을 릴리즈 단위로 고정", "서빙 전 **offline-online consistency** 체크 자동화"] },
+                    { q: "모델 배포에서 가장 중요한 운영 지표는?", a: ["Latency(p95/p99), 에러율, 타임아웃율 같은 **SLA 지표**", "모델 품질(정확도/정밀도/리콜) + 드리프트 지표", "비용(토큰/인퍼런스 비용)과 트래픽 대비 스케일 효율"] }
+                ]
+            },
+            "role-ae": {
+                workA2Z: [
+                    "원천 데이터를 분석 친화적으로 변환(정의/타임존/중복 처리)",
+                    "dbt로 staging → mart 모델링(스타 스키마) 및 문서화",
+                    "incremental/partition 설계로 비용/속도 최적화",
+                    "dbt tests로 품질 보장(유니크/낫널/참조무결성)",
+                    "Git 기반 리뷰/CI 적용(배포 자동화)",
+                    "메트릭/세만틱 레이어 정리로 '숫자 하나' 만들기"
+                ],
+                deliverables: [
+                    "dbt 프로젝트(모델/테스트/문서) + 릴리즈 노트",
+                    "분석용 데이터 마트(스타 스키마) + 메트릭 정의",
+                    "성능 최적화 기록(쿼리 비용/시간 개선)",
+                    "데이터 리니지/오너십 문서"
+                ],
+                pitfalls: [
+                    "정의/타임존/중복을 모델에 반영하지 않아 숫자가 흔들림",
+                    "incremental 전략이 잘못되어 누락/중복 발생",
+                    "테스트/문서 없이 '쿼리 덩어리'만 쌓임"
+                ],
+                studyRoadmap: [
+                    "dbt 기본(모델/테스트/문서/snapshot) + Git",
+                    "스타 스키마/이벤트 모델링 이해",
+                    "성능 최적화(Partition/Cluster) 감각",
+                    "Metric store/세만틱 레이어 개념",
+                    "포트폴리오: 원천→staging→mart → 대시보드"
+                ],
+                topQuestions: [
+                    "dbt에서 incremental 모델을 언제/어떻게 쓰나요?",
+                    "테스트 전략(유니크/낫널/참조)을 어떻게 설계하나요?",
+                    "스타 스키마를 왜 쓰고 어떤 장단점이 있나요?",
+                    "모델 성능이 느릴 때 어떤 최적화를 하나요?",
+                    "지표 정의를 어떻게 문서화하고 합의하나요?",
+                    "CI/CD를 SQL/dbt에 적용해본 경험이 있나요?"
+                ],
+                interviewExamples: [
+                    { q: "'매출' 정의가 팀마다 다를 때 AE는 무엇을 하나요?", a: ["1) 매출 구성요소(결제/취소/환불/수수료/정산시점) 정의를 문서화", "2) 공통 메트릭 모델(dbt/semantic layer)로 단일 계산식 제공", "3) 변경 이력/버전 관리하고, 영향도(라인리지)로 공지/마이그레이션"] },
+                    { q: "쿼리 비용을 줄인 경험을 말해 주세요.", a: ["필터/조인을 staging에서 미리 정리해 재사용(중복 비용 제거)", "incremental + partition/cluster로 스캔 바이트 절감", "고비용 조인을 사전 집계/서브마트로 분리"] },
+                    { q: "dbt 테스트를 어디까지 넣나요?", a: ["핵심 사실 테이블: not null, unique, 참조무결성은 **필수**", "집계 지표 테이블: 합계/카운트 sanity check(전일 대비 변동) 등 운영 테스트", "너무 빡세면 개발 속도 저하 → '중요도 기반'으로 단계적 도입"] }
+                ]
+            },
+            "role-growth": {
+                workA2Z: [
+                    "AARRR 퍼널로 병목을 정의하고 '가설→실험→학습' 사이클 운영",
+                    "SQL로 세그먼트 추출(재방문/이탈위험/고LTV) 후 CRM 캠페인 실행",
+                    "푸시/이메일/인앱 메시지 성과 분석(홀드아웃/증분 효과)",
+                    "온보딩/가격/프로모션 A/B 테스트 설계 및 리포트",
+                    "어트리뷰션 이슈 이해(채널별 기여도, 쿠키리스 대응)",
+                    "성과를 매출/LTV로 환산해 예산/우선순위 제안"
+                ],
+                deliverables: [
+                    "그로스 실험 백로그(가설/지표/우선순위/결과)",
+                    "CRM 세그먼트 정의 + 캠페인 리포트(증분/홀드아웃)",
+                    "퍼널/리텐션 대시보드 + 개선안",
+                    "채널별 성과 요약(가능하면 MMM/간단 기여도)"
+                ],
+                pitfalls: [
+                    "ROAS만 보고 **증분 효과** 없이 예산을 늘림",
+                    "세그먼트 정의가 흔들려 실험 결과가 재현되지 않음",
+                    "단기 지표만 최적화해 장기 리텐션을 해침"
+                ],
+                studyRoadmap: [
+                    "SQL로 세그먼트 추출 + 코호트/리텐션",
+                    "실험 설계(홀드아웃/증분)과 해석",
+                    "CRM 툴(Braze 등) 이해 + 메시징 UX 감각",
+                    "어트리뷰션/쿠키리스 기본",
+                    "포트폴리오: '세그먼트→캠페인→증분 매출'"
+                ],
+                topQuestions: [
+                    "퍼포먼스 광고 성과와 **증분(incrementality)**은 어떻게 다른가요?",
+                    "푸시 캠페인에서 홀드아웃을 어떻게 설계하나요?",
+                    "AARRR에서 가장 먼저 잡을 병목은 어떻게 고르나요?",
+                    "리텐션을 올리는 실험 아이디어 3개를 제안해보세요.",
+                    "세그먼트(고LTV/이탈위험)를 어떻게 정의하나요?",
+                    "단기 지표와 장기 지표 충돌을 어떻게 해결하나요?"
+                ],
+                interviewExamples: [
+                    { q: "푸시 알림이 매출을 올렸다고 말할 수 있나요?", a: ["홀드아웃(통제군)을 두고 **증분 매출**로 판단해야 함", "세그먼트별 반응이 다르므로 이질성 분석 후 타겟팅 최적화", "단기 리프트가 장기 리텐션/CS에 미치는 부작용도 함께 체크"] },
+                    { q: "리텐션이 떨어졌을 때 어떤 분석을 하나요?", a: ["코호트별(가입주차/채널/온보딩 완료 여부) 리텐션 곡선 비교", "핵심 행동(activation event) 도달률 변화 확인", "제품 변경/버그/가격 변경 등 이벤트와 시점 매칭 후 가설 수립"] },
+                    { q: "ROAS가 높은데 회사 매출이 안 느는 이유는?", a: ["ROAS는 '관측된' 성과일 수 있어 기여도가 과대평가(어트리뷰션 편향)", "브랜드/자연유입을 광고가 '가로채는' 잠식(cannibalization) 가능", "홀드아웃/지리적 실험/MMM 등으로 증분을 분리해야 함"] }
+                ]
+            },
+            "role-bi": {
+                workA2Z: [
+                    "경영/현업이 보는 KPI를 '한 화면'으로 만드는 대시보드 설계",
+                    "대시보드 성능 튜닝(SQL 최적화/집계 테이블)",
+                    "필터/드릴다운/경고(Threshold)로 '의사결정'까지 연결",
+                    "지표 정의/권한/카탈로그 운영"
+                ],
+                deliverables: ["전사 KPI 대시보드", "지표 정의서/카탈로그", "대시보드 성능 개선 기록", "사용자 교육/가이드"],
+                pitfalls: ["예쁜데 '액션'이 없는 대시보드", "정의 불일치", "느린 쿼리로 신뢰 하락"],
+                studyRoadmap: ["SQL 튜닝", "Tableau/PowerBI 고급", "지표 설계/스토리텔링", "마트 구조 이해", "포트폴리오: KPI 대시보드 1개 완성"],
+                topQuestions: [
+                    "좋은 대시보드와 나쁜 대시보드의 차이는?",
+                    "대시보드가 느릴 때 어떤 순서로 튜닝하나요?",
+                    "지표 정의가 바뀔 때 버전 관리는 어떻게 하나요?",
+                    "경영진이 보는 KPI를 어떻게 선정하나요?",
+                    "드릴다운/필터 설계를 어떻게 하면 '원인'까지 바로 볼 수 있나요?"
+                ],
+                interviewExamples: [
+                    { q: "대시보드가 '쓸모 없다'는 피드백을 받으면?", a: ["사용자 의사결정/행동을 먼저 정의(누가 무엇을 결정?)", "지표를 행동과 연결(알람/드릴다운/우선순위)", "실제 사용 로그 기반으로 개선(가장 많이 보는 페이지/필터부터)"] },
+                    { q: "지표 정의가 팀마다 다르면 어떻게 하나요?", a: ["메트릭 사전(정의/분모·분자/제외 조건)을 문서화하고 오너 지정", "공통 계산식(세만틱 레이어/마트)을 제공해 '숫자 하나' 만들기", "변경 이력 관리 + 영향도 공지(라인리지 기반)"] },
+                    { q: "대시보드 속도가 느릴 때 무엇부터 보나요?", a: ["쿼리 스캔량(파티션/클러스터), 조인/집계 단계 병목 확인", "사전 집계 테이블/마트로 분리해 대시보드 쿼리를 가볍게", "필요한 컬럼만 불러오고, 필터/날짜 조건을 강제(기본값) 설정"] }
+                ]
+            },
+            "role-dpm": {
+                workA2Z: ["요구사항을 데이터 제품으로 정의(Why/What)", "로드맵/우선순위/리소스 조율", "거버넌스/권한/보안 설계", "출시 후 성공지표/운영"],
+                deliverables: ["PRD(데이터 제품 요구사항)", "로드맵/백로그", "정의/권한 정책", "성과 리포트"],
+                pitfalls: ["요구사항만 모으고 정의/성공지표가 없음", "보안/권한 뒤늦게 터짐", "데이터 오너십이 없어서 운영이 무너짐"],
+                studyRoadmap: ["데이터 라이프사이클 이해", "커뮤니케이션/PM 기본", "지표 설계", "거버넌스", "포트폴리오: 데이터 제품 PRD"],
+                topQuestions: ["데이터 제품의 성공지표는 어떻게 정하나요?", "부서 간 숫자 충돌을 어떻게 해결하나요?", "권한/보안 요구가 생기면?", "데이터팀/현업 사이 우선순위 갈등을 어떻게 조정하나요?"],
+                interviewExamples: [
+                    { q: "데이터 PM으로서 '정의 충돌'을 해결한 방식은?", a: ["메트릭 사전 합의(분모/분자/제외 조건)", "오너십 지정(Owner/Steward)", "버전/변경 이력 관리 + 영향도 공지"] },
+                    { q: "현업 요구가 계속 바뀌면 로드맵은 어떻게 지키나요?", a: ["핵심 KPI 임팩트 기준으로 우선순위 재정렬", "Scope를 쪼개 MVP→Iterate", "요구 변경은 '변경 요청서'로 비용/리스크를 수치화해서 합의"] },
+                    { q: "데이터 제품의 '성공'을 어떻게 측정하나요?", a: ["활용도(활성 사용자/쿼리 수/대시보드 뷰)", "의사결정 리드타임 감소, MTTR 감소", "비용 절감/매출 증대 같은 비즈 임팩트 연결"] }
+                ]
+            },
+            "role-prompt": {
+                workA2Z: ["유스케이스 정의(FAQ/검색/요약)", "프롬프트/툴 호출 설계", "RAG 설계(근거 기반)", "평가(Eval)·회귀 테스트", "가드레일/PII 방지"],
+                deliverables: ["프롬프트 템플릿/가이드", "RAG 설계 문서", "평가 리포트", "안전/정책 룰"],
+                pitfalls: ["프롬프트만 고쳐서 '운'에 기대는 운영", "평가 없이 품질이 흔들림", "근거 없이 자신감 있는 답변(환각)"],
+                studyRoadmap: ["RAG 기본", "Eval 체계", "가드레일/보안", "서빙/비용 감각", "포트폴리오: RAG 챗봇+Eval"],
+                topQuestions: ["Hallucination을 어떻게 줄이나요?", "Chunking/Embedding 전략은?", "Eval은 어떻게 설계하나요?", "PII 유출을 어떻게 막나요?"],
+                interviewExamples: [
+                    { q: "RAG 정확도를 올리는 방법 3가지는?", a: ["Chunking/재랭킹 개선", "질문 정규화/쿼리 확장", "근거 부족 시 답변 거절/추가 질문"] },
+                    { q: "프롬프트 품질을 어떻게 '테스트'하나요?", a: ["골든셋 Q&A를 만들고 자동 평가(Eval)로 회귀 테스트", "실패 케이스를 유형화(지시 불이행/환각/포맷 깨짐)", "지표(정확도/근거충실도/포맷준수)로 관리"] },
+                    { q: "기업 내부에서 PII가 섞인 문서를 RAG로 쓸 때?", a: ["PII 마스킹/필터링 파이프라인", "권한 기반 검색(RBAC)", "응답에서 근거 출처와 민감정보 노출 방지 가드레일"] }
+                ]
+            },
+            "role-hr": {
+                workA2Z: ["이탈/성과/만족도 분석", "설문 설계/신뢰도", "편향/공정성 점검", "민감정보 보안/권한 관리", "조직 네트워크 분석"],
+                deliverables: ["이탈 리스크 대시보드", "설문 분석 리포트", "조직 진단 인사이트", "정책 제안"],
+                pitfalls: ["윤리/프라이버시 무시", "상관관계를 인과로 착각", "현장(리더/HRBP) 실행 레버 없이 보고서만 생산"],
+                studyRoadmap: ["통계/설문", "기초 ML", "윤리/보안", "조직 도메인", "포트폴리오: 이탈 분석"],
+                topQuestions: ["퇴사 예측에서 민감 변수는 어떻게 다루나요?", "공정성 이슈는?", "설문 품질을 어떻게 보장하나요?"],
+                interviewExamples: [
+                    { q: "퇴사율이 올랐을 때 어떤 데이터를 먼저 보나요?", a: ["팀/직무/근속/리더 변화", "업무량/야근/보상", "설문/피드백 텍스트(주요 불만 키워드)"] },
+                    { q: "퇴사 예측 모델을 만들면 '윤리' 문제는 어떻게 해결하나요?", a: ["민감정보 최소화 + 승인 프로세스", "예측 결과의 사용 목적을 '지원/개선'으로 제한", "설명가능성/공정성 점검 후 운영"] },
+                    { q: "설문 분석에서 흔한 함정은?", a: ["표본 편향(불만 많은 사람만 응답)", "문항 설계가 애매해 해석 불가", "정성 코멘트 처리를 안 해서 실행 레버가 안 나옴"] }
+                ]
+            },
+            "role-quant": {
+                workA2Z: ["전략 가설→백테스트", "슬리피지/거래비용 반영", "리스크 관리(VaR)", "워크포워드 검증", "실거래 모니터링"],
+                deliverables: ["전략 리포트", "백테스트 코드/결과", "리스크 지표", "실거래 모니터링"],
+                pitfalls: ["과최적화(Overfitting)", "미래 정보 사용", "거래비용 무시", "유동성/체결 가정 오류"],
+                studyRoadmap: ["시계열/통계", "백테스트 원칙", "리스크", "코드 품질", "포트폴리오: 전략 1개"],
+                topQuestions: ["오버피팅을 어떻게 막나요?", "슬리피지는 어떻게 모델링?", "워크포워드 검증이란?", "리스크 지표(VaR)를 어떻게 해석하나요?"],
+                interviewExamples: [
+                    { q: "백테스트에서 가장 흔한 함정은?", a: ["look-ahead bias", "survivorship bias", "거래비용/유동성 미반영"] },
+                    { q: "전략이 좋아 보이는데 실거래에서 망하는 이유는?", a: ["체결 가정이 비현실적(슬리피지)", "시장 충격/유동성 부족", "레짐 변화(분포 변화) 대응 실패"] },
+                    { q: "오버피팅을 막기 위해 무엇을 하나요?", a: ["워크포워드/롤링 검증", "변수 수/규칙 단순화", "거래비용과 제약조건을 강하게 반영"] }
+                ]
+            }
+        };
+
+        const DOMAIN_PLAYBOOK = {
+            "dom-commerce": {
+                keyKnowledge: ["**퍼널(탐색→장바구니→결제)**과 전환율(CVR) 구조", "프로모션/쿠폰/가격이 CVR·AOV·마진에 미치는 영향", "반품/취소/환불을 매출 정의에 어떻게 반영하는지", "검색/추천/랭킹이 매출에 미치는 레버(CTR, CVR, AOV)", "재고/배송(OTD)이 리텐션에 주는 영향", "고객 단위 LTV/CAC와 코호트 해석", "상품/카테고리 taxonomy(분류체계)와 집계 기준"],
+                useCases: ["결제 단계 이탈 분석 → UI/오류 가설 → A/B 테스트", "쿠폰 정책 변경이 **증분 매출**에 주는 영향(홀드아웃)", "검색 0결과/필터 사용이 전환율에 미치는 영향", "신규 고객 온보딩(첫 구매)까지 걸리는 시간 단축", "리텐션 하락 코호트의 공통 행동(카테고리/가격대) 찾기"],
+                pitfalls: ["환불/반품 반영 누락으로 매출 과대평가", "프로모션 기간에 평균이 왜곡(시즌ality)", "트래킹 중복/누락으로 퍼널이 깨짐"],
+                portfolioIdeas: ["이커머스 퍼널 분석 + 병목 개선 실험 설계", "고LTV 고객 세그먼트 정의 + 개인화 캠페인 시뮬레이션", "검색/추천 클릭→구매 전환 경로 분석"],
+                topQuestions: ["커머스에서 **매출** 정의(환불/취소/쿠폰)는 어떻게 잡나요?", "CVR이 올랐는데 마진이 떨어졌다면 어떤 레버가 원인일까요?", "추천/검색 품질을 어떤 KPI로 평가하나요?", "프로모션의 '증분 매출'을 어떻게 측정하나요?", "재고 부족이 KPI에 주는 영향을 어떻게 분리하나요?", "코호트 LTV를 어떻게 추정하고 활용하나요?"],
+                interviewExamples: [
+                    { q: "장바구니 담기율은 올랐는데 구매 전환율이 떨어졌습니다. 해석은?", a: ["장바구니는 '탐색 신호'일 뿐, 결제 단계에서 **배송/가격/쿠폰** 이슈가 있을 수 있음", "장바구니-결제 사이 이벤트(배송비 노출/쿠폰 적용/로그인)에서 이탈 확인", "세그먼트(신규/모바일/특정 카테고리) 분해 후 원인 가설"] },
+                    { q: "쿠폰을 뿌렸더니 매출이 늘었습니다. 성공인가요?", a: ["**증분(incrementality)** 검증(홀드아웃) 없으면 착시일 수 있음", "쿠폰으로 '원래 샀을 사람'에게 할인만 준 케이스(잠식) 점검", "마진/재구매/환불까지 포함한 장기 KPI로 판단"] },
+                    { q: "검색 품질이 나빠졌을 때 어디부터 보나요?", a: ["CTR/ATC/구매 전환까지 단계별 지표 분해", "0결과/필터 사용/정렬 변경 등 UX 이벤트 확인", "쿼리 로그에서 상위 검색어의 실패 유형(품절/오타/동의어) 분석"] }
+                ]
+            },
+            "dom-finance": {
+                keyKnowledge: ["신용리스크: **PD/LGD/EAD** 개념과 라벨 지연", "FDS/AML: 이상 거래 탐지와 오탐/미탐 Trade-off", "규제/감사: 로그 추적성, 재현성, 개인정보(PII) 관리", "대안 데이터(마이데이터) 결합 시 편향/공정성", "금융 지표 정의(연체/부실)와 시점(정산/회계) 차이", "설명가능성(XAI) 요구(왜 거절/왜 차단?)"],
+                useCases: ["대출 승인 퍼널 분석(서류/심사/승인) + 병목 개선", "신용평가 모델 성능/공정성 점검", "FDS 룰/모델 조정으로 오탐률 낮추기", "리스크 세그먼트별 연체율 모니터링", "고객별 맞춤 상품 추천(규제 준수)"],
+                pitfalls: ["라벨 지연(연체는 나중에 확정) 무시 → leakage", "오탐 줄이다 미탐(사기) 늘어남", "규제/감사 대응(재현성/로그) 부족"],
+                portfolioIdeas: ["신용 스코어링 문제 정의 + 공정성 체크", "이상 거래 탐지(시계열/그래프) 미니 프로젝트", "대출 퍼널 병목 분석 리포트"],
+                topQuestions: ["금융에서 라벨 지연을 어떻게 다루나요?", "FDS에서 오탐/미탐 트레이드오프를 어떻게 조절하나요?", "거절/차단 근거를 어떻게 설명(XAI)하나요?", "규제 환경에서 데이터/모델 재현성을 어떻게 보장하나요?"],
+                interviewExamples: [
+                    { q: "신용평가 모델에서 가장 무서운 데이터 이슈는?", a: ["미래 정보 누수(사후 정산/연체 확정 데이터가 피처로 들어감)", "표본 편향(승인된 사람만 관측) → 선택 편향 보정 필요", "공정성/차별 이슈(민감 속성)와 규제 리스크"] },
+                    { q: "FDS 오탐이 너무 많습니다. 어떤 접근을 하나요?", a: ["오탐 패턴(상위 룰/피처) 분석 → 룰 임계값/조건 재설계", "세그먼트별 임계값(고위험군/저위험군) 분리", "모델+룰 하이브리드(설명 가능)로 운영"] },
+                    { q: "대출 퍼널에서 병목을 찾는다면?", a: ["서류제출→심사→승인 단계별 이탈률/처리시간 비교", "채널/신규·기존/소득구간 등 세그먼트 분해", "정책 변경/서류 UX/심사 지연 같은 원인 가설로 액션 제안"] }
+                ]
+            },
+            "dom-game": {
+                keyKnowledge: ["리텐션/이탈: D1/D7/D30, 복귀율, 과금 전환", "게임 경제: 재화 생성/소모 밸런스, 인플레이션", "콘텐츠 소모 속도(레벨구간 병목)", "어뷰징/작업장 탐지(이상 행동 패턴)", "확률형 아이템(가챠) 로그 해석과 규제 이슈"],
+                useCases: ["초반 구간 이탈 원인(튜토리얼/난이도) 분석", "과금 전환 퍼널(첫 결제) 최적화", "이벤트/패치 전후 리텐션 변화 분석", "작업장/핵 탐지 모델링", "밸런싱 리포트(메타/캐릭터 승률)"],
+                pitfalls: ["패치/이벤트 시즌성 미반영", "어뷰저 데이터가 지표를 오염", "중복 계정/봇"],
+                portfolioIdeas: ["게임 리텐션 코호트 분석", "가챠 로그로 기대값/분포 분석", "이상행동 탐지"],
+                topQuestions: ["게임에서 리텐션을 올리는 레버는?", "게임 경제가 망가지는 신호는?", "어뷰징은 어떻게 탐지하나요?"],
+                interviewExamples: [
+                    { q: "D1 리텐션이 떨어졌다면 무엇을 보나요?", a: ["튜토리얼 완료율", "초반 난이도/사망", "첫 보상/동기부여 구조"] },
+                    { q: "재화 인플레이션을 어떻게 잡나요?", a: ["생성/소모 밸런스 테이블", "sink 추가", "가격/드랍률 조정"] },
+                    { q: "어뷰징(작업장)을 어떻게 탐지하나요?", a: ["행동 시퀀스 이상 패턴", "네트워크/그래프 관점(거래/파티)", "룰+모델 하이브리드로 운영"] }
+                ]
+            },
+            "dom-mfg": {
+                keyKnowledge: ["수율(Yield)과 공정 변수의 관계(원인규명/DOE)", "시계열 센서 노이즈/결측 처리", "설비 이상탐지/예지보전(PdM) 기본", "공정 단계별 Traceability(로트/장비/레시피)", "현장 커뮤니케이션(도메인 지식 번역)"],
+                useCases: ["수율 저하 원인 변수 찾기(통계/모델)", "설비 이상탐지로 다운타임 감소", "공정 레시피 최적화(제약조건 고려)", "불량 이미지 비전 검사", "로트 추적 기반 원인 공정 역추적"],
+                pitfalls: ["라벨이 불완전(불량 원인 불명)", "센서 드리프트", "현장 변수 누락"],
+                portfolioIdeas: ["시계열 이상탐지", "수율 예측/원인 분석", "공정 데이터 EDA 리포트"],
+                topQuestions: ["수율을 올리는 분석 접근은?", "센서 노이즈는 어떻게 처리?", "예지보전은 어떤 지표로 평가?"],
+                interviewExamples: [
+                    { q: "센서 결측이 많은데 모델을 만들 수 있나요?", a: ["결측 메커니즘 파악", "구간 보간/특징화", "결측 자체를 신호로 사용"] },
+                    { q: "수율 저하 원인을 어떻게 특정하나요?", a: ["공정 단계별 분해", "장비/레시피 세그먼트", "통계+현장 검증"] },
+                    { q: "예지보전 모델의 성공을 어떻게 정의하나요?", a: ["다운타임 감소/정비 비용 절감", "조기 경보 리드타임", "오탐/미탐 트레이드오프(운영 기준)"] }
+                ]
+            },
+            "dom-mobility": {
+                keyKnowledge: ["수요-공급 매칭, 배차 성공률/대기시간", "ETA 예측과 오차 관리", "공간 데이터(GIS) 처리/핫스팟", "라우팅/최적화(VRP) 기본", "날씨/교통 같은 외생 변수"],
+                useCases: ["피크타임 배차 실패 원인 분석(지역/시간)", "ETA 모델 개선(세그먼트/날씨 반영)", "다이내믹 프라이싱 설계", "드라이버 공급 유도 인센티브 실험", "물류 라우팅 비용 최적화"],
+                pitfalls: ["지도 좌표 정합성", "외부 API 지연", "데이터가 지역 편향"],
+                portfolioIdeas: ["핫스팟 시각화", "ETA 예측 미니 프로젝트", "배차 성공률 개선 실험"],
+                topQuestions: ["ETA 오차를 줄이는 방법은?", "수요 예측과 공급 유도의 차이는?", "가격 탄력은 어떻게 반영?"],
+                interviewExamples: [
+                    { q: "비 오는 날 배차가 깨집니다. 무엇을 하나요?", a: ["수요 폭증/공급 감소 분리", "지역별 핫스팟", "인센티브/요금 정책 실험"] },
+                    { q: "ETA가 불안정할 때?", a: ["세그먼트 모델", "실시간 교통 반영", "이상치/우회 경로 처리"] },
+                    { q: "다이내믹 프라이싱을 설계한다면?", a: ["대기시간/매칭률 목표 설정", "수요-공급 비율 기반 가격", "이탈/불만 같은 부작용 모니터링"] }
+                ]
+            },
+            "dom-media": {
+                keyKnowledge: ["체류시간/완주율/리텐션", "콘텐츠 메타데이터/태깅", "추천/랭킹의 장기 지표(다양성/신규성)", "썸네일/타이틀 A/B 테스트", "구독 해지(Churn) 신호"],
+                useCases: ["홈 추천 개선", "썸네일 실험", "이탈 예측", "콘텐츠 제작 ROI 분석", "시청 세그먼트 분석"],
+                pitfalls: ["짧은 체류시간만 최적화해 장기 리텐션 악화", "콘텐츠 시즌성"],
+                portfolioIdeas: ["리텐션 코호트", "추천 지표 설계", "콘텐츠 소비 패턴 분석"],
+                topQuestions: ["OTT에서 가장 중요한 KPI는?", "추천 다양성이 왜 중요?", "Churn을 어떻게 예측/방어?"],
+                interviewExamples: [
+                    { q: "완주율이 떨어졌다면?", a: ["콘텐츠 길이/초반 훅", "버퍼링/품질", "추천 맥락 불일치"] },
+                    { q: "추천을 개선했는데 불만이 늘었다면?", a: ["필터버블/다양성 부족", "신규성 부족", "장기 KPI 점검"] },
+                    { q: "썸네일 A/B는 어떤 지표로 판단하나요?", a: ["CTR 뿐 아니라 시청 시작→완주→리텐션까지", "클릭만 유도하는 '낚시' 방지", "세그먼트별 부작용 확인"] }
+                ]
+            },
+            "dom-hr": {
+                keyKnowledge: ["퇴사/이직 요인", "설문 설계", "윤리/프라이버시", "공정성", "조직 네트워크 분석"],
+                useCases: ["이탈 위험군 탐지", "조직 건강도 측정", "성과 요인 분석", "만족도 개선"],
+                pitfalls: ["민감정보 오남용", "인과 착각"],
+                portfolioIdeas: ["퇴사 분석 리포트", "설문 분석", "조직 네트워크"],
+                topQuestions: ["민감정보를 어떻게 다루나요?", "공정성 이슈는?", "퇴사율 상승 원인 분석은?"],
+                interviewExamples: [
+                    { q: "퇴사율이 올랐을 때 어떤 가설을 먼저 세우나요?", a: ["리더/조직 개편", "보상/승진/평가", "업무량/야근/문화"] },
+                    { q: "설문과 실제 행동 데이터가 다를 때?", a: ["응답 편향 가능성", "행동 지표로 교차검증", "정성 코멘트로 원인 보강"] },
+                    { q: "예측 결과를 어떻게 '실행'으로 바꾸나요?", a: ["개인 단위가 아닌 팀/프로세스 레버로", "개입(지원) 정책 설계", "사후 효과 측정"] }
+                ]
+            },
+            "dom-health": {
+                keyKnowledge: ["민감도/특이도", "PHI/규제", "라벨 품질", "의료 워크플로", "XAI"],
+                useCases: ["의료영상 판독", "재입원/위험 예측", "웨어러블 시계열"],
+                pitfalls: ["라벨 노이즈", "규제/반출", "일반화 실패"],
+                portfolioIdeas: ["의료영상 분류(공개데이터)", "ECG 이상탐지", "평가 지표 비교"],
+                topQuestions: ["민감도/특이도 트레이드오프는?", "XAI가 왜 필요?", "데이터 반출 제약이면?"],
+                interviewExamples: [
+                    { q: "모델 정확도가 높은데 현장 적용이 어려운 이유는?", a: ["워크플로 미적합", "설명 부족", "규제/검증 미완"] },
+                    { q: "민감도와 특이도 중 무엇을 우선하나요?", a: ["질병/스크리닝 특성에 따라 다름", "미탐 비용 vs 오탐 비용 비교", "운영 임계값을 업무 프로세스에 맞춰 설정"] },
+                    { q: "라벨 품질이 낮으면 어떻게 하나요?", a: ["다중 라벨러 합의/신뢰도 측정", "어려운 케이스 표본 정제", "노이즈-로버스트 학습/평가"] }
+                ]
+            },
+            "dom-proptech": {
+                keyKnowledge: ["공간 파생변수", "AVM/MAPE", "거래 데이터 편향", "상권 분석", "외부 공공데이터"],
+                useCases: ["시세 예측", "상권 추천", "허위매물 탐지", "입지 점수"],
+                pitfalls: ["지역 편향", "거래량 적음", "시점 차이"],
+                portfolioIdeas: ["GeoPandas 상권 분석", "AVM 모델", "역세권/편의시설 변수"],
+                topQuestions: ["AVM 오차를 줄이는 방법은?", "공간변수는 어떻게 만들나요?"],
+                interviewExamples: [
+                    { q: "거래가 적은 지역은 어떻게 예측하나요?", a: ["유사 지역 전이", "계층적 모델", "공공 데이터 결합"] },
+                    { q: "MAPE가 낮은데 실제 사용자 만족이 낮다면?", a: ["사용자 관점 오류(구간별/가격대별) 확인", "세그먼트 지표 병행", "설명/근거 제공(XAI)과 UX 개선"] },
+                    { q: "상권 분석에서 가장 중요한 변수는?", a: ["유동인구/체류/소득", "경쟁 점포/시설", "접근성(역/도로) + 시간대"] }
+                ]
+            },
+            "dom-sports": {
+                keyKnowledge: ["xG/xA", "트래킹 좌표", "부상 위험(ACWR)", "전술 지표", "표본 적음"],
+                useCases: ["전술 분석", "선수 영입 평가", "부상 예측", "훈련 부하 모니터링"],
+                pitfalls: ["표본 적음", "컨텍스트 무시"],
+                portfolioIdeas: ["xG 분석", "트래킹 시각화", "부상 위험 시계열"],
+                topQuestions: ["xG는 왜 유용?", "트래킹 데이터로 무엇을 보나?"],
+                interviewExamples: [
+                    { q: "xG가 높은데 득점이 안 나면?", a: ["슈팅 질/상대 수비", "샘플 변동", "결정력"] },
+                    { q: "부상 위험을 어떻게 측정하나요?", a: ["ACWR(단기/장기 부하)", "훈련량 급증 감지", "선수별 개인화 기준"] },
+                    { q: "트래킹 데이터로 전술을 어떻게 평가하나요?", a: ["라인 간격/압박 강도", "패스 네트워크", "공간 점유(heatmap)"] }
+                ]
+            },
+            "dom-education": {
+                keyKnowledge: ["지식추적(DKT)", "난이도/문항 메타", "학습 경로", "리텐션", "LLM 튜터"],
+                useCases: ["맞춤 문제 추천", "학습 이탈 방지", "실력 추정", "설명 생성"],
+                pitfalls: ["정답률만 최적화", "학습 과부하"],
+                portfolioIdeas: ["지식 상태 추정", "오답 패턴 분석", "추천 시뮬레이션"],
+                topQuestions: ["DKT는 왜 필요?", "맞춤 학습 KPI는?"],
+                interviewExamples: [
+                    { q: "정답률이 올랐는데 실력이 안 늘었어요.", a: ["쉬운 문제만 푸는 편향", "장기 평가 필요", "커리큘럼 설계"] },
+                    { q: "학습 이탈을 줄이려면 무엇을 하나요?", a: ["난이도 적정화", "온보딩/목표 설정", "리마인드/보상 구조"] },
+                    { q: "LLM 튜터의 품질은 어떻게 평가하나요?", a: ["정확성/근거/오개념 유발 여부", "학습 성과(사후 점수)와 연결", "안전/유해성 필터"] }
+                ]
+            },
+            "dom-public": {
+                keyKnowledge: ["폐쇄망/보안", "문서 RAG", "정책/조례 데이터", "감사/재현성", "접근 권한"],
+                useCases: ["민원 챗봇", "문서 검색/요약", "스마트시티 센서 분석"],
+                pitfalls: ["보안 규정 위반", "문서 최신성"],
+                portfolioIdeas: ["RAG(조례/규정)", "센서 데이터 분석", "권한 설계 문서"],
+                topQuestions: ["폐쇄망에서 LLM을 어떻게?", "문서 최신성/근거는 어떻게 보장?"],
+                interviewExamples: [
+                    { q: "행정 문서가 자주 바뀌면 RAG는?", a: ["인덱싱 파이프라인", "버전 관리", "근거 출처/날짜 표기"] },
+                    { q: "폐쇄망에서 외부 API를 못 쓰면?", a: ["온프레미스/사내 모델", "데이터 반출 없는 파이프라인", "승인된 오픈소스 스택 사용"] },
+                    { q: "민원 챗봇이 틀린 답을 하면?", a: ["근거 기반 답변만 허용", "근거 없으면 거절/추가 질문", "오답 로그로 지속 개선(Eval)"] }
+                ]
+            },
+            "dom-smartfarm": {
+                keyKnowledge: ["IoT 센서", "기후 변수", "생육 모델", "비전 병해충", "제어 최적화"],
+                useCases: ["환경 제어", "수확량 예측", "병해충 탐지"],
+                pitfalls: ["센서 결측/노이즈", "현장 변수 누락"],
+                portfolioIdeas: ["시계열 예측", "비전 분류", "제어 룰 설계"],
+                topQuestions: ["환경 제어 KPI는?", "센서 노이즈는?"],
+                interviewExamples: [
+                    { q: "센서가 자주 끊기면?", a: ["결측 처리", "이상치 감지", "장비 상태 모니터링"] },
+                    { q: "수확량 예측에서 가장 중요한 변수는?", a: ["누적 일사량/온도", "CO2/토양 수분", "품종/생육 단계"] },
+                    { q: "제어 로직을 어떻게 설계하나요?", a: ["제약조건(물/전기 비용)", "목표(생육/품질)", "실험/피드백으로 튜닝"] }
+                ]
+            },
+            "dom-marketing": {
+                keyKnowledge: ["어트리뷰션", "MMM", "쿠키리스", "증분 효과", "세그먼트"],
+                useCases: ["채널 믹스 최적화", "캠페인 증분 측정", "리텐션 캠페인"],
+                pitfalls: ["ROAS 착시", "자기 선택 편향"],
+                portfolioIdeas: ["MMM 간단 구현", "홀드아웃 실험 설계", "세그먼트 분석"],
+                topQuestions: ["MMM은 언제 쓰나요?", "증분 효과를 어떻게 측정?"],
+                interviewExamples: [
+                    { q: "쿠키리스 시대에 마케팅 성과 측정은?", a: ["홀드아웃/증분", "MMM", "서버사이드 이벤트"] },
+                    { q: "ROAS가 좋아도 매출이 안 늘면?", a: ["잠식/가로채기", "채널 간 중복", "증분 분석 필요"] },
+                    { q: "MMM의 한계는?", a: ["데이터 기간/품질 요구", "단기 실험 대체 불가", "해석/가정이 많음"] }
+                ]
+            },
+            "dom-saas": {
+                keyKnowledge: ["MRR/ARR", "Churn", "NDR", "PLG", "Health Score"],
+                useCases: ["이탈 예측", "업셀/크로셀", "온보딩 개선", "사용 로그 기반 건강도"],
+                pitfalls: ["고객 수가 적어 통계 불안정", "세일즈 기록 누락", "장기 계약/정산 시점 차이"],
+                portfolioIdeas: ["Health Score 설계", "Churn 분석", "MRR 분해"],
+                topQuestions: ["NDR이 중요한 이유는?", "Health Score는 어떻게 구성?"],
+                interviewExamples: [
+                    { q: "Churn을 줄이려면 무엇부터?", a: ["세그먼트별 원인", "핵심 기능 도달률", "CS/세일즈 연계"] },
+                    { q: "Health Score는 어떻게 만들나요?", a: ["핵심 기능 사용 빈도/깊이", "CS 티켓/불만", "계정 규모/계약 조건 반영"] },
+                    { q: "MRR이 늘었는데 매출이 안 늘어 보일 때?", a: ["정산/회계 인식 시점 차이", "할인/크레딧", "ARR과 함께 해석"] }
+                ]
+            }
+        };
+
+        // =========================
+        // Accordion & Render Helpers
+        // =========================
+        function uniq(arr) { return [...new Set((arr || []).filter(Boolean))]; }
+
+        function toUL(items) {
+            if (!items || items.length === 0) return `<div class="text-slate-500 text-sm">준비중</div>`;
+            return `<ul class="list-disc pl-5 space-y-2">${items.map(x => `<li>${parseHighlights(x)}</li>`).join('')}</ul>`;
+        }
+
+        function toOL(items) {
+            if (!items || items.length === 0) return `<div class="text-slate-500 text-sm">준비중</div>`;
+            return `<ol class="list-decimal pl-5 space-y-2">${items.map(x => `<li>${parseHighlights(x)}</li>`).join('')}</ol>`;
+        }
+
+        function toQA(examples) {
+            if (!examples || examples.length === 0) return `<div class="text-slate-500 text-sm">준비중</div>`;
+            return examples.map(ex => {
+                const aList = Array.isArray(ex.a) ? ex.a : [String(ex.a || '')];
+                return `<div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2">
+                    <div class="font-black text-slate-900 text-[14px]">Q. ${parseHighlights(ex.q)}</div>
+                    <div class="text-slate-700 text-[14px]">${toUL(aList)}</div>
+                  </div>`;
+            }).join('');
+        }
+
+        function accordion(title, innerHTML, open = false) {
+            return `<details class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-2" ${open ? 'open' : ''}>
+                  <summary class="cursor-pointer px-5 py-4 font-extrabold text-slate-900 flex items-center justify-between select-none list-none hover:bg-slate-50 transition-colors">
+                    <span class="text-[15px]">${title}</span>
+                    <span class="text-slate-400 text-lg transition-transform details-chevron">▾</span>
+                  </summary>
+                  <div class="px-5 pb-5 text-slate-700 text-[14px] leading-relaxed space-y-3 border-t border-slate-100 pt-4">
+                    ${innerHTML}
+                  </div>
+                </details>`;
+        }
+
+        function getRoleInterviewTop20(roleId) {
+            const pb = ROLE_PLAYBOOK[roleId] || {};
+            return uniq([...(pb.topQuestions || []), ...ROLE_INTERVIEW_BASE]).slice(0, 20);
+        }
+
+        function getDomainInterviewTop15(domainId) {
+            const pb = DOMAIN_PLAYBOOK[domainId] || {};
+            return uniq([...(pb.topQuestions || []), ...DOMAIN_INTERVIEW_BASE]).slice(0, 15);
+        }
+
+        function buildRolePlaybookHTML(data) {
+            const pb = ROLE_PLAYBOOK[data.id] || {};
+            const qTop = getRoleInterviewTop20(data.id);
+            return [
+                accordion("🧑‍💻 현업에서 실제로 하는 일 A to Z", toUL(pb.workA2Z), true),
+                accordion("📦 대표 산출물 (Deliverables)", toUL(pb.deliverables)),
+                accordion("⚠️ 흔한 실수/함정 — 실무에서 진짜 터지는 포인트", toUL(pb.pitfalls)),
+                accordion("🎤 면접 질문 TOP 20", toOL(qTop)),
+                accordion("🧩 합격자급 모의 Q&A 예시", toQA(pb.interviewExamples)),
+                accordion("✅ 학습/포트폴리오 로드맵", toUL(pb.studyRoadmap))
+            ].join('');
+        }
+
+        function buildDomainPlaybookHTML(data) {
+            const pb = DOMAIN_PLAYBOOK[data.id] || {};
+            const qTop = getDomainInterviewTop15(data.id);
+            return [
+                accordion("🧠 도메인 핵심 지식 A to Z (필수 개념)", toUL(pb.keyKnowledge), true),
+                accordion("📌 실무에서 자주 하는 분석/실험 시나리오", toUL(pb.useCases)),
+                accordion("⚠️ 자주 터지는 문제/함정", toUL(pb.pitfalls)),
+                accordion("💼 추천 포트폴리오 아이디어", toUL(pb.portfolioIdeas)),
+                accordion("🎤 도메인 면접 질문 TOP 15", toOL(qTop)),
+                accordion("🧩 합격자급 모의 Q&A 예시", toQA(pb.interviewExamples))
+            ].join('');
+        }
+
+        // =========================
+        // State
+        // =========================
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        const contentGrid = document.getElementById('contentGrid');
+        const filterContainer = document.getElementById('filterContainer');
+        const searchInput = document.getElementById('searchInput');
+
+        // Modal elements
+        const modal = document.getElementById('detailModal');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+        const modalHeaderLeft = document.getElementById('modalHeaderLeft');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalTags = document.getElementById('modalTags');
+
+        const modalJDSection = document.getElementById('modalJDSection');
+        const modalJDReq = document.getElementById('modalJDReq');
+        const modalJDTech = document.getElementById('modalJDTech');
+        const modalJDReview = document.getElementById('modalJDReview');
+
+        const modalShiftSection = document.getElementById('modalShiftSection');
+        const modalPastText = document.getElementById('modalPastText');
+        const modalPresentText = document.getElementById('modalPresentText');
+
+        const modalBody = document.getElementById('modalBody');
+
+        // 새로 추가된 관련 직무 섹션
+        const modalRelatedRolesSection = document.getElementById('modalRelatedRolesSection');
+        const modalRelatedRolesList = document.getElementById('modalRelatedRolesList');
+
+        const modalExtraSection = document.getElementById('modalExtraSection');
+        const modalExtraTitle = document.getElementById('modalExtraTitle');
+        const modalExtraList = document.getElementById('modalExtraList');
+
+        const modalWorkSection = document.getElementById('modalWorkSection');
+        const modalWorkList = document.getElementById('modalWorkList');
+
+        const modalKnowledgeSection = document.getElementById('modalKnowledgeSection');
+        const modalKnowledgeList = document.getElementById('modalKnowledgeList');
+
+        const modalWinnerSection = document.getElementById('modalWinnerSection');
+        const modalWinnerList = document.getElementById('modalWinnerList');
+
+        const modalInterviewSection = document.getElementById('modalInterviewSection');
+        const modalInterviewTitle = document.getElementById('modalInterviewTitle');
+        const modalInterviewList = document.getElementById('modalInterviewList');
+
+        const modalFooter = document.getElementById('modalFooter');
+
+        // =========================
+        // Filters (dynamic)
+        // =========================
+        const filterConfig = [
+            { key: 'all', label: '전체보기', pill: 'bg-slate-900 text-white border border-slate-900' },
+            { key: '직무', label: '💼 직무/역할', pill: 'bg-white text-slate-700 border border-slate-200' },
+            { key: '도메인', label: '🏢 도메인 A to Z', pill: 'bg-white text-slate-700 border border-slate-200' },
+            { key: 'AI 트렌드', label: '🤖 AI 트렌드', pill: 'bg-white text-slate-700 border border-slate-200' },
+            { key: '채용공고', label: '📌 채용공고', pill: 'bg-white text-slate-700 border border-slate-200', pulse: true }
+        ];
+
+        function renderFilters() {
+            const counts = database.reduce((acc, item) => {
+                acc[item.category] = (acc[item.category] || 0) + 1;
+                return acc;
+            }, {});
+            const total = database.length;
+
+            filterContainer.innerHTML = filterConfig.map(f => {
+                const count = f.key === 'all' ? total : (counts[f.key] || 0);
+                const isActive = currentFilter === f.key;
+                const base = 'filter-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm hover:shadow-md';
+                const activeCls = 'bg-slate-900 text-white border border-slate-900';
+                const normalCls = f.pill + ' hover:border-red-400 hover:text-red-600';
+                const cls = `${base} ${isActive ? activeCls : normalCls}`;
+                const pulseDot = (f.pulse)
+                    ? `<span class="inline-flex items-center gap-2">
+               <span class="w-2 h-2 rounded-full bg-green-500 pulse-badge"></span>
+               <span>${escapeHTML(f.label)} (${count})</span>
+             </span>`
+                    : `${escapeHTML(f.label)} (${count})`;
+
+                return `<button class="${cls}" data-filter="${escapeHTML(f.key)}">${pulseDot}</button>`;
+            }).join('');
+        }
+
+        // =========================
+        // Render Cards
+        // =========================
+        function renderCards() {
+            contentGrid.innerHTML = '';
+
+            const filteredData = database.filter(item => {
+                const matchFilter = currentFilter === 'all' || item.category === currentFilter;
+
+                const interviewText = (item.interviewQuestions || [])
+                    .map(q => `${q.q || ''} ${(q.a || []).join(' ')} ${(q.follow || []).join(' ')}`)
+                    .join(' ');
+
+                const extraSearchParts = [
+                    (item.qualifications || []).join(' '),
+                    (item.techStack || []).join(' '),
+                    (item.workExamples || []).join(' '),
+                    (item.knowledgeChecklist || []).join(' '),
+                    (item.winnerQuotes || []).join(' '),
+                    interviewText
+                ].join(' ');
+
+                const searchStr = `${item.title} ${(item.tags || []).join(' ')} ${item.summary || ''} ${item.content || ''} ${extraSearchParts}`.toLowerCase();
+                const matchSearch = searchStr.includes(searchQuery.toLowerCase());
+
+                return matchFilter && matchSearch;
+            });
+
+            if (filteredData.length === 0) {
+                contentGrid.innerHTML = `
+          <div class="col-span-full py-24 text-center text-slate-500 bg-white rounded-3xl border-2 border-dashed border-slate-300">
+            <span class="text-6xl block mb-4">🥲</span>
+            <p class="text-xl font-bold text-slate-800 mb-2">검색 결과가 없습니다.</p>
+            <p class="text-base">키워드를 변경하거나 필터를 '전체보기'로 바꿔보세요.</p>
+          </div>`;
+                return;
+            }
+
+            filteredData.forEach(item => {
+                let badgeStyle = 'bg-slate-100 text-slate-700';
+                if (item.category === '직무') badgeStyle = 'bg-indigo-100 text-indigo-800 border border-indigo-200';
+                if (item.category === '도메인') badgeStyle = 'bg-blue-50 text-blue-700 border border-blue-200';
+                if (item.category === 'AI 트렌드') badgeStyle = 'bg-slate-800 text-white border border-slate-900';
+                if (item.isJD) badgeStyle = 'bg-green-600 text-white pulse-badge';
+
+                let deadlineHTML = '';
+                if (item.isJD) {
+                    deadlineHTML = `<span class="text-[11px] font-black bg-green-100 text-green-800 px-2 py-1 rounded border border-green-200">${escapeHTML(item.deadline || '')}</span>`;
+                }
+
+
+                // 도메인 카드: 직무 수 배지 추가
+                const rolesCount = (item.category === '도메인' && item.relatedRoles) ? item.relatedRoles.length : 0;
+                const rolesBadgeHTML = rolesCount > 0
+                    ? `<span class="text-[11px] font-black text-indigo-600 bg-indigo-50 border border-indigo-200 px-2.5 py-1 rounded-lg">👥 직무 ${rolesCount}개</span>`
+                    : '';
+
+                const cardHTML = `
+          <div class="sparta-card bg-white rounded-2xl shadow-sm border ${item.isJD ? 'border-green-300 ring-2 ring-green-100' : item.category === '도메인' ? 'border-blue-200 hover:border-indigo-300' : 'border-slate-200'} p-6 cursor-pointer flex flex-col h-full group" onclick="openModal('${escapeHTML(item.id)}')">
+            <div class="flex items-center justify-between mb-5">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="px-3 py-1.5 rounded-lg text-[11px] font-black ${badgeStyle} uppercase tracking-wider shadow-sm">${escapeHTML(item.category)}</span>
+                ${deadlineHTML}
+                ${rolesBadgeHTML}
+              </div>
+              <span class="text-3xl bg-slate-50 w-12 h-12 flex items-center justify-center rounded-xl group-hover:scale-110 transition-transform shadow-inner flex-shrink-0">${escapeHTML(item.icon)}</span>
+            </div>
+
+            <h3 class="text-xl font-extrabold mb-3 text-slate-900 leading-snug group-hover:text-red-600 transition-colors">
+              ${escapeHTML(item.title)}
+            </h3>
+
+            <p class="text-slate-600 mb-5 text-sm flex-grow line-clamp-3 leading-relaxed font-medium">
+              ${escapeHTML(item.summary || '')}
+            </p>
+
+            <div class="flex flex-wrap gap-1.5 mt-auto pt-4 border-t border-slate-100">
+              ${(item.tags || []).slice(0, 4).map(tag =>
+                    `<span class="text-[11px] text-slate-600 bg-slate-100 px-2 py-1 rounded-md font-bold">#${escapeHTML(tag)}</span>`
+                ).join('')}
+              ${(item.tags || []).length > 4 ? `<span class="text-[11px] text-slate-400 font-bold px-1 py-1">+${(item.tags || []).length - 4}</span>` : ''}
+              ${item.category === '도메인' && rolesCount > 0 ? `<span class="text-[11px] text-indigo-500 font-bold ml-auto">직무별 A to Z →</span>` : ''}
+            </div>
+          </div>
+        `;
+                contentGrid.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+
+        // =========================
+        // Modal
+        // =========================
+        function openModal(id) {
+            const data = database.find(item => item.id === id);
+            if (!data) return;
+
+            // Header
+            modalHeaderLeft.innerHTML =
+                `<span class="text-xs font-black ${data.isJD ? 'bg-green-600 text-white' : 'bg-slate-900 text-white'} uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">${escapeHTML(data.category)}</span>`;
+
+            // Basics
+            modalTitle.textContent = data.title || '';
+
+            modalTags.innerHTML = (data.tags || [])
+                .map(tag => `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-sm rounded-lg font-bold border border-slate-200">#${escapeHTML(tag)}</span>`)
+                .join('');
+
+            // Reset sections
+            modalJDSection.classList.add('hidden');
+            modalShiftSection.classList.add('hidden');
+            modalExtraSection.classList.add('hidden');
+            modalWorkSection.classList.add('hidden');
+            modalKnowledgeSection.classList.add('hidden');
+            modalWinnerSection.classList.add('hidden');
+            modalInterviewSection.classList.add('hidden');
+            modalRelatedRolesSection.classList.add('hidden'); // 직무 섹션 숨기기 초기화
+
+            // Footer reset
+            modalFooter.innerHTML =
+                '<button onclick="closeModal()" class="px-8 py-3 bg-slate-900 text-white rounded-xl hover:bg-black font-bold transition-colors shadow-md">닫기</button>';
+
+            // Body
+            const raw = (data.content || '');
+            const html = parseHighlights(raw.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>'));
+            modalBody.innerHTML = html;
+
+            // 관련 직무 렌더링 (도메인 데이터일 때) - 카드 그리드
+            if (data.category === '도메인' && data.relatedRoles && data.relatedRoles.length > 0) {
+                const rolesHtml = data.relatedRoles.map(roleId => {
+                    const roleData = database.find(d => d.id === roleId);
+                    if (!roleData) return '';
+
+                    // 한글 직무명 추출
+                    const korTitle = roleData.title.split('(')[0].trim().replace(/\[.+?\]\s*/, '');
+                    const engMatch = roleData.title.match(/\(([^)]+)\)/);
+                    const engTitle = engMatch ? engMatch[1] : '';
+
+                    // 태그 최대 3개
+                    const topTags = (roleData.tags || []).slice(0, 3);
+                    const tagsHtml = topTags.map(t =>
+                        `<span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md">#${escapeHTML(t)}</span>`
+                    ).join('');
+
+                    // 플레이북 배지 (ROLE_PLAYBOOK에 데이터가 있는 직무)
+                    const hasPlaybook = ROLE_PLAYBOOK[roleId] !== undefined;
+                    const iqBadge = hasPlaybook
+                        ? `<span class="text-[10px] font-black text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-md ml-auto whitespace-nowrap">📖 A to Z 플레이북</span>`
+                        : '';
+
+                    return `
+                    <div onclick="openModal('${roleId}')"
+                        class="group flex flex-col gap-2.5 p-4 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 rounded-2xl cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                        <div class="flex items-center gap-3">
+                            <div class="text-2xl w-11 h-11 flex items-center justify-center bg-slate-50 group-hover:bg-white rounded-xl shadow-inner flex-shrink-0 transition-all">${escapeHTML(roleData.icon)}</div>
+                            <div class="min-w-0 flex-1">
+                                <div class="font-extrabold text-slate-900 group-hover:text-indigo-700 text-[14px] leading-snug">${escapeHTML(korTitle)}</div>
+                                ${engTitle ? `<div class="text-[11px] text-slate-400 font-bold mt-0.5">${escapeHTML(engTitle)}</div>` : ''}
+                            </div>
+                            <span class="text-slate-300 group-hover:text-indigo-400 text-lg font-black flex-shrink-0 group-hover:translate-x-0.5 transition-transform">→</span>
+                        </div>
+                        <p class="text-[12px] text-slate-500 leading-relaxed line-clamp-2 font-medium pl-0">${escapeHTML(roleData.summary || '')}</p>
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            ${tagsHtml}
+                            ${iqBadge}
+                        </div>
+                    </div>`;
+                }).join('');
+
+                modalRelatedRolesList.innerHTML = rolesHtml;
+                modalRelatedRolesSection.classList.remove('hidden');
+            }
+
+            // JD
+            if (data.isJD) {
+                modalJDReq.innerHTML = (data.qualifications || []).map(q => `<li>${parseHighlights(q)}</li>`).join('');
+                modalJDTech.innerHTML = (data.techStack || []).map(t =>
+                    `<span class="px-3 py-1.5 bg-white text-green-700 text-xs font-black rounded-lg shadow-sm border border-green-200">${escapeHTML(t)}</span>`
+                ).join('');
+                modalJDReview.innerHTML = parseHighlights(data.review || '');
+                modalJDSection.classList.remove('hidden');
+
+                modalFooter.insertAdjacentHTML('afterbegin',
+                    `<button class="px-6 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors shadow-md">🚀 채용 공고 지원하기 (모의)</button>`
+                );
+            }
+
+            // Shift
+            if (data.shift) {
+                modalPastText.innerHTML = parseHighlights(data.shift.past || '');
+                modalPresentText.innerHTML = parseHighlights(data.shift.present || '');
+                modalShiftSection.classList.remove('hidden');
+            }
+
+            // Extra (legacy)
+            if (data.extraTitle && data.extraList && data.extraList.length > 0) {
+                modalExtraTitle.innerHTML = `<span>💡</span> ${escapeHTML(data.extraTitle)}`;
+                modalExtraList.innerHTML = data.extraList.map(item => `<li>${parseHighlights(item)}</li>`).join('');
+                modalExtraSection.classList.remove('hidden');
+            }
+
+            // Work examples (legacy)
+            if (data.workExamples && data.workExamples.length > 0) {
+                modalWorkList.innerHTML = data.workExamples.map(item => `<li>${parseHighlights(item)}</li>`).join('');
+                modalWorkSection.classList.remove('hidden');
+            }
+
+            // Knowledge checklist (legacy)
+            if (data.knowledgeChecklist && data.knowledgeChecklist.length > 0) {
+                modalKnowledgeList.innerHTML = data.knowledgeChecklist.map(item => `<li>${parseHighlights(item)}</li>`).join('');
+                modalKnowledgeSection.classList.remove('hidden');
+            }
+
+            // Winner quotes (legacy)
+            if (data.winnerQuotes && data.winnerQuotes.length > 0) {
+                modalWinnerList.innerHTML = data.winnerQuotes.map(q =>
+                    `<div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-800 font-semibold leading-relaxed">
+                        <span class="text-red-600 font-black">\"</span>${parseHighlights(q)}<span class="text-red-600 font-black">\"</span>
+                    </div>`
+                ).join('');
+                modalWinnerSection.classList.remove('hidden');
+            }
+
+            // ✅ PLAYBOOK ACCORDION — A to Z rich content
+            const modalPlaybookSection = document.getElementById('modalPlaybookSection');
+            if (modalPlaybookSection) {
+                let playbookHTML = '';
+                if (data.category === '직무') {
+                    playbookHTML = buildRolePlaybookHTML(data);
+                } else if (data.category === '도메인') {
+                    playbookHTML = buildDomainPlaybookHTML(data);
+                }
+                if (playbookHTML) {
+                    modalPlaybookSection.innerHTML = `
+                        <div class="mt-8 mb-3 flex items-center gap-3">
+                            <div class="w-1 h-7 bg-red-600 rounded-full flex-shrink-0"></div>
+                            <h3 class="text-xl font-extrabold text-slate-900">A to Z 플레이북</h3>
+                            <span class="text-[11px] font-black text-red-600 bg-red-50 px-2.5 py-1 rounded-lg border border-red-100">클릭해서 펼치기</span>
+                        </div>
+                        <div class="space-y-2">${playbookHTML}</div>`;
+                    modalPlaybookSection.classList.remove('hidden');
+                } else {
+                    modalPlaybookSection.classList.add('hidden');
+                }
+            }
+
+            // Interview questions (legacy - only for non-role/domain cards)
+            if (data.interviewQuestions && data.interviewQuestions.length > 0 && data.category !== '직무' && data.category !== '도메인') {
+                const n = data.interviewQuestions.length;
+                modalInterviewTitle.innerHTML = `<span>🎤</span> ${n >= 20 ? '면접 질문 TOP 20' : '면접 질문 (예상)'} <span class="text-xs text-slate-400 font-black ml-2">(${n}개)</span>`;
+                modalInterviewList.innerHTML = data.interviewQuestions.map((qa, idx) => {
+                    const answers = (qa.a || []).map(line => `<li class="leading-relaxed">${parseHighlights(line)}</li>`).join('');
+                    const follows = (qa.follow && qa.follow.length)
+                        ? `<div class="mt-3 pt-3 border-t border-slate-100"><div class="text-xs font-black text-slate-500 mb-2">꼬리 질문 예시</div><ul class="list-disc pl-5 space-y-1 text-sm text-slate-700">${qa.follow.map(f => `<li>${parseHighlights(f)}</li>`).join('')}</ul></div>` : '';
+                    return `<details class="group bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                        <summary class="cursor-pointer list-none flex items-start justify-between gap-4">
+                            <div class="font-extrabold text-slate-900 leading-snug">${idx + 1}. ${escapeHTML(qa.q || '')}</div>
+                            <div class="text-slate-400 font-black select-none">▾</div>
+                        </summary>
+                        <div class="mt-3"><ul class="list-disc pl-5 space-y-2 text-slate-700 font-medium">${answers}</ul>${follows}</div>
+                    </details>`;
+                }).join('');
+                modalInterviewSection.classList.remove('hidden');
+            }
+
+            // 모달 안에서 버튼을 눌렀을 때, 스크롤을 항상 맨 위로 올려주는 효과
+            modalContent.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Animate in (이미 열려있는 경우 애니메이션 패스)
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                void modal.offsetWidth;
+
+                modalOverlay.classList.remove('opacity-0');
+                modalOverlay.classList.add('opacity-100');
+
+                modalContent.classList.remove('opacity-0', 'scale-95');
+                modalContent.classList.add('opacity-100', 'scale-100');
+
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('opacity-100');
+            modalOverlay.classList.add('opacity-0');
+
+            modalContent.classList.remove('opacity-100', 'scale-100');
+            modalContent.classList.add('opacity-0', 'scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // =========================
+        // Events
+        // =========================
+        filterContainer.addEventListener('click', (e) => {
+            const btn = e.target.closest('.filter-btn');
+            if (!btn) return;
+            currentFilter = btn.getAttribute('data-filter');
+            renderFilters();
+            renderCards();
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value || '';
+            renderCards();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+        });
+
+        // =========================
+        // Charts
+        // =========================
+        function initCharts() {
+            Chart.defaults.font.family = "'Pretendard', sans-serif";
+            Chart.defaults.color = '#64748B';
+
+            // 1) Skills Chart (IMPORTANT: SQL/Python/Tableau/Airflow/Docker)
+            new Chart(document.getElementById('skillsChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['SQL', 'Python', 'Tableau/BI', 'Airflow', 'Docker/Linux'],
+                    datasets: [{
+                        label: '중요도(%)',
+                        data: [96, 90, 72, 70, 68],
+                        backgroundColor: ['#0F172A', '#334155', '#DC2626', '#F87171', '#94A3B8'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, max: 100, grid: { color: '#F1F5F9' } },
+                        y: { grid: { display: false }, ticks: { font: { weight: 'bold' } } }
+                    }
+                }
+            });
+
+            // 2) Domain Skill Distribution (Grouped horizontal bars)
+            new Chart(document.getElementById('domainChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['커머스', '금융', '게임', '제조', '모빌리티', '헬스케어'],
+                    datasets: [
+                        { label: 'SQL', data: [90, 85, 70, 55, 65, 60], backgroundColor: '#0F172A' },
+                        { label: 'Python', data: [70, 75, 80, 85, 80, 90], backgroundColor: '#334155' },
+                        { label: 'Tableau/BI', data: [70, 60, 55, 45, 50, 45], backgroundColor: '#F87171' },
+                        { label: 'Airflow', data: [55, 60, 65, 75, 70, 65], backgroundColor: '#DC2626' },
+                        { label: 'Docker/Linux', data: [50, 55, 60, 70, 65, 75], backgroundColor: '#94A3B8' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+                    },
+                    scales: {
+                        x: { beginAtZero: true, max: 100, grid: { color: '#F1F5F9' } },
+                        y: { grid: { display: false }, ticks: { font: { size: 11, weight: 'bold' } } }
+                    }
+                }
+            });
+
+            // 3) Role demand shift (include BA & Consultant)
+            new Chart(document.getElementById('roleTrendChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Data Analyst', 'Business Analyst', 'Data/AI Consultant', 'AI/ML Engineer', 'Data Engineer', '기타'],
+                    datasets: [{
+                        data: [22, 15, 18, 20, 17, 8],
+                        backgroundColor: ['#0F172A', '#FCA5A5', '#DC2626', '#334155', '#94A3B8', '#E2E8F0'],
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { padding: 12, usePointStyle: true, font: { size: 11, weight: 'bold' } } }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        // =========================
+        // Init
+        // =========================
+        renderFilters();
+        renderCards();
+        setTimeout(initCharts, 200);
+    </script>
+</body>
+
+</html>
